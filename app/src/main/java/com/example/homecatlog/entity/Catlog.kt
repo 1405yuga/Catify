@@ -1,3 +1,10 @@
 package com.example.homecatlog.entity
 
-data class Catlog(val category: String, val homeItems: List<HomeItem>)
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+
+@Entity(tableName = "Catlog")
+data class Catlog(
+    @PrimaryKey val category: String,
+    val homeItems: List<HomeItem>
+)
