@@ -8,7 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.homecatlog.databinding.FragmentAddCatlogBinding
 
-class AddCatlogFragment : Fragment() {
+class AddCatalogFragment : Fragment() {
 
     private lateinit var binding: FragmentAddCatlogBinding
     override fun onCreateView(

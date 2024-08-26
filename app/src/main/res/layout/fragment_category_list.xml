@@ -47,7 +47,7 @@
         android:layout_marginVertical="12dp"
         android:background="@drawable/add_catlog_button_bg"
         android:clickable="true"
-        android:contentDescription="Add new catlog"
+        android:contentDescription="Add new catalog"
         android:elevation="4dp"
         android:focusable="true"
         android:minWidth="48dp"

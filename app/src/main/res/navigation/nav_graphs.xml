@@ -12,7 +12,7 @@
         tools:layout="@layout/fragment_category_list" />
     <fragment
         android:id="@+id/addCatlogFragment"
-        android:name="com.example.homecatlog.listfragments.AddCatlogFragment"
+        android:name="com.example.homecatlog.listfragments.AddCatalogFragment"
         android:label="fragment_add_catlog"
         tools:layout="@layout/fragment_add_catlog" />
 </navigation>

@@ -3,19 +3,19 @@ package com.example.homecatlog
 import android.app.Application
 import android.content.Context
 import androidx.room.Room
-import com.example.homecatlog.repository.CatlogDatabase
+import com.example.homecatlog.repository.CatalogDatabase
 
 //used to maintain global application state
 class BaseApplication : Application() {
 
     companion object {
         @Volatile
-        private var DATABASE_INSTANCE: CatlogDatabase? = null
+        private var DATABASE_INSTANCE: CatalogDatabase? = null
 
-        fun getCatlogDatabase(context: Context): CatlogDatabase {
+        fun getCatlogDatabase(context: Context): CatalogDatabase {
             return DATABASE_INSTANCE ?: synchronized(this) {
                 val instance =
-                    Room.databaseBuilder(context, CatlogDatabase::class.java, "catlog_datbase")
+                    Room.databaseBuilder(context, CatalogDatabase::class.java, "catlog_datbase")
                         .fallbackToDestructiveMigration()
                         .build()
                 DATABASE_INSTANCE = instance
@@ -24,7 +24,7 @@ class BaseApplication : Application() {
         }
     }
 
-    val database: CatlogDatabase by lazy {
+    val database: CatalogDatabase by lazy {
         getCatlogDatabase(this)
     }
 }
