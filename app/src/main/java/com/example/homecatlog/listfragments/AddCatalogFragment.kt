@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import com.example.homecatlog.R
 import com.example.homecatlog.databinding.FragmentAddCatlogBinding
 
 class AddCatalogFragment : Fragment() {
@@ -24,7 +25,15 @@ class AddCatalogFragment : Fragment() {
 
         binding.apply {
             backButton.setOnClickListener { navigateToBackFragment() }
+            addItem.setOnClickListener { addItemDetailsView() }
         }
+    }
+
+    private fun addItemDetailsView() {
+        val inflater = LayoutInflater.from(requireContext())
+        val itemDetailsView =
+            inflater.inflate(R.layout.card_item_details, binding.cardContainer, false)
+        binding.cardContainer.addView(itemDetailsView)
     }
 
     private fun navigateToBackFragment() {
