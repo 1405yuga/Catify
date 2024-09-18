@@ -42,9 +42,15 @@ class AddCatalogFragment : Fragment() {
         for (i in 0 until binding.cardContainer.childCount) {
             val cardItemDetailsBinding =
                 CardItemDetailsBinding.bind(binding.cardContainer.getChildAt(i))
+            val itemName = cardItemDetailsBinding.itemName.editText?.text.toString().trim()
+
+            //if blank item then dont add
+            if (itemName.isBlank()) continue
+            cardItemDetailsBinding.itemName.error = null
+
             val homeItem = HomeItem(
                 cardItemDetailsBinding.itemName.editText?.text.toString(),
-                cardItemDetailsBinding.qtyAvailable.editText?.text.toString().toInt()
+                cardItemDetailsBinding.qtyAvailable.editText?.text.toString().toIntOrNull() ?: 0
             )
             itemDetailsList.add(homeItem)
         }
