@@ -1,4 +1,4 @@
-package com.example.homecatlog.listfragments
+package com.example.homecatlog.addcatlogfragment
 
 import android.os.Bundle
 import android.view.LayoutInflater
