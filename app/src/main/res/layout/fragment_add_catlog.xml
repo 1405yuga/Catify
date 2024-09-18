@@ -39,6 +39,17 @@
             android:hint="Category"
             android:inputType="text"
             android:minHeight="@dimen/min_clickable_size" />
+        <ImageView
+            android:id="@+id/save_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:clickable="true"
+            android:contentDescription="back button"
+            android:focusable="true"
+            android:foreground="?selectableItemBackground"
+            android:padding="24dp"
+            android:src="@drawable/baseline_save_24" />
     </LinearLayout>
 
     <ScrollView
