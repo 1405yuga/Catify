@@ -3,13 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graphs"
-    app:startDestination="@id/categoryListFragment">
+    app:startDestination="@id/catalogListFragment">
 
     <fragment
-        android:id="@+id/categoryListFragment"
-        android:name="com.example.homecatlog.ui.addcatlogfragment.CategoryListFragment"
+        android:id="@+id/catalogListFragment"
+        android:name="com.example.homecatlog.ui.addcatlogfragment.CatalogListFragment"
         android:label="fragment_category_list"
-        tools:layout="@layout/fragment_category_list" />
+        tools:layout="@layout/fragment_catalog_list" />
     <fragment
         android:id="@+id/addCatlogFragment"
         android:name="com.example.homecatlog.ui.listfragments.AddCatalogFragment"

@@ -8,8 +8,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.homecatlog.databinding.CardCatalogItemBinding
 import com.example.homecatlog.entity.Catalog
 
-class CategoryListAdapter() :
-    ListAdapter<Catalog, CategoryListAdapter.CatalogViewHolder>(DiffCallBack) {
+class CatalogListAdapter() :
+    ListAdapter<Catalog, CatalogListAdapter.CatalogViewHolder>(DiffCallBack) {
     companion object {
         private val DiffCallBack = object : DiffUtil.ItemCallback<Catalog>() {
             override fun areItemsTheSame(oldItem: Catalog, newItem: Catalog): Boolean {

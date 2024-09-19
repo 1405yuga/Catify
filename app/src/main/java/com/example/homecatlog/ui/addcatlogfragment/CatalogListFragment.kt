@@ -9,25 +9,25 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.example.homecatlog.R
-import com.example.homecatlog.databinding.FragmentCategoryListBinding
+import com.example.homecatlog.databinding.FragmentCatalogListBinding
 import com.example.homecatlog.network.BaseApplication
 import com.example.homecatlog.ui.CatalogViewModel
 
-class CategoryListFragment : Fragment() {
+class CatalogListFragment : Fragment() {
 
-    private lateinit var binding: FragmentCategoryListBinding
+    private lateinit var binding: FragmentCatalogListBinding
     private val TAG = this.javaClass.simpleName
     private val viewModel: CatalogViewModel by activityViewModels {
         CatalogViewModel.CatalogViewModelFactory((activity?.application as BaseApplication).database.getCatalogDao())
     }
-    private lateinit var categoryListAdapter: CategoryListAdapter
+    private lateinit var catalogListAdapter: CatalogListAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentCategoryListBinding.inflate(layoutInflater, container, false)
-        categoryListAdapter = CategoryListAdapter()
+        binding = FragmentCatalogListBinding.inflate(layoutInflater, container, false)
+        catalogListAdapter = CatalogListAdapter()
         return binding.root
     }
 
@@ -45,7 +45,7 @@ class CategoryListFragment : Fragment() {
                 binding.apply {
                     emptyListText.visibility = View.GONE
                     categoryRecyclerView.visibility = View.VISIBLE
-                    categoryListAdapter.submitList(it)
+                    catalogListAdapter.submitList(it)
                 }
             }
         }
@@ -54,7 +54,7 @@ class CategoryListFragment : Fragment() {
     private fun applyBinding() {
         binding.apply {
             addCatlog.setOnClickListener { navigateToFragment(R.id.addCatlogFragment) }
-            categoryRecyclerView.adapter = categoryListAdapter
+            categoryRecyclerView.adapter = catalogListAdapter
         }
     }
 
