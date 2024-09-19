@@ -7,12 +7,12 @@
 
     <fragment
         android:id="@+id/catalogListFragment"
-        android:name="com.example.homecatlog.ui.addcatlogfragment.CatalogListFragment"
+        android:name="com.example.homecatlog.ui.listfragments.CatalogListFragment"
         android:label="fragment_category_list"
         tools:layout="@layout/fragment_catalog_list" />
     <fragment
         android:id="@+id/addCatlogFragment"
-        android:name="com.example.homecatlog.ui.listfragments.AddCatalogFragment"
+        android:name="com.example.homecatlog.ui.addcatlogfragment.AddCatalogFragment"
         android:label="fragment_add_catlog"
         tools:layout="@layout/fragment_add_catlog" />
 </navigation>
