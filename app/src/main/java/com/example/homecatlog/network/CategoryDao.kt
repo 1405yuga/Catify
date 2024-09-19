@@ -13,5 +13,5 @@ interface CategoryDao {
     fun getAllCatalogs(): Flow<List<Catalog>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun addCatalog(catalog: Catalog)
+    suspend fun addCatalog(catalog: Catalog): Long
 }
