@@ -34,6 +34,7 @@ class AddCatalogFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        addItemDetailsView()
         applyBinding()
     }
 
@@ -46,7 +47,8 @@ class AddCatalogFragment : Fragment() {
                     category = binding.categoryEditText.text.toString().trim(),
                     homeItems = getAllItemDetails(),
                     onSuccess = {
-                        Toast.makeText(requireContext(), "Added catalog $it", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(requireContext(), "Added catalog $it", Toast.LENGTH_SHORT)
+                            .show()
                         navigateToBackFragment()
                     },
                     onFailure = {
