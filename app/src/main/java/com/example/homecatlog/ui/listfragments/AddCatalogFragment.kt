@@ -1,4 +1,4 @@
-package com.example.homecatlog.listfragments
+package com.example.homecatlog.ui.listfragments
 
 import android.os.Bundle
 import android.util.Log
@@ -6,16 +6,23 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.example.homecatlog.R
 import com.example.homecatlog.databinding.CardItemDetailsBinding
 import com.example.homecatlog.databinding.FragmentAddCatlogBinding
 import com.example.homecatlog.entity.HomeItem
+import com.example.homecatlog.network.BaseApplication
+import com.example.homecatlog.ui.CatalogViewModel
 
 class AddCatalogFragment : Fragment() {
 
     private lateinit var binding: FragmentAddCatlogBinding
     private val TAG = this.javaClass.simpleName
+    private val viewModel: CatalogViewModel by activityViewModels {
+        CatalogViewModel.CatalogViewModelFactory((activity?.application as BaseApplication).database.getCatalogDao())
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -33,7 +40,12 @@ class AddCatalogFragment : Fragment() {
         binding.apply {
             backButton.setOnClickListener { navigateToBackFragment() }
             addItem.setOnClickListener { addItemDetailsView() }
-            saveButton.setOnClickListener { getAllItemDetails() }
+            saveButton.setOnClickListener {
+                viewModel.addCatalog(
+                    category = binding.categoryEditText.text.toString().trim(),
+                    homeItems = getAllItemDetails()
+                )
+            }
         }
     }
 
