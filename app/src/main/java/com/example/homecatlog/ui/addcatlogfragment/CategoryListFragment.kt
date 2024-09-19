@@ -20,12 +20,14 @@ class CategoryListFragment : Fragment() {
     private val viewModel: CatalogViewModel by activityViewModels {
         CatalogViewModel.CatalogViewModelFactory((activity?.application as BaseApplication).database.getCatalogDao())
     }
+    private lateinit var categoryListAdapter: CategoryListAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentCategoryListBinding.inflate(layoutInflater, container, false)
+        categoryListAdapter = CategoryListAdapter()
         return binding.root
     }
 
@@ -43,6 +45,7 @@ class CategoryListFragment : Fragment() {
                 binding.apply {
                     emptyListText.visibility = View.GONE
                     categoryRecyclerView.visibility = View.VISIBLE
+                    categoryListAdapter.submitList(it)
                 }
             }
         }
@@ -51,6 +54,7 @@ class CategoryListFragment : Fragment() {
     private fun applyBinding() {
         binding.apply {
             addCatlog.setOnClickListener { navigateToFragment(R.id.addCatlogFragment) }
+            categoryRecyclerView.adapter = categoryListAdapter
         }
     }
 
