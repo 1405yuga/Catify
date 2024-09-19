@@ -1,6 +1,7 @@
 package com.example.homecatlog.ui.addcatlogfragment
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,19 +16,39 @@ import com.example.homecatlog.ui.CatalogViewModel
 class CategoryListFragment : Fragment() {
 
     private lateinit var binding: FragmentCategoryListBinding
+    private val TAG = this.javaClass.simpleName
     private val viewModel: CatalogViewModel by activityViewModels {
         CatalogViewModel.CatalogViewModelFactory((activity?.application as BaseApplication).database.getCatalogDao())
     }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentCategoryListBinding.inflate(layoutInflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        applyBinding()
+        viewModel.allCatalogs.observe(viewLifecycleOwner) {
+            Log.d(TAG, "Catalogs list :${it.size}")
+            if (it.isEmpty()) {
+                binding.apply {
+                    emptyListText.visibility = View.VISIBLE
+                    categoryRecyclerView.visibility = View.GONE
+                }
+            } else {
+                binding.apply {
+                    emptyListText.visibility = View.GONE
+                    categoryRecyclerView.visibility = View.VISIBLE
+                }
+            }
+        }
+    }
+
+    private fun applyBinding() {
         binding.apply {
             addCatlog.setOnClickListener { navigateToFragment(R.id.addCatlogFragment) }
         }
