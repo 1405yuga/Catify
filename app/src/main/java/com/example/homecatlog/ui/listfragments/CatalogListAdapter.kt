@@ -26,9 +26,13 @@ class CatalogListAdapter() :
     class CatalogViewHolder(private val binding: CardCatalogItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(catalog: Catalog) {
+            val homeItemListAdapter = HomeItemListAdapter()
+            homeItemListAdapter.submitList(catalog.homeItems)
             binding.apply {
                 categoryTextView.text = catalog.category
-                homeItems.text = catalog.homeItems.toString()
+                homeItemsRecyclerView.apply {
+                    adapter = homeItemListAdapter
+                }
             }
         }
 
