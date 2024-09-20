@@ -59,7 +59,6 @@ class CatalogListFragment : Fragment() {
                 viewModel.removeCatalog(catalog,
                     onSuccess = { Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show() },
                     onFailure = { Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show() })
-                catalogListAdapter.notifyItemRemoved(viewHolder.adapterPosition)
             }
 
         })
