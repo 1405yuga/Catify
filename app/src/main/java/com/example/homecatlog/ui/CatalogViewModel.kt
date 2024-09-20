@@ -27,7 +27,6 @@ class CatalogViewModel(private val categoryDao: CategoryDao) : ViewModel() {
         val catalog = Catalog(category, homeItems)
         viewModelScope.launch(Dispatchers.IO) {
             try {
-
                 val rowId = categoryDao.addCatalog(catalog)
                 if (rowId != -1L) {
                     Log.d(TAG, "Added catalog successfully")
@@ -40,7 +39,28 @@ class CatalogViewModel(private val categoryDao: CategoryDao) : ViewModel() {
                 Log.e(TAG, "Error while adding catalog :" + e.message)
                 withContext(Dispatchers.Main) { onFailure("Error while adding catalog") }
             }
+        }
+    }
 
+    fun removeCatalog(
+        catalog: Catalog,
+        onSuccess: (String) -> (Unit),
+        onFailure: (String) -> (Unit)
+    ) {
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                val rowId = categoryDao.deleteCatalog(catalog)
+                if (rowId != -1) {
+                    Log.d(TAG, "Deleted catalog successfully")
+                    withContext(Dispatchers.Main) { onSuccess(catalog.category + " deleted") }
+                } else {
+                    Log.e(TAG, "Failed to delete catalog")
+                    withContext(Dispatchers.Main) { onFailure("Failed to delete catalog") }
+                }
+            } catch (e: Exception) {
+                Log.e(TAG, "Error while deleting catalog :" + e.message)
+                withContext(Dispatchers.Main) { onFailure("Error while deleting catalog") }
+            }
         }
     }
 
