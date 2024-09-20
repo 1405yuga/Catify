@@ -43,18 +43,29 @@ class AddCatalogFragment : Fragment() {
             backButton.setOnClickListener { navigateToBackFragment() }
             addItem.setOnClickListener { addItemDetailsView() }
             saveButton.setOnClickListener {
-                viewModel.addCatalog(
-                    category = binding.categoryEditText.text.toString().trim(),
-                    homeItems = getAllItemDetails(),
-                    onSuccess = {
-                        Toast.makeText(requireContext(), "Added catalog $it", Toast.LENGTH_SHORT)
-                            .show()
-                        navigateToBackFragment()
-                    },
-                    onFailure = {
-                        Toast.makeText(requireContext(), "Try again. $it", Toast.LENGTH_LONG).show()
-                    }
-                )
+                val categoryText = binding.categoryEditText.text.toString().trim()
+                if (categoryText.isEmpty()) {
+                    binding.categoryEditText.error = "Category is required"
+                } else {
+                    binding.categoryEditText.error = ""
+                    viewModel.addCatalog(
+                        category = categoryText,
+                        homeItems = getAllItemDetails(),
+                        onSuccess = {
+                            Toast.makeText(
+                                requireContext(),
+                                "Added catalog $it",
+                                Toast.LENGTH_SHORT
+                            )
+                                .show()
+                            navigateToBackFragment()
+                        },
+                        onFailure = {
+                            Toast.makeText(requireContext(), "Try again. $it", Toast.LENGTH_LONG)
+                                .show()
+                        }
+                    )
+                }
             }
         }
     }
