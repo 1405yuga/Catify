@@ -20,7 +20,6 @@ class CatalogListAdapter() :
                 return oldItem == newItem
             }
         }
-
     }
 
     class CatalogViewHolder(private val binding: CardCatalogItemBinding) :
