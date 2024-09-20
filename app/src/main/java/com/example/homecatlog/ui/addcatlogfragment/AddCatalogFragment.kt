@@ -27,7 +27,7 @@ class AddCatalogFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentAddCatlogBinding.inflate(layoutInflater, container, false)
         return binding.root
     }
@@ -44,10 +44,10 @@ class AddCatalogFragment : Fragment() {
             addItem.setOnClickListener { addItemDetailsView() }
             saveButton.setOnClickListener {
                 val categoryText = binding.categoryEditText.text.toString().trim()
-                if (categoryText.isEmpty()) {
+                if (categoryText.isBlank()) {
                     binding.categoryEditText.error = "Category is required"
                 } else {
-                    binding.categoryEditText.error = ""
+                    binding.categoryEditText.error = null
                     viewModel.addCatalog(
                         category = categoryText,
                         homeItems = getAllItemDetails(),
