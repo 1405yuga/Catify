@@ -8,7 +8,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.homecatlog.databinding.CardHomeItemBinding
 import com.example.homecatlog.entity.HomeItem
 
-class HomeItemListAdapter() :
+class HomeItemListAdapter(
+    private val category: String,
+    private val updateQuantity: (String, String, Int) -> (Unit)
+) :
     ListAdapter<HomeItem, HomeItemListAdapter.HomeItemViewHolder>(DiffCallBack) {
     companion object {
         private val DiffCallBack = object : DiffUtil.ItemCallback<HomeItem>() {
@@ -24,10 +27,21 @@ class HomeItemListAdapter() :
 
     class HomeItemViewHolder(private val binding: CardHomeItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(homeItem: HomeItem) {
+        fun bind(
+            homeItem: HomeItem,
+            category: String,
+            updateQuantity: (String, String, Int) -> Unit
+        ) {
             binding.apply {
                 itemName.text = homeItem.itemName
                 quantity.text = homeItem.availableStock.toString()
+                addQuantity.setOnClickListener {
+                    updateQuantity(
+                        category,
+                        homeItem.itemName,
+                        ++homeItem.availableStock
+                    )
+                }
             }
         }
 
@@ -44,6 +58,6 @@ class HomeItemListAdapter() :
     }
 
     override fun onBindViewHolder(holder: HomeItemViewHolder, position: Int) {
-        holder.bind(getItem(position))
+        holder.bind(getItem(position), category, updateQuantity)
     }
 }

@@ -31,7 +31,7 @@ class CatalogListFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentCatalogListBinding.inflate(layoutInflater, container, false)
-        catalogListAdapter = CatalogListAdapter()
+        catalogListAdapter = CatalogListAdapter(updateQuantity = viewModel.updateHomeItemQuantity)
         return binding.root
     }
 
