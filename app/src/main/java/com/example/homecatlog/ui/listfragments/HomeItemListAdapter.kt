@@ -16,7 +16,7 @@ class HomeItemListAdapter(
     companion object {
         private val DiffCallBack = object : DiffUtil.ItemCallback<HomeItem>() {
             override fun areItemsTheSame(oldItem: HomeItem, newItem: HomeItem): Boolean {
-                return oldItem == newItem
+                return oldItem.itemName == newItem.itemName
             }
 
             override fun areContentsTheSame(oldItem: HomeItem, newItem: HomeItem): Boolean {
@@ -39,9 +39,14 @@ class HomeItemListAdapter(
                     updateQuantity(
                         category,
                         homeItem.itemName,
-                        ++homeItem.availableStock
+                        homeItem.availableStock+1
                     )
                 }
+                subQuantity.setOnClickListener { updateQuantity(
+                    category,
+                    homeItem.itemName,
+                    homeItem.availableStock-1
+                ) }
             }
         }
 
