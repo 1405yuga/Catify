@@ -5,7 +5,9 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.Update
 import com.example.homecatlog.entity.Catalog
+import com.example.homecatlog.entity.HomeItem
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -18,4 +20,7 @@ interface CategoryDao {
 
     @Delete
     suspend fun deleteCatalog(catalog: Catalog): Int
+
+    @Query("SELECT * FROM Catalog WHERE category = :category")
+    suspend fun getCatalogByCategory(category: String): Catalog?
 }
