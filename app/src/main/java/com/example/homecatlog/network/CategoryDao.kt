@@ -23,4 +23,7 @@ interface CategoryDao {
 
     @Query("SELECT * FROM Catalog WHERE category = :category")
     suspend fun getCatalogByCategory(category: String): Catalog?
+
+    @Update
+    suspend fun updateCatalog(catalog: Catalog)
 }

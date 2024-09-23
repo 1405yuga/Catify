@@ -75,7 +75,7 @@ class CatalogViewModel(private val categoryDao: CategoryDao) : ViewModel() {
                         } else homeItem
                     }
                     val updatedCatalog = catalog.copy(homeItems = updatedHomeItems)
-                    categoryDao.addCatalog(updatedCatalog)
+                    categoryDao.updateCatalog(updatedCatalog)
                 }
             }
         }
