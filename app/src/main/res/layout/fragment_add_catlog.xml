@@ -4,8 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".listfragments.AddCatalogFragment">
+    tools:context=".ui.add_catlog_fragment.AddCatalogFragment">
 
     <LinearLayout
         android:id="@+id/topBar"
@@ -39,6 +38,7 @@
             android:hint="Category"
             android:inputType="text"
             android:minHeight="@dimen/min_clickable_size" />
+
         <ImageView
             android:id="@+id/save_button"
             android:layout_width="wrap_content"
@@ -90,6 +90,4 @@
 
         </LinearLayout>
     </ScrollView>
-
-
 </androidx.constraintlayout.widget.ConstraintLayout>

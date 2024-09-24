@@ -1,4 +1,4 @@
-package com.example.homecatlog.ui.addcatlogfragment
+package com.example.homecatlog.ui.add_catlog_fragment
 
 import android.os.Bundle
 import android.util.Log
