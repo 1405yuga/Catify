@@ -31,7 +31,9 @@ class CatalogListFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentCatalogListBinding.inflate(layoutInflater, container, false)
-        catalogListAdapter = CatalogListAdapter { category, itemName, newQuantity ->
+        catalogListAdapter = CatalogListAdapter(navigateToEdit = {
+            navigateToFragment(R.id.updateCatalogFragment)
+        }) { category, itemName, newQuantity ->
             viewModel.updateHomeItemQuantity(category, itemName, newQuantity)
         }
         return binding.root

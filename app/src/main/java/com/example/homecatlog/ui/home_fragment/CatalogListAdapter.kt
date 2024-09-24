@@ -8,7 +8,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.homecatlog.databinding.CardCatalogItemBinding
 import com.example.homecatlog.entity.Catalog
 
-class CatalogListAdapter(private val updateQuantity:(String,String,Int)->(Unit)) :
+class CatalogListAdapter(
+    private val navigateToEdit: (catalog: Catalog) -> (Unit),
+    private val updateQuantity: (String, String, Int) -> (Unit)
+) :
     ListAdapter<Catalog, CatalogListAdapter.CatalogViewHolder>(DiffCallBack) {
     companion object {
         private val DiffCallBack = object : DiffUtil.ItemCallback<Catalog>() {
@@ -24,10 +27,15 @@ class CatalogListAdapter(private val updateQuantity:(String,String,Int)->(Unit))
 
     class CatalogViewHolder(private val binding: CardCatalogItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(catalog: Catalog, updateQuantity: (String, String, Int) -> Unit) {
-            val homeItemListAdapter = HomeItemListAdapter(catalog.category,updateQuantity)
+        fun bind(
+            catalog: Catalog,
+            navigateToEdit: (catalog: Catalog) -> (Unit),
+            updateQuantity: (String, String, Int) -> Unit
+        ) {
+            val homeItemListAdapter = HomeItemListAdapter(catalog.category, updateQuantity)
             homeItemListAdapter.submitList(catalog.homeItems)
             binding.apply {
+                catlogCard.setOnClickListener { navigateToEdit(catalog) }
                 categoryTextView.text = catalog.category
                 homeItemsRecyclerView.apply {
                     adapter = homeItemListAdapter
@@ -48,6 +56,6 @@ class CatalogListAdapter(private val updateQuantity:(String,String,Int)->(Unit))
     }
 
     override fun onBindViewHolder(holder: CatalogViewHolder, position: Int) {
-        holder.bind(getItem(position),updateQuantity)
+        holder.bind(getItem(position), navigateToEdit, updateQuantity)
     }
 }
