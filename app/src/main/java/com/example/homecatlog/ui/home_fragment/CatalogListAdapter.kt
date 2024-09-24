@@ -32,13 +32,13 @@ class CatalogListAdapter(
             navigateToEdit: (catalog: Catalog) -> (Unit),
             updateQuantity: (String, String, Int) -> Unit
         ) {
-            val homeItemListAdapter = HomeItemListAdapter(catalog.category, updateQuantity)
-            homeItemListAdapter.submitList(catalog.homeItems)
+            val viewHomeItemListAdapter = ViewHomeItemListAdapter()
+            viewHomeItemListAdapter.submitList(catalog.homeItems)
             binding.apply {
                 catlogCard.setOnClickListener { navigateToEdit(catalog) }
                 categoryTextView.text = catalog.category
                 homeItemsRecyclerView.apply {
-                    adapter = homeItemListAdapter
+                    adapter = viewHomeItemListAdapter
                 }
             }
         }
