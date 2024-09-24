@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.example.homecatlog.R
 import com.example.homecatlog.databinding.FragmentCatalogListBinding
+import com.example.homecatlog.helper.Converters
 import com.example.homecatlog.network.BaseApplication
 import com.example.homecatlog.ui.CatalogViewModel
 
@@ -32,10 +33,12 @@ class CatalogListFragment : Fragment() {
     ): View {
         binding = FragmentCatalogListBinding.inflate(layoutInflater, container, false)
         catalogListAdapter = CatalogListAdapter(navigateToEdit = {
-            navigateToFragment(R.id.updateCatalogFragment)
-        }) { category, itemName, newQuantity ->
-            viewModel.updateHomeItemQuantity(category, itemName, newQuantity)
-        }
+            val bundle = Bundle().apply { putString("CATALOG", Converters().catalogToJson(it)) }
+            findNavController().navigate(
+                R.id.updateCatalogFragment,
+                args = bundle
+            )
+        })
         return binding.root
     }
 

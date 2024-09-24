@@ -9,8 +9,7 @@ import com.example.homecatlog.databinding.CardCatalogItemBinding
 import com.example.homecatlog.entity.Catalog
 
 class CatalogListAdapter(
-    private val navigateToEdit: (catalog: Catalog) -> (Unit),
-    private val updateQuantity: (String, String, Int) -> (Unit)
+    private val navigateToEdit: (catalog: Catalog) -> (Unit)
 ) :
     ListAdapter<Catalog, CatalogListAdapter.CatalogViewHolder>(DiffCallBack) {
     companion object {
@@ -29,8 +28,7 @@ class CatalogListAdapter(
         RecyclerView.ViewHolder(binding.root) {
         fun bind(
             catalog: Catalog,
-            navigateToEdit: (catalog: Catalog) -> (Unit),
-            updateQuantity: (String, String, Int) -> Unit
+            navigateToEdit: (catalog: Catalog) -> (Unit)
         ) {
             val viewHomeItemListAdapter = ViewHomeItemListAdapter()
             viewHomeItemListAdapter.submitList(catalog.homeItems)
@@ -56,6 +54,6 @@ class CatalogListAdapter(
     }
 
     override fun onBindViewHolder(holder: CatalogViewHolder, position: Int) {
-        holder.bind(getItem(position), navigateToEdit, updateQuantity)
+        holder.bind(getItem(position), navigateToEdit)
     }
 }
