@@ -24,7 +24,7 @@
         android:orientation="horizontal">
 
         <com.google.android.material.card.MaterialCardView
-            android:id="@+id/add_quantity"
+            android:id="@+id/sub_quantity"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:backgroundTint="@color/transparent"
@@ -53,7 +53,7 @@
             android:textStyle="bold" />
 
         <com.google.android.material.card.MaterialCardView
-            android:id="@+id/sub_quantity"
+            android:id="@+id/add_quantity"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:backgroundTint="@color/transparent"

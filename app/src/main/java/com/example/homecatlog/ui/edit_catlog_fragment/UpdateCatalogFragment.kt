@@ -6,16 +6,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import com.example.homecatlog.databinding.FragmentUpdateCatalogBinding
 import com.example.homecatlog.entity.Catalog
 import com.example.homecatlog.helper.Converters
 
 class UpdateCatalogFragment : Fragment() {
-
     private lateinit var binding: FragmentUpdateCatalogBinding
     private val TAG = this.javaClass.simpleName
     private lateinit var catalog: Catalog
     private lateinit var updateHomeItemListAdapter: UpdateHomeItemListAdapter
+    private val viewModel: UpdateCatalogViewModel by activityViewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,7 +30,8 @@ class UpdateCatalogFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentUpdateCatalogBinding.inflate(layoutInflater, container, false)
-        updateHomeItemListAdapter = UpdateHomeItemListAdapter()
+        viewModel.initialise(catalog = catalog)
+        updateHomeItemListAdapter = UpdateHomeItemListAdapter(increaseQty = { viewModel.increaseQuantity(it) })
         updateHomeItemListAdapter.submitList(catalog.homeItems)
         return binding.root
     }
