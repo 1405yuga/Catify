@@ -8,10 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.homecatlog.databinding.CardUpdateHomeItemBinding
 import com.example.homecatlog.entity.HomeItem
 
-class UpdateHomeItemListAdapter(
-    private val category: String,
-    private val updateQuantity: (String, String, Int) -> (Unit)
-) :
+class UpdateHomeItemListAdapter :
     ListAdapter<HomeItem, UpdateHomeItemListAdapter.HomeItemViewHolder>(DiffCallBack) {
     companion object {
         private val DiffCallBack = object : DiffUtil.ItemCallback<HomeItem>() {
@@ -28,27 +25,25 @@ class UpdateHomeItemListAdapter(
     class HomeItemViewHolder(private val binding: CardUpdateHomeItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(
-            homeItem: HomeItem,
-            category: String,
-            updateQuantity: (String, String, Int) -> Unit
+            homeItem: HomeItem
         ) {
             binding.apply {
                 itemName.text = homeItem.itemName
                 quantity.text = homeItem.availableStock.toString()
-                addQuantity.setOnClickListener {
-                    updateQuantity(
-                        category,
-                        homeItem.itemName,
-                        homeItem.availableStock + 1
-                    )
-                }
-                subQuantity.setOnClickListener {
-                    updateQuantity(
-                        category,
-                        homeItem.itemName,
-                        homeItem.availableStock - 1
-                    )
-                }
+//                addQuantity.setOnClickListener {
+//                    updateQuantity(
+//                        category,
+//                        homeItem.itemName,
+//                        homeItem.availableStock + 1
+//                    )
+//                }
+//                subQuantity.setOnClickListener {
+//                    updateQuantity(
+//                        category,
+//                        homeItem.itemName,
+//                        homeItem.availableStock - 1
+//                    )
+//                }
             }
         }
 
@@ -65,6 +60,6 @@ class UpdateHomeItemListAdapter(
     }
 
     override fun onBindViewHolder(holder: HomeItemViewHolder, position: Int) {
-        holder.bind(getItem(position), category, updateQuantity)
+        holder.bind(getItem(position))
     }
 }

@@ -15,6 +15,7 @@ class UpdateCatalogFragment : Fragment() {
     private lateinit var binding: FragmentUpdateCatalogBinding
     private val TAG = this.javaClass.simpleName
     private lateinit var catalog: Catalog
+    private lateinit var updateHomeItemListAdapter: UpdateHomeItemListAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,12 +27,22 @@ class UpdateCatalogFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentUpdateCatalogBinding.inflate(layoutInflater, container, false)
+        updateHomeItemListAdapter = UpdateHomeItemListAdapter()
+        updateHomeItemListAdapter.submitList(catalog.homeItems)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        applyBinding()
+    }
+
+    private fun applyBinding() {
+        binding.apply {
+            categoryText.text = catalog.category
+            homeItemsRecyclerView.adapter = updateHomeItemListAdapter
+        }
     }
 }
