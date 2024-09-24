@@ -31,7 +31,9 @@ class UpdateCatalogFragment : Fragment() {
     ): View {
         binding = FragmentUpdateCatalogBinding.inflate(layoutInflater, container, false)
         viewModel.initialise(catalog = catalog)
-        updateHomeItemListAdapter = UpdateHomeItemListAdapter(increaseQty = { viewModel.increaseQuantity(it) })
+        updateHomeItemListAdapter =
+            UpdateHomeItemListAdapter(increaseQty = { viewModel.increaseQuantity(it) },
+                decreaseQty = { viewModel.decreaseQuantity(it) })
         updateHomeItemListAdapter.submitList(catalog.homeItems)
         return binding.root
     }

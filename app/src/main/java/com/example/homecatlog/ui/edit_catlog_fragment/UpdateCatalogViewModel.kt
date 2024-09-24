@@ -17,4 +17,12 @@ class UpdateCatalogViewModel : ViewModel() {
         return this.catalog?.homeItems?.find { homeItem -> homeItem.itemName == itemName }?.availableStock
             ?: 0
     }
+
+    fun decreaseQuantity(itemName: String): Int {
+        this.catalog?.homeItems?.find { homeItem -> homeItem.itemName == itemName }?.let { item ->
+            item.availableStock -= 1
+        }
+        return this.catalog?.homeItems?.find { homeItem -> homeItem.itemName == itemName }?.availableStock
+            ?: 0
+    }
 }

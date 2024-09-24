@@ -8,7 +8,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.homecatlog.databinding.CardUpdateHomeItemBinding
 import com.example.homecatlog.entity.HomeItem
 
-class UpdateHomeItemListAdapter(private val increaseQty: (String) -> (Int)) :
+class UpdateHomeItemListAdapter(
+    private val increaseQty: (String) -> (Int),
+    private val decreaseQty: (String) -> (Int)
+) :
     ListAdapter<HomeItem, UpdateHomeItemListAdapter.HomeItemViewHolder>(DiffCallBack) {
     companion object {
         private val DiffCallBack = object : DiffUtil.ItemCallback<HomeItem>() {
@@ -26,7 +29,8 @@ class UpdateHomeItemListAdapter(private val increaseQty: (String) -> (Int)) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(
             homeItem: HomeItem,
-            increaseQty: (String) -> (Int)
+            increaseQty: (String) -> Int,
+            decreaseQty: (String) -> Int
         ) {
             binding.apply {
                 itemName.text = homeItem.itemName
@@ -34,13 +38,9 @@ class UpdateHomeItemListAdapter(private val increaseQty: (String) -> (Int)) :
                 addQuantity.setOnClickListener {
                     quantity.text = increaseQty(homeItem.itemName).toString()
                 }
-//                subQuantity.setOnClickListener {
-//                    updateQuantity(
-//                        category,
-//                        homeItem.itemName,
-//                        homeItem.availableStock - 1
-//                    )
-//                }
+                subQuantity.setOnClickListener {
+                    quantity.text = decreaseQty(homeItem.itemName).toString()
+                }
             }
         }
 
@@ -57,6 +57,6 @@ class UpdateHomeItemListAdapter(private val increaseQty: (String) -> (Int)) :
     }
 
     override fun onBindViewHolder(holder: HomeItemViewHolder, position: Int) {
-        holder.bind(getItem(position), increaseQty)
+        holder.bind(getItem(position), increaseQty, decreaseQty)
     }
 }
