@@ -1,18 +1,18 @@
-package com.example.homecatlog.ui.home_fragment
+package com.example.homecatlog.ui.edit_catlog_fragment
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.example.homecatlog.databinding.CardHomeItemBinding
+import com.example.homecatlog.databinding.CardUpdateHomeItemBinding
 import com.example.homecatlog.entity.HomeItem
 
-class HomeItemListAdapter(
+class UpdateHomeItemListAdapter(
     private val category: String,
     private val updateQuantity: (String, String, Int) -> (Unit)
 ) :
-    ListAdapter<HomeItem, HomeItemListAdapter.HomeItemViewHolder>(DiffCallBack) {
+    ListAdapter<HomeItem, UpdateHomeItemListAdapter.HomeItemViewHolder>(DiffCallBack) {
     companion object {
         private val DiffCallBack = object : DiffUtil.ItemCallback<HomeItem>() {
             override fun areItemsTheSame(oldItem: HomeItem, newItem: HomeItem): Boolean {
@@ -25,7 +25,7 @@ class HomeItemListAdapter(
         }
     }
 
-    class HomeItemViewHolder(private val binding: CardHomeItemBinding) :
+    class HomeItemViewHolder(private val binding: CardUpdateHomeItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(
             homeItem: HomeItem,
@@ -39,14 +39,16 @@ class HomeItemListAdapter(
                     updateQuantity(
                         category,
                         homeItem.itemName,
-                        homeItem.availableStock+1
+                        homeItem.availableStock + 1
                     )
                 }
-                subQuantity.setOnClickListener { updateQuantity(
-                    category,
-                    homeItem.itemName,
-                    homeItem.availableStock-1
-                ) }
+                subQuantity.setOnClickListener {
+                    updateQuantity(
+                        category,
+                        homeItem.itemName,
+                        homeItem.availableStock - 1
+                    )
+                }
             }
         }
 
@@ -54,7 +56,7 @@ class HomeItemListAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HomeItemViewHolder {
         return HomeItemViewHolder(
-            CardHomeItemBinding.inflate(
+            CardUpdateHomeItemBinding.inflate(
                 LayoutInflater.from(parent.context),
                 parent,
                 false
