@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import com.example.homecatlog.databinding.FragmentUpdateCatalogBinding
 import com.example.homecatlog.entity.Catalog
 import com.example.homecatlog.helper.Converters
@@ -52,7 +53,14 @@ class UpdateCatalogFragment : Fragment() {
         binding.apply {
             categoryText.text = catalog.category
             homeItemsRecyclerView.adapter = updateHomeItemListAdapter
-            saveButton.setOnClickListener { catalogViewModel.updateHomeItemQuantity(updatedCatalog = catalog) }
+            saveButton.setOnClickListener {
+                catalogViewModel.updateHomeItemQuantity(updatedCatalog = catalog)
+            navigateToBackFragment()}
+            backButton.setOnClickListener { navigateToBackFragment() }
         }
+    }
+
+    private fun navigateToBackFragment(){
+        findNavController().popBackStack()
     }
 }
