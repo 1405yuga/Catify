@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
@@ -54,8 +55,13 @@ class UpdateCatalogFragment : Fragment() {
             categoryText.text = catalog.category
             homeItemsRecyclerView.adapter = updateHomeItemListAdapter
             saveButton.setOnClickListener {
-                catalogViewModel.updateHomeItemQuantity(updatedCatalog = catalog)
-            navigateToBackFragment()}
+                catalogViewModel.updateHomeItemQuantity(
+                    updatedCatalog = catalog,
+                    onSuccess = { navigateToBackFragment() },
+                    onFailure = {
+                        Toast.makeText(requireContext(), it, Toast.LENGTH_LONG).show()
+                    })
+            }
             backButton.setOnClickListener { navigateToBackFragment() }
         }
     }
