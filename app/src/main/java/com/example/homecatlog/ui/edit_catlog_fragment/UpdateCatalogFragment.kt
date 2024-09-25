@@ -36,7 +36,6 @@ class UpdateCatalogFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentUpdateCatalogBinding.inflate(layoutInflater, container, false)
-        viewModel.initialise(catalog = catalog)
         updateHomeItemListAdapter =
             UpdateHomeItemListAdapter(increaseQty = { viewModel.increaseQuantity(it) },
                 decreaseQty = { viewModel.decreaseQuantity(it) })
@@ -53,6 +52,7 @@ class UpdateCatalogFragment : Fragment() {
         binding.apply {
             categoryText.text = catalog.category
             homeItemsRecyclerView.adapter = updateHomeItemListAdapter
+            saveButton.setOnClickListener { catalogViewModel.updateHomeItemQuantity(updatedCatalog = catalog) }
         }
     }
 }

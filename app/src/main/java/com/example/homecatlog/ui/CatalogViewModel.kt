@@ -14,9 +14,9 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class CatalogViewModel(private val categoryDao: CategoryDao) : ViewModel() {
+    private val TAG = this.javaClass.simpleName
 
     val allCatalogs: LiveData<List<Catalog>> = categoryDao.getAllCatalogs().asLiveData()
-    private val TAG = this.javaClass.simpleName
 
     fun addCatalog(
         category: String,
@@ -64,21 +64,11 @@ class CatalogViewModel(private val categoryDao: CategoryDao) : ViewModel() {
         }
     }
 
-    val updateHomeItemQuantity: (String, String, Int) -> (Unit) =
-        { category, itemName, updatedQuantity ->
-            viewModelScope.launch(Dispatchers.IO) {
-                val catalog = categoryDao.getCatalogByCategory(category)
-                catalog?.let {
-                    val updatedHomeItems = catalog.homeItems.map { homeItem ->
-                        if (homeItem.itemName == itemName) {
-                            homeItem.copy(availableStock = updatedQuantity)
-                        } else homeItem
-                    }
-                    val updatedCatalog = catalog.copy(homeItems = updatedHomeItems)
-                    categoryDao.updateCatalog(updatedCatalog)
-                }
-            }
+    fun updateHomeItemQuantity(updatedCatalog: Catalog) {
+        viewModelScope.launch(Dispatchers.IO) {
+            categoryDao.updateCatalog(updatedCatalog)
         }
+    }
 
     class CatalogViewModelFactory(private val categoryDao: CategoryDao) :
         ViewModelProvider.Factory {
