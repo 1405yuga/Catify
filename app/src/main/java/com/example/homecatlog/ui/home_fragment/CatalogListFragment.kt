@@ -10,7 +10,9 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.homecatlog.R
 import com.example.homecatlog.databinding.FragmentCatalogListBinding
 import com.example.homecatlog.helper.Converters
@@ -22,6 +24,7 @@ class CatalogListFragment : Fragment() {
     private lateinit var binding: FragmentCatalogListBinding
     private val TAG = this.javaClass.simpleName
     private lateinit var swipeHelper: ItemTouchHelper
+    private var isLayoutLinear = true
     private val viewModel: CatalogViewModel by activityViewModels {
         CatalogViewModel.CatalogViewModelFactory((activity?.application as BaseApplication).database.getCatalogDao())
     }
@@ -94,6 +97,27 @@ class CatalogListFragment : Fragment() {
         binding.apply {
             addCatlog.setOnClickListener { navigateToFragment(R.id.addCatlogFragment) }
             categoryRecyclerView.adapter = catalogListAdapter
+            topAppBar.setOnMenuItemClickListener { menuItem ->
+                when (menuItem.itemId) {
+                    R.id.layout_manager -> {
+                        if (!isLayoutLinear) {
+                            categoryRecyclerView.layoutManager = LinearLayoutManager(
+                                requireContext(),
+                                LinearLayoutManager.VERTICAL,
+                                false
+                            )
+                            isLayoutLinear = true
+                        } else {
+                            categoryRecyclerView.layoutManager =
+                                StaggeredGridLayoutManager(2, LinearLayoutManager.VERTICAL)
+                            isLayoutLinear = false
+                        }
+                        true
+                    }
+
+                    else -> false
+                }
+            }
         }
     }
 

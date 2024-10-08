@@ -17,6 +17,7 @@
             android:layout_height="wrap_content"
             android:minHeight="?attr/actionBarSize"
             app:title="@string/app_name"
+            app:menu="@menu/home_menus"
             app:titleTextColor="@color/md_theme_primary"/>
 
     </com.google.android.material.appbar.AppBarLayout>
