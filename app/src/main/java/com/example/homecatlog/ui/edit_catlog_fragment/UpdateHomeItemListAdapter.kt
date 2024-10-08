@@ -1,5 +1,8 @@
 package com.example.homecatlog.ui.edit_catlog_fragment
 
+import android.text.Editable
+import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -32,9 +35,24 @@ class UpdateHomeItemListAdapter(
             increaseQty: (String) -> Int,
             decreaseQty: (String) -> Int
         ) {
+            val TAG = this.javaClass.simpleName
             binding.apply {
-                itemName.text = homeItem.itemName
+                itemName.setText(homeItem.itemName)
                 quantity.text = homeItem.availableStock.toString()
+                itemName.addTextChangedListener(object : TextWatcher {
+                    override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                        if (p0!!.length == 1) homeItem.itemName = p0.toString()
+                        Log.d(TAG, "before $p0")
+                    }
+
+                    override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                        if (p0!!.length > 1) homeItem.itemName = p0.toString()
+                        Log.d(TAG, "onTextChanged $p0")
+                    }
+
+                    override fun afterTextChanged(p0: Editable?) {}
+
+                })
                 addQuantity.setOnClickListener {
                     quantity.text = increaseQty(homeItem.itemName).toString()
                 }

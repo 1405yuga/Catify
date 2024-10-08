@@ -10,12 +10,13 @@
     android:orientation="horizontal"
     android:paddingHorizontal="8dp">
 
-    <TextView
+    <EditText
         android:id="@+id/item_name"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:text="item" />
+        android:hint="Item name"
+        android:background="@null"/>
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -50,7 +51,9 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="10"
-            android:textStyle="bold" />
+            android:gravity="center"
+            android:textStyle="bold"
+            android:minWidth="32dp"/>
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/add_quantity"
