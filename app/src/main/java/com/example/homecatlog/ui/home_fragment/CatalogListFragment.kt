@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
@@ -106,10 +107,20 @@ class CatalogListFragment : Fragment() {
                                 LinearLayoutManager.VERTICAL,
                                 false
                             )
+                            topAppBar.menu.findItem(R.id.layout_manager).icon =
+                                ContextCompat.getDrawable(
+                                    requireContext(),
+                                    R.drawable.horizontal_layout_24
+                                )
                             isLayoutLinear = true
                         } else {
                             categoryRecyclerView.layoutManager =
                                 StaggeredGridLayoutManager(2, LinearLayoutManager.VERTICAL)
+                            topAppBar.menu.findItem(R.id.layout_manager).icon =
+                                ContextCompat.getDrawable(
+                                    requireContext(),
+                                    R.drawable.staggered_layout_24
+                                )
                             isLayoutLinear = false
                         }
                         true
