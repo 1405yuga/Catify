@@ -3,11 +3,14 @@ package com.example.homecatlog.ui.edit_catlog_fragment
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
+import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.EditText
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.example.homecatlog.R
 import com.example.homecatlog.databinding.CardUpdateHomeItemBinding
 import com.example.homecatlog.entity.HomeItem
 
@@ -39,6 +42,22 @@ class UpdateHomeItemListAdapter(
             binding.apply {
                 itemName.setText(homeItem.itemName)
                 quantity.text = homeItem.availableStock.toString()
+                //move to next edit text
+                itemName.setOnKeyListener { view, i, keyEvent ->
+                    if (keyEvent.action == KeyEvent.ACTION_DOWN && i == KeyEvent.KEYCODE_ENTER) {
+                        val nextPos = adapterPosition + 1
+                        val recyclerView = itemView.parent as? RecyclerView
+                        val adapter = recyclerView?.adapter as? UpdateHomeItemListAdapter
+                        if (adapter != null && nextPos < adapter.itemCount) {
+                            recyclerView.findViewHolderForAdapterPosition(nextPos)?.itemView?.findViewById<EditText>(
+                                R.id.item_name
+                            )?.requestFocus()
+                        }
+                        true
+                    } else false
+                }
+
+                //set entered value
                 itemName.addTextChangedListener(object : TextWatcher {
                     override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
                         if (p0!!.length == 1) homeItem.itemName = p0.toString()
