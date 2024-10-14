@@ -3,6 +3,7 @@ package com.example.homecatlog.ui.edit_catlog_fragment
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import com.example.homecatlog.entity.Catalog
+import com.example.homecatlog.entity.HomeItem
 
 class UpdateCatalogViewModel : ViewModel() {
     private var catalog: Catalog? = null
@@ -30,5 +31,12 @@ class UpdateCatalogViewModel : ViewModel() {
             item.availableStock -= 1
             item.availableStock
         }
+    }
+
+    fun addHomeItemView(): Catalog {
+        val updatedHomeItems = catalog?.homeItems?.toMutableList()
+        updatedHomeItems?.add(HomeItem("Untitled", 0))
+        catalog = updatedHomeItems?.let { catalog?.copy(homeItems = it) }
+        return catalog ?: Catalog("Untitled", homeItems = mutableListOf(HomeItem("Untitled", 0)))
     }
 }

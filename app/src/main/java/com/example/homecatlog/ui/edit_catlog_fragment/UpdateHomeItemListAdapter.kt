@@ -16,7 +16,8 @@ import com.example.homecatlog.entity.HomeItem
 
 class UpdateHomeItemListAdapter(
     private val increaseQty: (String) -> (Int),
-    private val decreaseQty: (String) -> (Int)
+    private val decreaseQty: (String) -> (Int),
+    private val addItemView: () -> (Unit)
 ) :
     ListAdapter<HomeItem, UpdateHomeItemListAdapter.HomeItemViewHolder>(DiffCallBack) {
     companion object {
@@ -36,7 +37,8 @@ class UpdateHomeItemListAdapter(
         fun bind(
             homeItem: HomeItem,
             increaseQty: (String) -> Int,
-            decreaseQty: (String) -> Int
+            decreaseQty: (String) -> Int,
+            addItemView: () -> Unit
         ) {
             val TAG = this.javaClass.simpleName
             binding.apply {
@@ -52,7 +54,7 @@ class UpdateHomeItemListAdapter(
                             recyclerView.findViewHolderForAdapterPosition(nextPos)?.itemView?.findViewById<EditText>(
                                 R.id.item_name
                             )?.requestFocus()
-                        }
+                        } else addItemView()
                         true
                     } else false
                 }
@@ -94,6 +96,6 @@ class UpdateHomeItemListAdapter(
     }
 
     override fun onBindViewHolder(holder: HomeItemViewHolder, position: Int) {
-        holder.bind(getItem(position), increaseQty, decreaseQty)
+        holder.bind(getItem(position), increaseQty, decreaseQty, addItemView)
     }
 }

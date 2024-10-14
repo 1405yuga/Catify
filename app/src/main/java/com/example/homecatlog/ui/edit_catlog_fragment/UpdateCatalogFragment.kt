@@ -40,7 +40,12 @@ class UpdateCatalogFragment : Fragment() {
         binding = FragmentUpdateCatalogBinding.inflate(layoutInflater, container, false)
         updateHomeItemListAdapter =
             UpdateHomeItemListAdapter(increaseQty = { viewModel.increaseQuantity(it) },
-                decreaseQty = { viewModel.decreaseQuantity(it) })
+                decreaseQty = { viewModel.decreaseQuantity(it) },
+                addItemView = {
+                    catalog = viewModel.addHomeItemView()!!
+                    updateHomeItemListAdapter.submitList(catalog.homeItems)
+                    Log.d(TAG, "Added view $catalog")
+                })
         updateHomeItemListAdapter.submitList(catalog.homeItems)
         return binding.root
     }
@@ -66,7 +71,7 @@ class UpdateCatalogFragment : Fragment() {
         }
     }
 
-    private fun navigateToBackFragment(){
+    private fun navigateToBackFragment() {
         findNavController().popBackStack()
     }
 }
