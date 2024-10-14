@@ -42,7 +42,7 @@ class UpdateCatalogFragment : Fragment() {
             UpdateHomeItemListAdapter(increaseQty = { viewModel.increaseQuantity(it) },
                 decreaseQty = { viewModel.decreaseQuantity(it) },
                 addItemView = {
-                    catalog = viewModel.addHomeItemView()!!
+                    catalog = viewModel.addHomeItemView()
                     updateHomeItemListAdapter.submitList(catalog.homeItems)
                     Log.d(TAG, "Added view $catalog")
                 })
