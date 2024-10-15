@@ -90,6 +90,7 @@ class UpdateCatalogFragment : Fragment() {
                 if (categoryText.isBlank()) binding.categoryText.error = "Category required!"
                 else {
                     catalog.category = categoryText
+                    catalog.homeItems = viewModel.removeEmptyHomeItem()
                     catalogViewModel.addCatalog(catalog = catalog,
                         onSuccess = { navigateToBackFragment() },
                         onFailure = {

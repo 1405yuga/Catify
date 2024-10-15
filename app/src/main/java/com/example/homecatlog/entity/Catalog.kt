@@ -8,5 +8,5 @@ data class Catalog(
     @PrimaryKey(autoGenerate = true)
     val catalogId: Int = 0,
     var category: String,
-    val homeItems: List<HomeItem>
+    var homeItems: List<HomeItem>
 )
