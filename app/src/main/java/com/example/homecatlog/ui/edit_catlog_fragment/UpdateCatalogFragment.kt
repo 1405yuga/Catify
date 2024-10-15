@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.example.homecatlog.databinding.FragmentUpdateCatalogBinding
 import com.example.homecatlog.entity.Catalog
+import com.example.homecatlog.entity.HomeItem
 import com.example.homecatlog.helper.Converters
 import com.example.homecatlog.network.BaseApplication
 import com.example.homecatlog.ui.CatalogViewModel
@@ -31,7 +32,8 @@ class UpdateCatalogFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val catalogJson = arguments?.getString("CATALOG")
-        catalog = Converters().jsonToCatalog(catalogJson!!)
+        catalog = if (catalogJson != null) Converters().jsonToCatalog(catalogJson)
+        else Catalog(category = "", homeItems = mutableListOf(HomeItem("", 0)))
         Log.d(TAG, "Catalog : $catalog")
         viewModel.initialise(catalog = catalog)
     }
@@ -81,15 +83,20 @@ class UpdateCatalogFragment : Fragment() {
 
     private fun applyBinding() {
         binding.apply {
-            categoryText.text = catalog.category
+            categoryText.setText(catalog.category)
             homeItemsRecyclerView.adapter = updateHomeItemListAdapter
             saveButton.setOnClickListener {
-                catalogViewModel.updateHomeItemQuantity(
-                    updatedCatalog = catalog,
-                    onSuccess = { navigateToBackFragment() },
-                    onFailure = {
-                        Toast.makeText(requireContext(), it, Toast.LENGTH_LONG).show()
-                    })
+                val categoryText = binding.categoryText.text.toString().trim()
+                if (categoryText.isBlank()) binding.categoryText.error = "Category required!"
+                else {
+                    catalog.category = categoryText
+                    catalogViewModel.addCatalog(catalog = catalog,
+                        onSuccess = { navigateToBackFragment() },
+                        onFailure = {
+                            Toast.makeText(requireContext(), it, Toast.LENGTH_LONG).show()
+                        })
+                }
+
             }
             backButton.setOnClickListener { navigateToBackFragment() }
         }

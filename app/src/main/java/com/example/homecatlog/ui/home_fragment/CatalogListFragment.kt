@@ -96,7 +96,7 @@ class CatalogListFragment : Fragment() {
 
     private fun applyBinding() {
         binding.apply {
-            addCatlog.setOnClickListener { navigateToFragment(R.id.addCatlogFragment) }
+            addCatlog.setOnClickListener { navigateToFragment(R.id.updateCatalogFragment) }
             categoryRecyclerView.adapter = catalogListAdapter
             topAppBar.setOnMenuItemClickListener { menuItem ->
                 when (menuItem.itemId) {
