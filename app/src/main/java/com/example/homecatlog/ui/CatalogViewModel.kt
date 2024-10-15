@@ -7,7 +7,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.homecatlog.entity.Catalog
-import com.example.homecatlog.entity.HomeItem
 import com.example.homecatlog.network.CategoryDao
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -19,8 +18,7 @@ class CatalogViewModel(private val categoryDao: CategoryDao) : ViewModel() {
     val allCatalogs: LiveData<List<Catalog>> = categoryDao.getAllCatalogs().asLiveData()
 
     fun addCatalog(
-        category: String,
-        homeItems: List<HomeItem>,
+        catalog: Catalog,
         onSuccess: (String) -> (Unit),
         onFailure: (String) -> (Unit)
     ) {
