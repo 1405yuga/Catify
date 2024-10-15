@@ -11,11 +11,6 @@
         android:label="fragment_category_list"
         tools:layout="@layout/fragment_catalog_list" />
     <fragment
-        android:id="@+id/addCatlogFragment"
-        android:name="com.example.homecatlog.ui.add_catlog_fragment.AddCatalogFragment"
-        android:label="fragment_add_catlog"
-        tools:layout="@layout/fragment_add_catlog" />
-    <fragment
         android:id="@+id/updateCatalogFragment"
         android:name="com.example.homecatlog.ui.edit_catlog_fragment.UpdateCatalogFragment"
         android:label="fragment_update_catalog"
