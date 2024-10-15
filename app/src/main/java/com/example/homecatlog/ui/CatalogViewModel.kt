@@ -64,25 +64,6 @@ class CatalogViewModel(private val categoryDao: CategoryDao) : ViewModel() {
         }
     }
 
-    fun updateHomeItemQuantity(updatedCatalog: Catalog, onSuccess: (String) -> Unit, onFailure: (String) -> Unit) {
-        viewModelScope.launch(Dispatchers.IO) {
-            try{
-                Log.d(TAG,"UpdatedCatalog : $updatedCatalog")
-                val rowId= categoryDao.updateCatalog(updatedCatalog)
-                if (rowId != -1) {
-                    Log.d(TAG, "Updated catalog successfully")
-                    withContext(Dispatchers.Main) { onSuccess(updatedCatalog.category + " updated") }
-                } else {
-                    Log.e(TAG, "Failed to update catalog")
-                    withContext(Dispatchers.Main) { onFailure("Failed to update catalog") }
-                }
-            }catch (e:Exception){
-                Log.e(TAG, "Failed to update catalog")
-                withContext(Dispatchers.Main) { onFailure("Failed to update catalog") }
-            }
-        }
-    }
-
     class CatalogViewModelFactory(private val categoryDao: CategoryDao) :
         ViewModelProvider.Factory {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
