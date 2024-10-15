@@ -24,7 +24,7 @@ class CatalogViewModel(private val categoryDao: CategoryDao) : ViewModel() {
         onSuccess: (String) -> (Unit),
         onFailure: (String) -> (Unit)
     ) {
-        val catalog = Catalog(category, homeItems)
+        val catalog = Catalog(category = category, homeItems = homeItems)
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 val rowId = categoryDao.addCatalog(catalog)

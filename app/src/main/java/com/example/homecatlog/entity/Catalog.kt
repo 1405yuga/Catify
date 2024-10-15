@@ -5,7 +5,8 @@ import androidx.room.PrimaryKey
 
 @Entity
 data class Catalog(
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
+    val catalogId: Int = 0,
     val category: String,
     val homeItems: List<HomeItem>
 )
