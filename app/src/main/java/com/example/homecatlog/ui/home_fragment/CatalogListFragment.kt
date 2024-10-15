@@ -25,7 +25,7 @@ class CatalogListFragment : Fragment() {
     private lateinit var binding: FragmentCatalogListBinding
     private val TAG = this.javaClass.simpleName
     private lateinit var swipeHelper: ItemTouchHelper
-    private var isLayoutLinear = true
+    private var isLayoutLinear = false
     private val viewModel: CatalogViewModel by activityViewModels {
         CatalogViewModel.CatalogViewModelFactory((activity?.application as BaseApplication).database.getCatalogDao())
     }
