@@ -29,13 +29,14 @@
             android:padding="24dp"
             android:src="@drawable/baseline_arrow_back_24" />
 
-        <TextView
+        <EditText
             android:id="@+id/categoryText"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@null"
-            android:text="Category"
+            android:hint="Category"
+            android:inputType="text"
             android:textSize="22sp"
             android:textStyle="bold" />
 

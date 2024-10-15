@@ -7,6 +7,6 @@ import androidx.room.PrimaryKey
 data class Catalog(
     @PrimaryKey(autoGenerate = true)
     val catalogId: Int = 0,
-    val category: String,
+    var category: String,
     val homeItems: List<HomeItem>
 )
