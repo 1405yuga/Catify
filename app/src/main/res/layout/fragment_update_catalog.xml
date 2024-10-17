@@ -38,7 +38,8 @@
             android:hint="Category"
             android:inputType="text"
             android:textSize="22sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:minHeight="48dp"/>
 
         <ImageView
             android:id="@+id/save_button"
