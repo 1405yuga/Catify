@@ -41,6 +41,7 @@ class UpdateHomeItemListAdapter(
             addItemView: () -> Unit
         ) {
             val TAG = this.javaClass.simpleName
+            Log.d(TAG, "ViewHolder called -----")
             binding.apply {
                 itemName.setText(homeItem.itemName)
                 quantity.text = homeItem.availableStock.toString()
@@ -50,11 +51,15 @@ class UpdateHomeItemListAdapter(
                         val nextPos = adapterPosition + 1
                         val recyclerView = itemView.parent as? RecyclerView
                         val adapter = recyclerView?.adapter as? UpdateHomeItemListAdapter
-                        if (adapter != null && nextPos < adapter.itemCount) {
-                            recyclerView.findViewHolderForAdapterPosition(nextPos)?.itemView?.findViewById<EditText>(
-                                R.id.item_name
-                            )?.requestFocus()
-                        } else addItemView()
+                        if (adapter != null) {
+                            if (nextPos < adapter.itemCount) {
+                                recyclerView.findViewHolderForAdapterPosition(nextPos)?.itemView?.findViewById<EditText>(
+                                    R.id.item_name
+                                )?.requestFocus()
+                            } else {
+                                addItemView()
+                            }
+                        }
                         true
                     } else false
                 }

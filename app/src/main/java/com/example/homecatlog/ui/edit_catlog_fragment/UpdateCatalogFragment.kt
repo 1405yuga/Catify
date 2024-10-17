@@ -5,12 +5,14 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
+import com.example.homecatlog.R
 import com.example.homecatlog.databinding.FragmentUpdateCatalogBinding
 import com.example.homecatlog.entity.Catalog
 import com.example.homecatlog.entity.HomeItem
@@ -50,6 +52,9 @@ class UpdateCatalogFragment : Fragment() {
                     catalog = viewModel.addHomeItemView()
                     updateHomeItemListAdapter.submitList(catalog.homeItems)
                     Log.d(TAG, "Added view $catalog")
+                    binding.homeItemsRecyclerView.findViewHolderForAdapterPosition( catalog.homeItems.size-1)?.itemView?.findViewById<EditText>(
+                        R.id.item_name
+                    )?.requestFocus()
                 })
         updateHomeItemListAdapter.submitList(catalog.homeItems)
         return binding.root
@@ -100,6 +105,7 @@ class UpdateCatalogFragment : Fragment() {
 
             }
             backButton.setOnClickListener { navigateToBackFragment() }
+            categoryText.requestFocus()
         }
     }
 
