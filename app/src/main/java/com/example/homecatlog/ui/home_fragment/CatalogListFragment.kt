@@ -98,6 +98,7 @@ class CatalogListFragment : Fragment() {
         binding.apply {
             addCatlog.setOnClickListener { navigateToFragment(R.id.updateCatalogFragment) }
             categoryRecyclerView.adapter = catalogListAdapter
+            topAppBar.setNavigationOnClickListener { drawerLayout.open() }
             topAppBar.setOnMenuItemClickListener { menuItem ->
                 when (menuItem.itemId) {
                     R.id.layout_manager -> {
