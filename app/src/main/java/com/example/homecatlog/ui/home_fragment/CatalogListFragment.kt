@@ -111,7 +111,7 @@ class CatalogListFragment : Fragment() {
                             topAppBar.menu.findItem(R.id.layout_manager).icon =
                                 ContextCompat.getDrawable(
                                     requireContext(),
-                                    R.drawable.horizontal_layout_24
+                                    R.drawable.linear_layout_24
                                 )
                             isLayoutLinear = true
                         } else {
