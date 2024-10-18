@@ -15,8 +15,10 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
+        android:background="@null"
         android:hint="Item name"
-        android:background="@null"/>
+        android:minWidth="@dimen/min_clickable_size"
+        android:minHeight="@dimen/min_clickable_size" />
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -29,6 +31,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:backgroundTint="@color/transparent"
+            android:clickable="true"
+            android:focusable="true"
             android:minWidth="@dimen/min_clickable_size"
             android:minHeight="@dimen/min_clickable_size"
             app:strokeWidth="0dp">
@@ -37,29 +41,27 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:background="@drawable/operation_item_button_bg"
                 android:contentDescription="add quantity"
-                android:foreground="?selectableItemBackground"
-                android:src="@drawable/baseline_substract_24"
-                app:tint="@color/md_theme_onSecondary" />
-
+                android:src="@drawable/baseline_substract_24" />
         </com.google.android.material.card.MaterialCardView>
 
         <TextView
             android:id="@+id/quantity"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="10"
             android:gravity="center"
-            android:textStyle="bold"
-            android:minWidth="32dp"/>
+            android:minWidth="32dp"
+            android:text="10"
+            android:textStyle="bold" />
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/add_quantity"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:backgroundTint="@color/transparent"
+            android:clickable="true"
+            android:focusable="true"
             android:minWidth="@dimen/min_clickable_size"
             android:minHeight="@dimen/min_clickable_size"
             app:strokeWidth="0dp">
@@ -68,10 +70,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:background="@drawable/operation_item_button_bg"
                 android:contentDescription="add quantity"
-                android:src="@drawable/baseline_add_24"
-                app:tint="@color/md_theme_onSecondary" />
+                android:src="@drawable/baseline_add_24" />
 
         </com.google.android.material.card.MaterialCardView>
 
