@@ -52,7 +52,7 @@ class UpdateCatalogFragment : Fragment() {
                     catalog = viewModel.addHomeItemView()
                     updateHomeItemListAdapter.submitList(catalog.homeItems)
                     Log.d(TAG, "Added view $catalog")
-                    binding.homeItemsRecyclerView.findViewHolderForAdapterPosition( catalog.homeItems.size-1)?.itemView?.findViewById<EditText>(
+                    binding.homeItemsRecyclerView.findViewHolderForAdapterPosition(catalog.homeItems.size - 1)?.itemView?.findViewById<EditText>(
                         R.id.item_name
                     )?.requestFocus()
                 })
@@ -105,7 +105,10 @@ class UpdateCatalogFragment : Fragment() {
 
             }
             backButton.setOnClickListener { navigateToBackFragment() }
-            categoryText.requestFocus()
+            categoryText.apply {
+                requestFocus()
+                setSelection(this.length())
+            }
         }
     }
 

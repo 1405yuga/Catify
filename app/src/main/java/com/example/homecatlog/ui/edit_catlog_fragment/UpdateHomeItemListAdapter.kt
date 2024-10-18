@@ -43,42 +43,61 @@ class UpdateHomeItemListAdapter(
             val TAG = this.javaClass.simpleName
             Log.d(TAG, "ViewHolder called -----")
             binding.apply {
-                itemName.setText(homeItem.itemName)
-                quantity.text = homeItem.availableStock.toString()
-                //move to next edit text
-                itemName.setOnKeyListener { view, i, keyEvent ->
-                    if (keyEvent.action == KeyEvent.ACTION_DOWN && i == KeyEvent.KEYCODE_ENTER) {
-                        val nextPos = adapterPosition + 1
-                        val recyclerView = itemView.parent as? RecyclerView
-                        val adapter = recyclerView?.adapter as? UpdateHomeItemListAdapter
-                        if (adapter != null) {
-                            if (nextPos < adapter.itemCount) {
-                                recyclerView.findViewHolderForAdapterPosition(nextPos)?.itemView?.findViewById<EditText>(
-                                    R.id.item_name
-                                )?.requestFocus()
-                            } else {
-                                addItemView()
+                itemName.apply {
+                    setText(homeItem.itemName)
+
+                    //move to next edit text
+                    itemName.setOnKeyListener { view, i, keyEvent ->
+                        if (keyEvent.action == KeyEvent.ACTION_DOWN && i == KeyEvent.KEYCODE_ENTER) {
+                            val nextPos = adapterPosition + 1
+                            val recyclerView = itemView.parent as? RecyclerView
+                            val adapter = recyclerView?.adapter as? UpdateHomeItemListAdapter
+                            if (adapter != null) {
+                                if (nextPos < adapter.itemCount) {
+                                    recyclerView.findViewHolderForAdapterPosition(nextPos)?.itemView?.findViewById<EditText>(
+                                        R.id.item_name
+                                    )?.apply {
+                                        Log.d(TAG, "NEXT POS")
+                                        requestFocus()
+                                    }
+                                } else {
+                                    addItemView()
+                                }
                             }
+                            true
+                        } else false
+                    }
+
+                    //set focus to last character
+                    itemName.setOnFocusChangeListener { view, hasFocus ->
+                        if (hasFocus) {
+                            val editText = view as EditText
+                            editText.setSelection(editText.length())
                         }
-                        true
-                    } else false
+                    }
+
+                    //set entered value
+                    itemName.addTextChangedListener(object : TextWatcher {
+                        override fun beforeTextChanged(
+                            p0: CharSequence?,
+                            p1: Int,
+                            p2: Int,
+                            p3: Int
+                        ) {
+                            if (p0!!.length == 1) homeItem.itemName = p0.toString()
+                            Log.d(TAG, "before $p0")
+                        }
+
+                        override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                            if (p0!!.length > 1) homeItem.itemName = p0.toString()
+                            Log.d(TAG, "onTextChanged $p0")
+                        }
+
+                        override fun afterTextChanged(p0: Editable?) {}
+
+                    })
                 }
-
-                //set entered value
-                itemName.addTextChangedListener(object : TextWatcher {
-                    override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                        if (p0!!.length == 1) homeItem.itemName = p0.toString()
-                        Log.d(TAG, "before $p0")
-                    }
-
-                    override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                        if (p0!!.length > 1) homeItem.itemName = p0.toString()
-                        Log.d(TAG, "onTextChanged $p0")
-                    }
-
-                    override fun afterTextChanged(p0: Editable?) {}
-
-                })
+                quantity.text = homeItem.availableStock.toString()
                 addQuantity.setOnClickListener {
                     quantity.text = increaseQty(homeItem.itemName).toString()
                 }
