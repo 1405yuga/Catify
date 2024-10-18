@@ -51,7 +51,7 @@
             android:focusable="true"
             android:foreground="?selectableItemBackground"
             android:padding="24dp"
-            android:src="@drawable/baseline_save_24" />
+            android:src="@drawable/save_24" />
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
