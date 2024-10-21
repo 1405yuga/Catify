@@ -130,6 +130,10 @@ class CatalogListFragment : Fragment() {
                     else -> false
                 }
             }
+            navDrawer.apply {
+                documentation.setOnClickListener { TODO() }
+                about.setOnClickListener { TODO() }
+            }
         }
     }
 
