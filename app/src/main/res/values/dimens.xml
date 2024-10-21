@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="nav_drawer_horizontal_padding">8dp</dimen>
-    <dimen name="nav_drawer_vertical_padding">2dp</dimen>
+    <dimen name="nav_drawer_horizontal_padding">28dp</dimen>
+    <dimen name="nav_drawer_vertical_padding">4dp</dimen>
+    <dimen name="nav_header_margin">24dp</dimen>
 </resources>
