@@ -50,11 +50,16 @@ class UpdateCatalogFragment : Fragment() {
                 decreaseQty = { viewModel.decreaseQuantity(it) },
                 addItemView = {
                     catalog = viewModel.addHomeItemView()
-                    updateHomeItemListAdapter.submitList(catalog.homeItems)
-                    Log.d(TAG, "Added view $catalog")
-                    binding.homeItemsRecyclerView.findViewHolderForAdapterPosition(catalog.homeItems.size - 1)?.itemView?.findViewById<EditText>(
-                        R.id.item_name
-                    )?.requestFocus()
+                    updateHomeItemListAdapter.submitList(catalog.homeItems) {
+                        Log.d(TAG, "Added blank homeitem - ${catalog.homeItems.size}")
+
+                        val pos = catalog.homeItems.size - 1
+                        binding.homeItemsRecyclerView.post {
+                            binding.homeItemsRecyclerView.findViewHolderForAdapterPosition(pos)?.itemView?.findViewById<EditText>(
+                                R.id.item_name
+                            )?.requestFocus()
+                        }
+                    }
                 })
         updateHomeItemListAdapter.submitList(catalog.homeItems)
         return binding.root

@@ -42,6 +42,7 @@ class UpdateHomeItemListAdapter(
         ) {
             val TAG = this.javaClass.simpleName
             Log.d(TAG, "ViewHolder called -----")
+
             binding.apply {
                 itemName.apply {
                     setText(homeItem.itemName)
@@ -56,10 +57,8 @@ class UpdateHomeItemListAdapter(
                                 if (nextPos < adapter.itemCount) {
                                     recyclerView.findViewHolderForAdapterPosition(nextPos)?.itemView?.findViewById<EditText>(
                                         R.id.item_name
-                                    )?.apply {
-                                        Log.d(TAG, "NEXT POS")
-                                        requestFocus()
-                                    }
+                                    )?.requestFocus()
+
                                 } else {
                                     addItemView()
                                 }
