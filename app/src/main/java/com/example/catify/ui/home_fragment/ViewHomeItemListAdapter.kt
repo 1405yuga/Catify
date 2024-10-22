@@ -1,12 +1,12 @@
-package com.example.homecatlog.ui.home_fragment
+package com.example.catify.ui.home_fragment
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.example.homecatlog.databinding.CardViewHomeItemBinding
-import com.example.homecatlog.entity.HomeItem
+import com.example.catify.databinding.CardViewHomeItemBinding
+import com.example.catify.entity.HomeItem
 
 class ViewHomeItemListAdapter :
     ListAdapter<HomeItem, ViewHomeItemListAdapter.HomeItemViewHolder>(DiffCallBack) {

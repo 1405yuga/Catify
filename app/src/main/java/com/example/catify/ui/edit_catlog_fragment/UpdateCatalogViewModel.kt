@@ -1,9 +1,9 @@
-package com.example.homecatlog.ui.edit_catlog_fragment
+package com.example.catify.ui.edit_catlog_fragment
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
-import com.example.homecatlog.entity.Catalog
-import com.example.homecatlog.entity.HomeItem
+import com.example.catify.entity.Catalog
+import com.example.catify.entity.HomeItem
 
 class UpdateCatalogViewModel : ViewModel() {
     private var catalog: Catalog? = null

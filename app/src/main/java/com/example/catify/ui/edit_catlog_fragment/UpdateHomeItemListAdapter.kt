@@ -1,4 +1,4 @@
-package com.example.homecatlog.ui.edit_catlog_fragment
+package com.example.catify.ui.edit_catlog_fragment
 
 import android.text.Editable
 import android.text.TextWatcher
@@ -10,9 +10,9 @@ import android.widget.EditText
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.example.homecatlog.R
-import com.example.homecatlog.databinding.CardUpdateHomeItemBinding
-import com.example.homecatlog.entity.HomeItem
+import com.example.catify.R
+import com.example.catify.databinding.CardUpdateHomeItemBinding
+import com.example.catify.entity.HomeItem
 
 class UpdateHomeItemListAdapter(
     private val increaseQty: (String) -> (Int),

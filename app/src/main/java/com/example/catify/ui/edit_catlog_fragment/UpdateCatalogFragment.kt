@@ -1,4 +1,4 @@
-package com.example.homecatlog.ui.edit_catlog_fragment
+package com.example.catify.ui.edit_catlog_fragment
 
 import android.os.Bundle
 import android.util.Log
@@ -12,13 +12,13 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
-import com.example.homecatlog.R
-import com.example.homecatlog.databinding.FragmentUpdateCatalogBinding
-import com.example.homecatlog.entity.Catalog
-import com.example.homecatlog.entity.HomeItem
-import com.example.homecatlog.helper.Converters
-import com.example.homecatlog.network.BaseApplication
-import com.example.homecatlog.ui.CatalogViewModel
+import com.example.catify.R
+import com.example.catify.databinding.FragmentUpdateCatalogBinding
+import com.example.catify.entity.Catalog
+import com.example.catify.entity.HomeItem
+import com.example.catify.helper.Converters
+import com.example.catify.network.BaseApplication
+import com.example.catify.ui.CatalogViewModel
 
 class UpdateCatalogFragment : Fragment() {
     private lateinit var binding: FragmentUpdateCatalogBinding

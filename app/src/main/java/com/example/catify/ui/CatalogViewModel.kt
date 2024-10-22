@@ -1,4 +1,4 @@
-package com.example.homecatlog.ui
+package com.example.catify.ui
 
 import android.util.Log
 import androidx.lifecycle.LiveData
@@ -6,8 +6,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
-import com.example.homecatlog.entity.Catalog
-import com.example.homecatlog.network.CategoryDao
+import com.example.catify.entity.Catalog
+import com.example.catify.network.CategoryDao
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext

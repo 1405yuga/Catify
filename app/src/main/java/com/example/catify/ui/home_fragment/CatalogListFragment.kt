@@ -1,4 +1,4 @@
-package com.example.homecatlog.ui.home_fragment
+package com.example.catify.ui.home_fragment
 
 import android.content.Intent
 import android.net.Uri
@@ -16,11 +16,11 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
-import com.example.homecatlog.R
-import com.example.homecatlog.databinding.FragmentCatalogListBinding
-import com.example.homecatlog.helper.Converters
-import com.example.homecatlog.network.BaseApplication
-import com.example.homecatlog.ui.CatalogViewModel
+import com.example.catify.R
+import com.example.catify.databinding.FragmentCatalogListBinding
+import com.example.catify.helper.Converters
+import com.example.catify.network.BaseApplication
+import com.example.catify.ui.CatalogViewModel
 
 class CatalogListFragment : Fragment() {
 

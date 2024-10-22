@@ -1,4 +1,4 @@
-package com.example.homecatlog
+package com.example.catify
 
 import org.junit.Test
 
