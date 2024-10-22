@@ -1,5 +1,7 @@
 package com.example.homecatlog.ui.home_fragment
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -131,10 +133,20 @@ class CatalogListFragment : Fragment() {
                 }
             }
             navDrawer.apply {
-                documentation.setOnClickListener { TODO() }
-                about.setOnClickListener { TODO() }
+                documentation.setOnClickListener {
+                    openUrl(
+                        "https://github.com/1405yuga/HomeCatalogs/blob/main/README.md",
+                        binding
+                    )
+                }
+                about.setOnClickListener { openUrl("https://github.com/1405yuga/", binding) }
             }
         }
+    }
+
+    private fun openUrl(url: String, binding: FragmentCatalogListBinding) {
+        binding.drawerLayout.close()
+        startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))
     }
 
     private fun navigateToFragment(fragmentId: Int) {
