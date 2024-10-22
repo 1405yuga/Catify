@@ -8,10 +8,10 @@
             <InsightsFilterSettings>
               <option name="connection">
                 <ConnectionSetting>
-                  <option name="appId" value="com.example.homecatlog" />
-                  <option name="mobileSdkAppId" value="1:841738029172:android:1173003b7a8163a13ce921" />
-                  <option name="projectId" value="test3-application" />
-                  <option name="projectNumber" value="841738029172" />
+                  <option name="appId" value="PLACEHOLDER" />
+                  <option name="mobileSdkAppId" value="" />
+                  <option name="projectId" value="" />
+                  <option name="projectNumber" value="" />
                 </ConnectionSetting>
               </option>
               <option name="signal" value="SIGNAL_UNSPECIFIED" />
