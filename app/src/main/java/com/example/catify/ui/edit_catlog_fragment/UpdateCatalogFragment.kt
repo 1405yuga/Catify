@@ -78,9 +78,11 @@ class UpdateCatalogFragment : Fragment() {
             }
 
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                val homeItem = updateHomeItemListAdapter.currentList[viewHolder.adapterPosition]
-                catalog = viewModel.removeHomeItem(homeItem)
-                updateHomeItemListAdapter.submitList(catalog.homeItems)
+                if (updateHomeItemListAdapter.currentList.size > 1) {
+                    val homeItem = updateHomeItemListAdapter.currentList[viewHolder.adapterPosition]
+                    catalog = viewModel.removeHomeItem(homeItem)
+                    updateHomeItemListAdapter.submitList(catalog.homeItems)
+                } else updateHomeItemListAdapter.notifyItemChanged(viewHolder.adapterPosition)
             }
         })
         swipeHelper.attachToRecyclerView(binding.homeItemsRecyclerView)
