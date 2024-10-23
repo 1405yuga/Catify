@@ -19,6 +19,6 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "HomeCatlog"
+rootProject.name = "Catify"
 include(":app")
  
