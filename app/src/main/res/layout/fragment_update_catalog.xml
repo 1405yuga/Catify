@@ -13,45 +13,61 @@
         android:elevation="10dp"
         android:gravity="center"
         android:orientation="horizontal"
+        android:padding="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <ImageView
+        <androidx.cardview.widget.CardView
             android:id="@+id/backButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
             android:clickable="true"
-            android:contentDescription="back button"
             android:focusable="true"
-            android:foreground="?selectableItemBackground"
-            android:padding="24dp"
-            android:src="@drawable/baseline_arrow_back_24" />
+            android:minWidth="@dimen/min_clickable_size"
+            android:minHeight="@dimen/min_clickable_size"
+            app:cardBackgroundColor="?attr/colorSurface"
+            app:cardElevation="0dp">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:contentDescription="back button"
+                android:src="@drawable/baseline_arrow_back_24" />
+        </androidx.cardview.widget.CardView>
 
         <EditText
             android:id="@+id/categoryText"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginHorizontal="8dp"
             android:layout_weight="1"
             android:background="@null"
             android:hint="Category"
             android:inputType="text"
+            android:minHeight="48dp"
             android:textSize="22sp"
-            android:textStyle="bold"
-            android:minHeight="48dp"/>
+            android:textStyle="bold" />
 
-        <ImageView
+        <androidx.cardview.widget.CardView
             android:id="@+id/save_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
             android:clickable="true"
-            android:contentDescription="save button"
             android:focusable="true"
-            android:foreground="?selectableItemBackground"
-            android:padding="24dp"
-            android:src="@drawable/save_24" />
+            android:minWidth="@dimen/min_clickable_size"
+            android:minHeight="@dimen/min_clickable_size"
+            app:cardBackgroundColor="?attr/colorSurface"
+            app:cardElevation="0dp">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:contentDescription="save button"
+                android:src="@drawable/save_24" />
+        </androidx.cardview.widget.CardView>
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
