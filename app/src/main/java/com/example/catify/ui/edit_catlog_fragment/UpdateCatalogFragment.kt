@@ -84,8 +84,7 @@ class UpdateCatalogFragment : Fragment() {
 
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 if (updateHomeItemListAdapter.currentList.size > 1) {
-                    val homeItem = updateHomeItemListAdapter.currentList[viewHolder.adapterPosition]
-                    catalog = viewModel.removeHomeItem(homeItem)
+                    catalog = viewModel.removeHomeItem(viewHolder.adapterPosition)
                     updateHomeItemListAdapter.submitList(catalog.homeItems)
                 } else updateHomeItemListAdapter.notifyItemChanged(viewHolder.adapterPosition)
             }
