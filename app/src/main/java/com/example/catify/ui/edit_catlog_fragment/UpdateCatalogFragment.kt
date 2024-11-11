@@ -89,7 +89,9 @@ class UpdateCatalogFragment : Fragment() {
                 if (updateHomeItemListAdapter.currentList.size > 1) {
                     catalog = viewModel.removeHomeItem(viewHolder.adapterPosition)
                     updateHomeItemListAdapter.submitList(catalog.homeItems)
-                } else updateHomeItemListAdapter.notifyItemChanged(viewHolder.adapterPosition)
+                } else {
+                    TODO("Create new ui to add new Home-item")
+                }
 
                 Snackbar.make(
                     binding.homeItemsRecyclerView,

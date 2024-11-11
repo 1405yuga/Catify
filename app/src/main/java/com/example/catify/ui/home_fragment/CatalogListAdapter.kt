@@ -37,6 +37,10 @@ class CatalogListAdapter(
                 categoryTextView.text = catalog.category
                 homeItemsRecyclerView.apply {
                     adapter = viewHomeItemListAdapter
+                    setOnTouchListener { _, _ ->
+                        catlogCard.performClick()
+                        false
+                    }
                 }
             }
         }
