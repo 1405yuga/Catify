@@ -19,6 +19,7 @@ import com.example.catify.entity.HomeItem
 import com.example.catify.helper.Converters
 import com.example.catify.network.BaseApplication
 import com.example.catify.ui.CatalogViewModel
+import com.google.android.material.snackbar.Snackbar
 
 class UpdateCatalogFragment : Fragment() {
     private lateinit var binding: FragmentUpdateCatalogBinding
@@ -83,10 +84,22 @@ class UpdateCatalogFragment : Fragment() {
             }
 
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                val position = viewHolder.adapterPosition
+                val homeItem = updateHomeItemListAdapter.currentList[position]
                 if (updateHomeItemListAdapter.currentList.size > 1) {
                     catalog = viewModel.removeHomeItem(viewHolder.adapterPosition)
                     updateHomeItemListAdapter.submitList(catalog.homeItems)
                 } else updateHomeItemListAdapter.notifyItemChanged(viewHolder.adapterPosition)
+
+                Snackbar.make(
+                    binding.homeItemsRecyclerView,
+                    homeItem.itemName,
+                    Snackbar.LENGTH_LONG
+                )
+                    .setAction("Undo") {
+                        catalog = viewModel.reAddHomeItem(position, homeItem)
+                        updateHomeItemListAdapter.submitList(catalog.homeItems)
+                    }.show()
             }
         })
         swipeHelper.attachToRecyclerView(binding.homeItemsRecyclerView)

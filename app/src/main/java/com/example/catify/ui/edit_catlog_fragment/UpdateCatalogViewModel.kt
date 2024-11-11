@@ -33,6 +33,16 @@ class UpdateCatalogViewModel : ViewModel() {
         }
     }
 
+    fun reAddHomeItem(pos: Int, homeItem: HomeItem): Catalog {
+        val updatedHomeItemsList =
+            this.catalog?.homeItems?.toMutableList()?.apply { add(pos, homeItem) }
+        catalog = updatedHomeItemsList?.let { catalog?.copy(homeItems = it) }
+        return catalog ?: Catalog(
+            category = "Untitled",
+            homeItems = mutableListOf(HomeItem("Untitled", 0))
+        )
+    }
+
     fun removeHomeItem(pos: Int): Catalog {
         val updatedHomeItemsList = this.catalog?.homeItems?.toMutableList()?.apply { removeAt(pos) }
         catalog = updatedHomeItemsList?.let { catalog?.copy(homeItems = it) }
