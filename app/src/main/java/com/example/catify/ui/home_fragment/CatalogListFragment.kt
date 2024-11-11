@@ -21,6 +21,7 @@ import com.example.catify.databinding.FragmentCatalogListBinding
 import com.example.catify.helper.Converters
 import com.example.catify.network.BaseApplication
 import com.example.catify.ui.CatalogViewModel
+import com.google.android.material.snackbar.Snackbar
 
 class CatalogListFragment : Fragment() {
 
@@ -69,9 +70,22 @@ class CatalogListFragment : Fragment() {
 
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 val catalog = catalogListAdapter.currentList[viewHolder.adapterPosition]
+
+                //remove actlog
                 viewModel.removeCatalog(catalog,
-                    onSuccess = { Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show() },
-                    onFailure = { Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show() })
+                    onSuccess = { Log.d(TAG, "Catlog deleted") },
+                    onFailure = { Toast.makeText(requireContext(), it, Toast.LENGTH_LONG).show() })
+
+                //undo remove
+                Snackbar.make(binding.categoryRecyclerView, catalog.category, Snackbar.LENGTH_SHORT)
+                    .setAction("Undo", View.OnClickListener {
+                        viewModel.addCatalog(catalog,
+                            onSuccess = { Log.d(TAG, "Catlog re-added") },
+                            onFailure = {
+                                Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show()
+                            })
+                    })
+                    .show()
             }
 
         })
