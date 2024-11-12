@@ -100,6 +100,7 @@ class UpdateCatalogFragment : Fragment() {
                     .setAction("Undo") {
                         catalog = viewModel.reAddHomeItem(position, homeItem)
                         updateHomeItemListAdapter.submitList(catalog.homeItems)
+                        toggleHomeItemsVisibility()
                     }.show()
             }
         })
