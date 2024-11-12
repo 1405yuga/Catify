@@ -49,27 +49,30 @@ class UpdateCatalogFragment : Fragment() {
         updateHomeItemListAdapter =
             UpdateHomeItemListAdapter(increaseQty = { viewModel.increaseQuantity(it) },
                 decreaseQty = { viewModel.decreaseQuantity(it) },
-                addItemView = {
-                    catalog = viewModel.addHomeItemView()
-                    updateHomeItemListAdapter.submitList(catalog.homeItems) {
-                        Log.d(TAG, "Added blank homeitem - ${catalog.homeItems.size}")
-
-                        val pos = catalog.homeItems.size - 1
-                        binding.homeItemsRecyclerView.post {
-                            binding.homeItemsRecyclerView.findViewHolderForAdapterPosition(pos)?.itemView?.findViewById<EditText>(
-                                R.id.item_name
-                            )?.requestFocus()
-                        }
-                    }
-                })
+                addItemView = { addNewHomeItemView() })
         updateHomeItemListAdapter.submitList(catalog.homeItems)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        toggleHomeItemsVisibility()
         applyBinding()
         applyDeleteOnSwipe()
+    }
+
+    private fun addNewHomeItemView() {
+        catalog = viewModel.addHomeItemView()
+        updateHomeItemListAdapter.submitList(catalog.homeItems) {
+            Log.d(TAG, "Added blank homeitem - ${catalog.homeItems.size}")
+
+            val pos = catalog.homeItems.size - 1
+            binding.homeItemsRecyclerView.post {
+                binding.homeItemsRecyclerView.findViewHolderForAdapterPosition(pos)?.itemView?.findViewById<EditText>(
+                    R.id.item_name
+                )?.requestFocus()
+            }
+        }
     }
 
     private fun applyDeleteOnSwipe() {
@@ -86,13 +89,9 @@ class UpdateCatalogFragment : Fragment() {
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 val position = viewHolder.adapterPosition
                 val homeItem = updateHomeItemListAdapter.currentList[position]
-                if (updateHomeItemListAdapter.currentList.size > 1) {
-                    catalog = viewModel.removeHomeItem(viewHolder.adapterPosition)
-                    updateHomeItemListAdapter.submitList(catalog.homeItems)
-                } else {
-                    TODO("Create new ui to add new Home-item")
-                }
-
+                catalog = viewModel.removeHomeItem(viewHolder.adapterPosition)
+                updateHomeItemListAdapter.submitList(catalog.homeItems)
+                toggleHomeItemsVisibility()
                 Snackbar.make(
                     binding.homeItemsRecyclerView,
                     homeItem.itemName,
@@ -123,12 +122,29 @@ class UpdateCatalogFragment : Fragment() {
                             Toast.makeText(requireContext(), it, Toast.LENGTH_LONG).show()
                         })
                 }
-
+            }
+            addHomeItemTextView.setOnClickListener {
+                addNewHomeItemView()
+                toggleHomeItemsVisibility()
             }
             backButton.setOnClickListener { navigateToBackFragment() }
             categoryText.apply {
                 requestFocus()
                 setSelection(this.length())
+            }
+        }
+    }
+
+    private fun toggleHomeItemsVisibility() {
+        if (catalog.homeItems.isEmpty()) {
+            binding.apply {
+                homeItemsRecyclerView.visibility = View.GONE
+                addHomeItemTextView.visibility = View.VISIBLE
+            }
+        } else {
+            binding.apply {
+                homeItemsRecyclerView.visibility = View.VISIBLE
+                addHomeItemTextView.visibility = View.GONE
             }
         }
     }

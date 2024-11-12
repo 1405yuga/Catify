@@ -78,6 +78,13 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/topBar">
 
+        <TextView
+            android:id="@+id/add_home_item_text_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Add new item"
+            android:visibility="gone"/>
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/home_items_recycler_view"
             android:layout_width="match_parent"
