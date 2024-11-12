@@ -44,13 +44,14 @@ class CatalogListFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentCatalogListBinding.inflate(layoutInflater, container, false)
-        catalogListAdapter = CatalogListAdapter(navigateToEdit = {
-            val bundle = Bundle().apply { putString("CATALOG", Converters().catalogToJson(it)) }
-            findNavController().navigate(
-                R.id.updateCatalogFragment,
-                args = bundle
-            )
-        })
+        catalogListAdapter = CatalogListAdapter(
+            maxItemsDislayed = 5, navigateToEdit = {
+                val bundle = Bundle().apply { putString("CATALOG", Converters().catalogToJson(it)) }
+                findNavController().navigate(
+                    R.id.updateCatalogFragment,
+                    args = bundle
+                )
+            })
         layoutPreference = LayoutPreference(requireContext())
         return binding.root
     }
@@ -83,7 +84,11 @@ class CatalogListFragment : Fragment() {
                     onFailure = { Toast.makeText(requireContext(), it, Toast.LENGTH_LONG).show() })
 
                 //undo remove
-                Snackbar.make(binding.categoryRecyclerView, "${catalog.category} deleted", Snackbar.LENGTH_SHORT)
+                Snackbar.make(
+                    binding.categoryRecyclerView,
+                    "${catalog.category} deleted",
+                    Snackbar.LENGTH_SHORT
+                )
                     .setAction("Undo", View.OnClickListener {
                         viewModel.addCatalog(catalog,
                             onSuccess = { Log.d(TAG, "Catlog re-added") },

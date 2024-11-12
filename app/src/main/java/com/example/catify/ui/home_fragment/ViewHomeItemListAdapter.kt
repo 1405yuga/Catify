@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.catify.databinding.CardViewHomeItemBinding
 import com.example.catify.entity.HomeItem
 
-class ViewHomeItemListAdapter :
+class ViewHomeItemListAdapter(private val maxItems: Int) :
     ListAdapter<HomeItem, ViewHomeItemListAdapter.HomeItemViewHolder>(DiffCallBack) {
     companion object {
         private val DiffCallBack = object : DiffUtil.ItemCallback<HomeItem>() {
@@ -46,5 +46,9 @@ class ViewHomeItemListAdapter :
 
     override fun onBindViewHolder(holder: HomeItemViewHolder, position: Int) {
         holder.bind(getItem(position))
+    }
+
+    override fun getItemCount(): Int {
+        return if (super.getItemCount() > maxItems) maxItems else super.getItemCount()
     }
 }

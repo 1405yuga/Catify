@@ -1,6 +1,7 @@
 package com.example.catify.ui.home_fragment
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -9,9 +10,11 @@ import com.example.catify.databinding.CardCatalogItemBinding
 import com.example.catify.entity.Catalog
 
 class CatalogListAdapter(
+    private val maxItemsDislayed: Int,
     private val navigateToEdit: (catalog: Catalog) -> (Unit)
 ) :
     ListAdapter<Catalog, CatalogListAdapter.CatalogViewHolder>(DiffCallBack) {
+
     companion object {
         private val DiffCallBack = object : DiffUtil.ItemCallback<Catalog>() {
             override fun areItemsTheSame(oldItem: Catalog, newItem: Catalog): Boolean {
@@ -28,9 +31,10 @@ class CatalogListAdapter(
         RecyclerView.ViewHolder(binding.root) {
         fun bind(
             catalog: Catalog,
-            navigateToEdit: (catalog: Catalog) -> (Unit)
+            maxItemsDisplayed: Int,
+            navigateToEdit: (catalog: Catalog) -> Unit
         ) {
-            val viewHomeItemListAdapter = ViewHomeItemListAdapter()
+            val viewHomeItemListAdapter = ViewHomeItemListAdapter(maxItemsDisplayed)
             viewHomeItemListAdapter.submitList(catalog.homeItems)
             binding.apply {
                 catlogCard.setOnClickListener { navigateToEdit(catalog) }
@@ -42,6 +46,11 @@ class CatalogListAdapter(
                         false
                     }
                 }
+                if (catalog.homeItems.size > maxItemsDisplayed) {
+                    val displayText = "+ ${catalog.homeItems.size - maxItemsDisplayed} items..."
+                    extraItemsTextView.text = displayText
+                    extraItemsTextView.visibility = View.VISIBLE
+                } else extraItemsTextView.visibility = View.GONE
             }
         }
 
@@ -58,6 +67,6 @@ class CatalogListAdapter(
     }
 
     override fun onBindViewHolder(holder: CatalogViewHolder, position: Int) {
-        holder.bind(getItem(position), navigateToEdit)
+        holder.bind(getItem(position), maxItemsDislayed, navigateToEdit)
     }
 }

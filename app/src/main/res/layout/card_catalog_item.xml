@@ -32,6 +32,14 @@
             android:layout_height="match_parent"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
+        <TextView
+            android:id="@+id/extra_items_text_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="+ 5 items.."
+            android:textStyle="bold"
+            android:visibility="gone" />
+
     </LinearLayout>
 
 
