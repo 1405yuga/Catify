@@ -11,6 +11,8 @@ import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.asLiveData
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -21,7 +23,9 @@ import com.example.catify.databinding.FragmentCatalogListBinding
 import com.example.catify.helper.Converters
 import com.example.catify.network.BaseApplication
 import com.example.catify.ui.CatalogViewModel
+import com.example.catify.ui.layout_store.LayoutPreference
 import com.google.android.material.snackbar.Snackbar
+import kotlinx.coroutines.launch
 
 class CatalogListFragment : Fragment() {
 
@@ -29,6 +33,7 @@ class CatalogListFragment : Fragment() {
     private val TAG = this.javaClass.simpleName
     private lateinit var swipeHelper: ItemTouchHelper
     private var isLayoutLinear = false
+    private lateinit var layoutPreference: LayoutPreference
     private val viewModel: CatalogViewModel by activityViewModels {
         CatalogViewModel.CatalogViewModelFactory((activity?.application as BaseApplication).database.getCatalogDao())
     }
@@ -46,6 +51,7 @@ class CatalogListFragment : Fragment() {
                 args = bundle
             )
         })
+        layoutPreference = LayoutPreference(requireContext())
         return binding.root
     }
 
@@ -108,6 +114,33 @@ class CatalogListFragment : Fragment() {
                 }
             }
         }
+
+        layoutPreference.userLayoutPreference.asLiveData().observe(viewLifecycleOwner) {
+            isLayoutLinear = it
+            Log.d(TAG, "Preference isLinear : $it")
+            binding.apply {
+                if (!isLayoutLinear) {
+                    categoryRecyclerView.layoutManager = LinearLayoutManager(
+                        requireContext(),
+                        LinearLayoutManager.VERTICAL,
+                        false
+                    )
+                    topAppBar.menu.findItem(R.id.layout_manager).icon =
+                        ContextCompat.getDrawable(
+                            requireContext(),
+                            R.drawable.linear_layout_24
+                        )
+                } else {
+                    categoryRecyclerView.layoutManager =
+                        StaggeredGridLayoutManager(2, LinearLayoutManager.VERTICAL)
+                    topAppBar.menu.findItem(R.id.layout_manager).icon =
+                        ContextCompat.getDrawable(
+                            requireContext(),
+                            R.drawable.staggered_layout_24
+                        )
+                }
+            }
+        }
     }
 
     private fun applyBinding() {
@@ -118,27 +151,9 @@ class CatalogListFragment : Fragment() {
             topAppBar.setOnMenuItemClickListener { menuItem ->
                 when (menuItem.itemId) {
                     R.id.layout_manager -> {
-                        if (!isLayoutLinear) {
-                            categoryRecyclerView.layoutManager = LinearLayoutManager(
-                                requireContext(),
-                                LinearLayoutManager.VERTICAL,
-                                false
-                            )
-                            topAppBar.menu.findItem(R.id.layout_manager).icon =
-                                ContextCompat.getDrawable(
-                                    requireContext(),
-                                    R.drawable.linear_layout_24
-                                )
-                            isLayoutLinear = true
-                        } else {
-                            categoryRecyclerView.layoutManager =
-                                StaggeredGridLayoutManager(2, LinearLayoutManager.VERTICAL)
-                            topAppBar.menu.findItem(R.id.layout_manager).icon =
-                                ContextCompat.getDrawable(
-                                    requireContext(),
-                                    R.drawable.staggered_layout_24
-                                )
-                            isLayoutLinear = false
+                        isLayoutLinear = !isLayoutLinear
+                        lifecycleScope.launch {
+                            layoutPreference.saveLayoutPreference(requireContext(), isLayoutLinear)
                         }
                         true
                     }
