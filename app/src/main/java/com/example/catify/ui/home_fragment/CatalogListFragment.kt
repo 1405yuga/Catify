@@ -83,7 +83,7 @@ class CatalogListFragment : Fragment() {
                     onFailure = { Toast.makeText(requireContext(), it, Toast.LENGTH_LONG).show() })
 
                 //undo remove
-                Snackbar.make(binding.categoryRecyclerView, catalog.category, Snackbar.LENGTH_SHORT)
+                Snackbar.make(binding.categoryRecyclerView, "${catalog.category} deleted", Snackbar.LENGTH_SHORT)
                     .setAction("Undo", View.OnClickListener {
                         viewModel.addCatalog(catalog,
                             onSuccess = { Log.d(TAG, "Catlog re-added") },

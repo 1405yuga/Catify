@@ -94,7 +94,7 @@ class UpdateCatalogFragment : Fragment() {
                 toggleHomeItemsVisibility()
                 Snackbar.make(
                     binding.homeItemsRecyclerView,
-                    homeItem.itemName,
+                    "${homeItem.itemName} deleted",
                     Snackbar.LENGTH_LONG
                 )
                     .setAction("Undo") {
