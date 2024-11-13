@@ -8,8 +8,7 @@
     android:backgroundTint="@color/md_theme_surfaceContainerLow"
     android:clickable="true"
     android:focusable="true"
-    app:cardCornerRadius="4dp"
-    app:cardElevation="4dp"
+    app:cardCornerRadius="12dp"
     app:strokeWidth="0dp">
 
     <LinearLayout
@@ -24,7 +23,8 @@
             android:layout_height="wrap_content"
             android:text="Category"
             android:textSize="18sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:textColor="@color/md_theme_primary"/>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/home_items_recycler_view"
