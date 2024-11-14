@@ -124,7 +124,7 @@ class UpdateCatalogFragment : Fragment() {
                         })
                 }
             }
-            addHomeItemTextView.setOnClickListener {
+            addHomeItemTextButton.setOnClickListener {
                 addNewHomeItemView()
                 toggleHomeItemsVisibility()
             }
@@ -140,12 +140,12 @@ class UpdateCatalogFragment : Fragment() {
         if (catalog.homeItems.isEmpty()) {
             binding.apply {
                 homeItemsRecyclerView.visibility = View.GONE
-                addHomeItemTextView.visibility = View.VISIBLE
+                addHomeItemTextButton.visibility = View.VISIBLE
             }
         } else {
             binding.apply {
                 homeItemsRecyclerView.visibility = View.VISIBLE
-                addHomeItemTextView.visibility = View.GONE
+                addHomeItemTextButton.visibility = View.GONE
             }
         }
     }

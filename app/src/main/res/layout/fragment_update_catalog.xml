@@ -47,7 +47,9 @@
             android:hint="Category"
             android:inputType="text"
             android:minHeight="48dp"
-            android:textSize="22sp" />
+            android:textSize="22sp"
+            android:maxLength="15"
+            android:maxLines="1"/>
 
         <androidx.cardview.widget.CardView
             android:id="@+id/save_button"
@@ -70,6 +72,7 @@
     </LinearLayout>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
+
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginHorizontal="12dp"
@@ -78,12 +81,14 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/topBar">
 
-        <TextView
-            android:id="@+id/add_home_item_text_view"
-            android:layout_width="match_parent"
+        <Button
+            android:id="@+id/add_home_item_text_button"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Add new item"
-            android:visibility="visible"/>
+            app:icon="@drawable/baseline_add_24"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/home_items_recycler_view"
