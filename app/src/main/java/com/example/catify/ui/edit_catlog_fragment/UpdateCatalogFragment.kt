@@ -49,7 +49,7 @@ class UpdateCatalogFragment : Fragment() {
         updateHomeItemListAdapter =
             UpdateHomeItemListAdapter(increaseQty = { viewModel.increaseQuantity(it) },
                 decreaseQty = { viewModel.decreaseQuantity(it) },
-                addItemView = { addNewHomeItemView() })
+                addItemView = { addNewHomeItemView(it) })
         updateHomeItemListAdapter.submitList(catalog.homeItems)
         return binding.root
     }
@@ -60,8 +60,8 @@ class UpdateCatalogFragment : Fragment() {
         applyDeleteOnSwipe()
     }
 
-    private fun addNewHomeItemView() {
-        catalog = viewModel.addHomeItemView()
+    private fun addNewHomeItemView(position : Int) {
+        catalog = viewModel.addHomeItemView(position)
         updateHomeItemListAdapter.submitList(catalog.homeItems) {
             Log.d(TAG, "Added blank homeitem - ${catalog.homeItems.size}")
 
@@ -122,7 +122,7 @@ class UpdateCatalogFragment : Fragment() {
                 }
             }
             addHomeItemTextButton.setOnClickListener {
-                addNewHomeItemView()
+                addNewHomeItemView(0)
             }
             backButton.setOnClickListener { navigateToBackFragment() }
             categoryText.apply {

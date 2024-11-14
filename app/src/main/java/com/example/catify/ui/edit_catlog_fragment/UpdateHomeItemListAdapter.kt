@@ -17,7 +17,7 @@ import com.example.catify.entity.HomeItem
 class UpdateHomeItemListAdapter(
     private val increaseQty: (String) -> (Int),
     private val decreaseQty: (String) -> (Int),
-    private val addItemView: () -> (Unit)
+    private val addItemView: (Int) -> (Unit)
 ) :
     ListAdapter<HomeItem, UpdateHomeItemListAdapter.HomeItemViewHolder>(DiffCallBack) {
     companion object {
@@ -38,7 +38,7 @@ class UpdateHomeItemListAdapter(
             homeItem: HomeItem,
             increaseQty: (String) -> Int,
             decreaseQty: (String) -> Int,
-            addItemView: () -> Unit
+            addItemView: (Int) -> Unit
         ) {
             val TAG = this.javaClass.simpleName
             Log.d(TAG, "ViewHolder called -----")
@@ -47,22 +47,11 @@ class UpdateHomeItemListAdapter(
                 itemName.apply {
                     setText(homeItem.itemName)
 
-                    //move to next edit text
+                    //on enter press - add new textview
                     itemName.setOnKeyListener { view, i, keyEvent ->
                         if (keyEvent.action == KeyEvent.ACTION_DOWN && i == KeyEvent.KEYCODE_ENTER) {
                             val nextPos = adapterPosition + 1
-                            val recyclerView = itemView.parent as? RecyclerView
-                            val adapter = recyclerView?.adapter as? UpdateHomeItemListAdapter
-                            if (adapter != null) {
-                                if (nextPos < adapter.itemCount) {
-                                    recyclerView.findViewHolderForAdapterPosition(nextPos)?.itemView?.findViewById<EditText>(
-                                        R.id.item_name
-                                    )?.requestFocus()
-
-                                } else {
-                                    addItemView()
-                                }
-                            }
+                            addItemView(nextPos)
                             true
                         } else false
                     }
