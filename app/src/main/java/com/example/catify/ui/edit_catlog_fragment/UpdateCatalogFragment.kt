@@ -1,10 +1,12 @@
 package com.example.catify.ui.edit_catlog_fragment
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.Toast
 import androidx.fragment.app.Fragment
@@ -49,7 +51,7 @@ class UpdateCatalogFragment : Fragment() {
         updateHomeItemListAdapter =
             UpdateHomeItemListAdapter(increaseQty = { viewModel.increaseQuantity(it) },
                 decreaseQty = { viewModel.decreaseQuantity(it) },
-                addItemView = { addNewHomeItemView(it) })
+                addItemView = { setNewHomeItemViewTextField(it) })
         updateHomeItemListAdapter.submitList(catalog.homeItems)
         return binding.root
     }
@@ -60,16 +62,20 @@ class UpdateCatalogFragment : Fragment() {
         applyDeleteOnSwipe()
     }
 
-    private fun addNewHomeItemView(position : Int) {
+    private fun setNewHomeItemViewTextField(position: Int) {
         catalog = viewModel.addHomeItemView(position)
         updateHomeItemListAdapter.submitList(catalog.homeItems) {
-            Log.d(TAG, "Added blank homeitem - ${catalog.homeItems.size}")
-
-            val pos = catalog.homeItems.size - 1
             binding.homeItemsRecyclerView.post {
-                binding.homeItemsRecyclerView.findViewHolderForAdapterPosition(pos)?.itemView?.findViewById<EditText>(
-                    R.id.item_name
-                )?.requestFocus()
+                val currentEditText =
+                    binding.homeItemsRecyclerView.findViewHolderForAdapterPosition(position)?.itemView?.findViewById<EditText>(
+                        R.id.item_name
+                    )
+                //set focus
+                currentEditText?.requestFocus()
+                //open- keyboard
+                val imm: InputMethodManager =
+                    requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                imm.showSoftInput(currentEditText, 0)
             }
         }
     }
@@ -122,7 +128,7 @@ class UpdateCatalogFragment : Fragment() {
                 }
             }
             addHomeItemTextButton.setOnClickListener {
-                addNewHomeItemView(0)
+                setNewHomeItemViewTextField(0)
             }
             backButton.setOnClickListener { navigateToBackFragment() }
             categoryText.apply {
