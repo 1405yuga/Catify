@@ -55,18 +55,32 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:spanCount="2" />
 
-            <TextView
-                android:id="@+id/emptyListText"
+            <LinearLayout
+                android:id="@+id/empty_list_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Catlog is empty.\nTap '+' to begin adding catlogs"
-                android:textAlignment="center"
-                android:textColor="@color/md_theme_onSurfaceVariant"
-                android:textSize="14sp"
+                android:gravity="center"
+                android:orientation="vertical"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/empty_list_image" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Catlog is empty.\nTap '+' to begin adding catlogs"
+                    android:textAlignment="center"
+                    android:textColor="@color/md_theme_onSurfaceVariant"
+                    android:textStyle="bold" />
+            </LinearLayout>
 
             <ImageView
                 android:id="@+id/add_catlog"

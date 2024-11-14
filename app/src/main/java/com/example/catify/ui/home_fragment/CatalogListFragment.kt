@@ -108,12 +108,12 @@ class CatalogListFragment : Fragment() {
             Log.d(TAG, "Catalogs list :${it.size}")
             if (it.isEmpty()) {
                 binding.apply {
-                    emptyListText.visibility = View.VISIBLE
+                    emptyListLayout.visibility = View.VISIBLE
                     categoryRecyclerView.visibility = View.GONE
                 }
             } else {
                 binding.apply {
-                    emptyListText.visibility = View.GONE
+                    emptyListLayout.visibility = View.GONE
                     categoryRecyclerView.visibility = View.VISIBLE
                     catalogListAdapter.submitList(it)
                 }
