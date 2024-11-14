@@ -56,7 +56,6 @@ class UpdateCatalogFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        toggleHomeItemsVisibility()
         applyBinding()
         applyDeleteOnSwipe()
     }
@@ -91,7 +90,6 @@ class UpdateCatalogFragment : Fragment() {
                 val homeItem = updateHomeItemListAdapter.currentList[position]
                 catalog = viewModel.removeHomeItem(viewHolder.adapterPosition)
                 updateHomeItemListAdapter.submitList(catalog.homeItems)
-                toggleHomeItemsVisibility()
                 Snackbar.make(
                     binding.homeItemsRecyclerView,
                     "${homeItem.itemName} deleted",
@@ -100,7 +98,6 @@ class UpdateCatalogFragment : Fragment() {
                     .setAction("Undo") {
                         catalog = viewModel.reAddHomeItem(position, homeItem)
                         updateHomeItemListAdapter.submitList(catalog.homeItems)
-                        toggleHomeItemsVisibility()
                     }.show()
             }
         })
@@ -126,26 +123,11 @@ class UpdateCatalogFragment : Fragment() {
             }
             addHomeItemTextButton.setOnClickListener {
                 addNewHomeItemView()
-                toggleHomeItemsVisibility()
             }
             backButton.setOnClickListener { navigateToBackFragment() }
             categoryText.apply {
                 requestFocus()
                 setSelection(this.length())
-            }
-        }
-    }
-
-    private fun toggleHomeItemsVisibility() {
-        if (catalog.homeItems.isEmpty()) {
-            binding.apply {
-                homeItemsRecyclerView.visibility = View.GONE
-                addHomeItemTextButton.visibility = View.VISIBLE
-            }
-        } else {
-            binding.apply {
-                homeItemsRecyclerView.visibility = View.VISIBLE
-                addHomeItemTextButton.visibility = View.GONE
             }
         }
     }
