@@ -51,7 +51,12 @@ class UpdateCatalogFragment : Fragment() {
         updateHomeItemListAdapter =
             UpdateHomeItemListAdapter(increaseQty = { viewModel.increaseQuantity(it) },
                 decreaseQty = { viewModel.decreaseQuantity(it) },
-                addItemView = { setNewHomeItemViewTextField(it) })
+                addItemView = { position, remainingText ->
+                    setNewHomeItemViewTextField(
+                        position,
+                        remainingText
+                    )
+                })
         updateHomeItemListAdapter.submitList(catalog.homeItems)
         return binding.root
     }
@@ -62,8 +67,8 @@ class UpdateCatalogFragment : Fragment() {
         applyDeleteOnSwipe()
     }
 
-    private fun setNewHomeItemViewTextField(position: Int) {
-        catalog = viewModel.addHomeItemView(position)
+    private fun setNewHomeItemViewTextField(position: Int, remainingText: String) {
+        catalog = viewModel.addHomeItemView(position, remainingText)
         updateHomeItemListAdapter.submitList(catalog.homeItems) {
             binding.homeItemsRecyclerView.post {
                 val currentEditText =
@@ -128,7 +133,7 @@ class UpdateCatalogFragment : Fragment() {
                 }
             }
             addHomeItemTextButton.setOnClickListener {
-                setNewHomeItemViewTextField(0)
+                setNewHomeItemViewTextField(0, "")
             }
             backButton.setOnClickListener { navigateToBackFragment() }
             categoryText.apply {

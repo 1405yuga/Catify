@@ -10,14 +10,13 @@ import android.widget.EditText
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.example.catify.R
 import com.example.catify.databinding.CardUpdateHomeItemBinding
 import com.example.catify.entity.HomeItem
 
 class UpdateHomeItemListAdapter(
     private val increaseQty: (String) -> (Int),
     private val decreaseQty: (String) -> (Int),
-    private val addItemView: (Int) -> (Unit)
+    private val addItemView: (Int, String) -> (Unit)
 ) :
     ListAdapter<HomeItem, UpdateHomeItemListAdapter.HomeItemViewHolder>(DiffCallBack) {
     companion object {
@@ -38,7 +37,7 @@ class UpdateHomeItemListAdapter(
             homeItem: HomeItem,
             increaseQty: (String) -> Int,
             decreaseQty: (String) -> Int,
-            addItemView: (Int) -> Unit
+            addItemView: (Int, String) -> Unit
         ) {
             val TAG = this.javaClass.simpleName
             Log.d(TAG, "ViewHolder called -----")
@@ -47,11 +46,17 @@ class UpdateHomeItemListAdapter(
                 itemName.apply {
                     setText(homeItem.itemName)
 
-                    //on enter press - add new textview
+                    //on enter press - add new textview with remaining text
                     itemName.setOnKeyListener { view, i, keyEvent ->
                         if (keyEvent.action == KeyEvent.ACTION_DOWN && i == KeyEvent.KEYCODE_ENTER) {
                             val nextPos = adapterPosition + 1
-                            addItemView(nextPos)
+                            val cursorPos = itemName.selectionStart
+                            val mainText = homeItem.itemName.slice(0 until cursorPos)
+                            val remainingText =
+                                homeItem.itemName.slice(cursorPos until homeItem.itemName.length)
+                            Log.d(TAG, remainingText)
+                            addItemView(nextPos, remainingText)
+                            setText(mainText)
                             true
                         } else false
                     }
