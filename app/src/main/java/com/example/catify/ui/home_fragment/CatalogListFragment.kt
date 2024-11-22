@@ -78,7 +78,7 @@ class CatalogListFragment : Fragment() {
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 val catalog = catalogListAdapter.currentList[viewHolder.adapterPosition]
 
-                //remove actlog
+                //remove catalog
                 viewModel.removeCatalog(catalog,
                     onSuccess = { Log.d(TAG, "Catlog deleted") },
                     onFailure = { Toast.makeText(requireContext(), it, Toast.LENGTH_LONG).show() })
@@ -91,7 +91,12 @@ class CatalogListFragment : Fragment() {
                 )
                     .setAction("Undo", View.OnClickListener {
                         viewModel.addCatalog(catalog,
-                            onSuccess = { Log.d(TAG, "Catlog re-added") },
+                            onSuccess = {
+                                Log.d(TAG, "Catlog re-added")
+                                viewModel.allCatalogs.value?.let { updatedList ->
+                                    catalogListAdapter.submitList(updatedList)
+                                }
+                            },
                             onFailure = {
                                 Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show()
                             })
