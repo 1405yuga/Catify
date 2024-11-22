@@ -32,6 +32,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:paddingHorizontal="16dp"
             app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
 
             <ProgressBar
@@ -86,7 +87,6 @@
                 android:id="@+id/add_catlog"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="16dp"
                 android:layout_marginVertical="12dp"
                 android:background="@drawable/add_catlog_button_bg"
                 android:clickable="true"
