@@ -53,6 +53,7 @@ class CatalogListFragment : Fragment() {
                 )
             })
         layoutPreference = LayoutPreference(requireContext())
+        setLayout(layoutPreference.userLayoutPreference.asLiveData().value)
         return binding.root
     }
 
@@ -126,29 +127,32 @@ class CatalogListFragment : Fragment() {
         }
 
         layoutPreference.userLayoutPreference.asLiveData().observe(viewLifecycleOwner) {
-            isLayoutLinear = it
             Log.d(TAG, "Preference isLinear : $it")
-            binding.apply {
-                if (!isLayoutLinear) {
-                    categoryRecyclerView.layoutManager = LinearLayoutManager(
+            setLayout(layoutLinear = it)
+        }
+    }
+
+    private fun setLayout(layoutLinear: Boolean?) {
+        binding.apply {
+            if (!isLayoutLinear) {
+                categoryRecyclerView.layoutManager = LinearLayoutManager(
+                    requireContext(),
+                    LinearLayoutManager.VERTICAL,
+                    false
+                )
+                topAppBar.menu.findItem(R.id.layout_manager).icon =
+                    ContextCompat.getDrawable(
                         requireContext(),
-                        LinearLayoutManager.VERTICAL,
-                        false
+                        R.drawable.linear_layout_24
                     )
-                    topAppBar.menu.findItem(R.id.layout_manager).icon =
-                        ContextCompat.getDrawable(
-                            requireContext(),
-                            R.drawable.linear_layout_24
-                        )
-                } else {
-                    categoryRecyclerView.layoutManager =
-                        StaggeredGridLayoutManager(2, LinearLayoutManager.VERTICAL)
-                    topAppBar.menu.findItem(R.id.layout_manager).icon =
-                        ContextCompat.getDrawable(
-                            requireContext(),
-                            R.drawable.staggered_layout_24
-                        )
-                }
+            } else {
+                categoryRecyclerView.layoutManager =
+                    StaggeredGridLayoutManager(2, LinearLayoutManager.VERTICAL)
+                topAppBar.menu.findItem(R.id.layout_manager).icon =
+                    ContextCompat.getDrawable(
+                        requireContext(),
+                        R.drawable.staggered_layout_24
+                    )
             }
         }
     }
