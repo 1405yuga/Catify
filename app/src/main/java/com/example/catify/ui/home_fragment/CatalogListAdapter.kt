@@ -10,7 +10,7 @@ import com.example.catify.databinding.CardCatalogItemBinding
 import com.example.catify.entity.Catalog
 
 class CatalogListAdapter(
-    private val maxItemsDislayed: Int,
+    private val maxItemsDisplayed: Int,
     private val navigateToEdit: (catalog: Catalog) -> (Unit)
 ) :
     ListAdapter<Catalog, CatalogListAdapter.CatalogViewHolder>(DiffCallBack) {
@@ -41,8 +41,10 @@ class CatalogListAdapter(
                 categoryTextView.text = catalog.category
                 homeItemsRecyclerView.apply {
                     adapter = viewHomeItemListAdapter
-                    setOnTouchListener { _, _ ->
-                        catlogCard.performClick()
+                    setOnTouchListener { _, event ->
+                        if (event.action == android.view.MotionEvent.ACTION_UP) {
+                            catlogCard.performClick() // Directly call the click listener
+                        }
                         false
                     }
                 }
@@ -67,6 +69,6 @@ class CatalogListAdapter(
     }
 
     override fun onBindViewHolder(holder: CatalogViewHolder, position: Int) {
-        holder.bind(getItem(position), maxItemsDislayed, navigateToEdit)
+        holder.bind(getItem(position), maxItemsDisplayed, navigateToEdit)
     }
 }

@@ -45,7 +45,7 @@ class CatalogListFragment : Fragment() {
     ): View {
         binding = FragmentCatalogListBinding.inflate(layoutInflater, container, false)
         catalogListAdapter = CatalogListAdapter(
-            maxItemsDislayed = 5, navigateToEdit = {
+            maxItemsDisplayed = 5, navigateToEdit = {
                 val bundle = Bundle().apply { putString("CATALOG", Converters().catalogToJson(it)) }
                 findNavController().navigate(
                     R.id.updateCatalogFragment,
