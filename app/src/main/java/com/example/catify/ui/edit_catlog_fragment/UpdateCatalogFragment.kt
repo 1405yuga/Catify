@@ -144,6 +144,7 @@ class UpdateCatalogFragment : Fragment() {
     }
 
     private fun navigateToBackFragment() {
+        Log.d(TAG,"Back button clicked")
         findNavController().popBackStack()
     }
 }
