@@ -127,14 +127,15 @@ class CatalogListFragment : Fragment() {
         }
 
         layoutPreference.userLayoutPreference.asLiveData().observe(viewLifecycleOwner) {
-            Log.d(TAG, "Preference isLinear : $it")
+            Log.d(TAG, "Preference isGrid : $it")
+            isLayoutLinear = it
             setLayout(layoutLinear = it)
         }
     }
 
     private fun setLayout(layoutLinear: Boolean?) {
         binding.apply {
-            if (!isLayoutLinear) {
+            if (layoutLinear?.not() == true) {
                 categoryRecyclerView.layoutManager = LinearLayoutManager(
                     requireContext(),
                     LinearLayoutManager.VERTICAL,
@@ -166,6 +167,7 @@ class CatalogListFragment : Fragment() {
                 when (menuItem.itemId) {
                     R.id.layout_manager -> {
                         isLayoutLinear = !isLayoutLinear
+                        Log.d(TAG, "Layout manager button $isLayoutLinear ")
                         lifecycleScope.launch {
                             layoutPreference.saveLayoutPreference(requireContext(), isLayoutLinear)
                         }
