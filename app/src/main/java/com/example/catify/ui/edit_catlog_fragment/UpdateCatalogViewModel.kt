@@ -70,4 +70,19 @@ class UpdateCatalogViewModel : ViewModel() {
             homeItems = mutableListOf(HomeItem("", 0))
         )
     }
+
+    fun moveToPrevTextField(prevPosition: Int, remainingText: String): Catalog {
+        val updatedHomeItemsList = this.catalog?.homeItems?.toMutableList()
+        val oldHomeItem = updatedHomeItemsList?.get(prevPosition)
+        updatedHomeItemsList!![prevPosition] = HomeItem(
+            oldHomeItem!!.itemName + remainingText,
+            oldHomeItem.availableStock
+        )
+        catalog = updatedHomeItemsList.let { catalog?.copy(homeItems = it) }
+        this.catalog = removeHomeItem(prevPosition + 1)
+        return catalog ?: Catalog(
+            category = "",
+            homeItems = mutableListOf(HomeItem("", 0))
+        )
+    }
 }

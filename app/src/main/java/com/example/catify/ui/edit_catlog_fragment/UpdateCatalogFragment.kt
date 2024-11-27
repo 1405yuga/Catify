@@ -56,6 +56,9 @@ class UpdateCatalogFragment : Fragment() {
                         position,
                         remainingText
                     )
+                },
+                removeItemView = { prevPosition, remainingText ->
+                    setToPreviousItemViewTextField(prevPosition, remainingText)
                 })
         updateHomeItemListAdapter.submitList(catalog.homeItems)
         return binding.root
@@ -65,6 +68,20 @@ class UpdateCatalogFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         applyBinding()
         applyDeleteOnSwipe()
+    }
+
+    private fun setToPreviousItemViewTextField(prevPosition: Int, remainingText: String) {
+        catalog = viewModel.moveToPrevTextField(prevPosition, remainingText)
+        updateHomeItemListAdapter.submitList(catalog.homeItems) {
+            binding.homeItemsRecyclerView.post {
+                val currentEditText =
+                    binding.homeItemsRecyclerView.findViewHolderForAdapterPosition(prevPosition)?.itemView?.findViewById<EditText>(
+                        R.id.item_name
+                    )
+                //set focus
+                currentEditText!!.requestFocus()
+            }
+        }
     }
 
     private fun setNewHomeItemViewTextField(position: Int, remainingText: String) {
@@ -144,7 +161,7 @@ class UpdateCatalogFragment : Fragment() {
     }
 
     private fun navigateToBackFragment() {
-        Log.d(TAG,"Back button clicked")
+        Log.d(TAG, "Back button clicked")
         findNavController().popBackStack()
     }
 }

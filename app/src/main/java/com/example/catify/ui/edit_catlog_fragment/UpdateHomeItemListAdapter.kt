@@ -16,7 +16,8 @@ import com.example.catify.entity.HomeItem
 class UpdateHomeItemListAdapter(
     private val increaseQty: (String) -> (Int),
     private val decreaseQty: (String) -> (Int),
-    private val addItemView: (Int, String) -> (Unit)
+    private val addItemView: (Int, String) -> (Unit),
+    private val removeItemView: (Int, String) -> (Unit)
 ) :
     ListAdapter<HomeItem, UpdateHomeItemListAdapter.HomeItemViewHolder>(DiffCallBack) {
     companion object {
@@ -37,7 +38,8 @@ class UpdateHomeItemListAdapter(
             homeItem: HomeItem,
             increaseQty: (String) -> Int,
             decreaseQty: (String) -> Int,
-            addItemView: (Int, String) -> Unit
+            addItemView: (Int, String) -> Unit,
+            removeItemView: (Int, String) -> Unit
         ) {
             val TAG = this.javaClass.simpleName
             Log.d(TAG, "ViewHolder called -----")
@@ -46,8 +48,8 @@ class UpdateHomeItemListAdapter(
                 itemName.apply {
                     setText(homeItem.itemName)
 
-                    //on enter press - add new textview with remaining text
                     itemName.setOnKeyListener { view, i, keyEvent ->
+                        //on enter press - add new textview with remaining text
                         if (keyEvent.action == KeyEvent.ACTION_DOWN && i == KeyEvent.KEYCODE_ENTER) {
                             val nextPos = adapterPosition + 1
                             val cursorPos = itemName.selectionStart
@@ -57,6 +59,13 @@ class UpdateHomeItemListAdapter(
                             Log.d(TAG, remainingText)
                             addItemView(nextPos, remainingText)
                             setText(mainText)
+                            true
+                        } else if (keyEvent.action == KeyEvent.ACTION_DOWN && i == KeyEvent.KEYCODE_DEL) {
+                            if (itemName.selectionStart == 0 && adapterPosition > 0) {
+                                val remainingText = itemName.text.toString()
+                                val prevPos = adapterPosition - 1
+                                removeItemView(prevPos, remainingText)
+                            }
                             true
                         } else false
                     }
@@ -111,6 +120,6 @@ class UpdateHomeItemListAdapter(
     }
 
     override fun onBindViewHolder(holder: HomeItemViewHolder, position: Int) {
-        holder.bind(getItem(position), increaseQty, decreaseQty, addItemView)
+        holder.bind(getItem(position), increaseQty, decreaseQty, addItemView,removeItemView)
     }
 }
