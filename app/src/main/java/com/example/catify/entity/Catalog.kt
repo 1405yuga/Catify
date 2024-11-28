@@ -10,6 +10,10 @@ data class Catalog(
     var category: String,
     var catalogListItems: MutableList<CatalogListItem>
 ) {
+    fun updateCategory(newCategory: String) {
+        this.category = newCategory
+    }
+
     fun deleteWithTransferAndReturnCursorIndex(index: Int): Int? {
         try {
             val cursorIndex: Int?

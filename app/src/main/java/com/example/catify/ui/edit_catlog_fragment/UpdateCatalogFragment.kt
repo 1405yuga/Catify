@@ -191,6 +191,7 @@ class UpdateCatalogFragment : Fragment() {
                 if (categoryText.isEmpty()) {
                     binding.categoryText.error = "Category required!"
                 } else {
+                    viewModel.catalog?.updateCategory(categoryText)
                     viewModel.catalog?.let { c ->
                         catalogViewModel.addCatalog(
                             catalog = c,
