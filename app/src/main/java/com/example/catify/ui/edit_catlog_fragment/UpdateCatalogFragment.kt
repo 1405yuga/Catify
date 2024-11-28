@@ -71,8 +71,10 @@ class UpdateCatalogFragment : Fragment() {
     }
 
     private fun setToPreviousItemViewTextField(prevPosition: Int, remainingText: String) {
+        val cursorPos = catalog.homeItems[prevPosition].itemName.length
         catalog = viewModel.moveToPrevTextField(prevPosition, remainingText)
-        updateHomeItemListAdapter.submitList(catalog.homeItems) {
+        catalog = viewModel.removeHomeItem(prevPosition + 1)
+        updateHomeItemListAdapter.submitList(viewModel.getCatalog().homeItems) {
             binding.homeItemsRecyclerView.post {
                 val currentEditText =
                     binding.homeItemsRecyclerView.findViewHolderForAdapterPosition(prevPosition)?.itemView?.findViewById<EditText>(
@@ -80,6 +82,7 @@ class UpdateCatalogFragment : Fragment() {
                     )
                 //set focus
                 currentEditText!!.requestFocus()
+                currentEditText.setSelection(cursorPos)
             }
         }
     }

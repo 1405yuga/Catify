@@ -79,7 +79,6 @@ class UpdateCatalogViewModel : ViewModel() {
             oldHomeItem.availableStock
         )
         catalog = updatedHomeItemsList.let { catalog?.copy(homeItems = it) }
-        this.catalog = removeHomeItem(prevPosition + 1)
         return catalog ?: Catalog(
             category = "",
             homeItems = mutableListOf(HomeItem("", 0))
