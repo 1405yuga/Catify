@@ -12,11 +12,17 @@ class ViewHomeItemListAdapter(private val maxItems: Int) :
     ListAdapter<CatalogListItem, ViewHomeItemListAdapter.HomeItemViewHolder>(DiffCallBack) {
     companion object {
         private val DiffCallBack = object : DiffUtil.ItemCallback<CatalogListItem>() {
-            override fun areItemsTheSame(oldItem: CatalogListItem, newItem: CatalogListItem): Boolean {
+            override fun areItemsTheSame(
+                oldItem: CatalogListItem,
+                newItem: CatalogListItem
+            ): Boolean {
                 return oldItem.itemName == newItem.itemName
             }
 
-            override fun areContentsTheSame(oldItem: CatalogListItem, newItem: CatalogListItem): Boolean {
+            override fun areContentsTheSame(
+                oldItem: CatalogListItem,
+                newItem: CatalogListItem
+            ): Boolean {
                 return oldItem == newItem
             }
         }

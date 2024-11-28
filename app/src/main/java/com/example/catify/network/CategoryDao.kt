@@ -24,5 +24,5 @@ interface CategoryDao {
     suspend fun getCatalogByCategory(category: String): Catalog?
 
     @Update
-    suspend fun updateCatalog(catalog: Catalog) : Int
+    suspend fun updateCatalog(catalog: Catalog): Int
 }

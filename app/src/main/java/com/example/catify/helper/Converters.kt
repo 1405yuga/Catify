@@ -7,7 +7,8 @@ import com.google.gson.Gson
 
 class Converters {
     @TypeConverter
-    fun listToJson(catalogListItems: List<CatalogListItem>): String = Gson().toJson(catalogListItems)
+    fun listToJson(catalogListItems: List<CatalogListItem>): String =
+        Gson().toJson(catalogListItems)
 
     @TypeConverter
     fun jsonToList(value: String): List<CatalogListItem> =

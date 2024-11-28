@@ -49,7 +49,8 @@ class CatalogListAdapter(
                     }
                 }
                 if (catalog.catalogListItems.size > maxItemsDisplayed) {
-                    val displayText = "+ ${catalog.catalogListItems.size - maxItemsDisplayed} items..."
+                    val displayText =
+                        "+ ${catalog.catalogListItems.size - maxItemsDisplayed} items..."
                     extraItemsTextView.text = displayText
                     extraItemsTextView.visibility = View.VISIBLE
                 } else extraItemsTextView.visibility = View.GONE
