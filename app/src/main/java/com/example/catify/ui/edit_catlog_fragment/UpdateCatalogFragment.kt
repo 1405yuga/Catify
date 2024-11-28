@@ -11,6 +11,8 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
@@ -22,12 +24,14 @@ import com.example.catify.helper.Converters
 import com.example.catify.network.BaseApplication
 import com.example.catify.ui.CatalogViewModel
 import com.google.android.material.snackbar.Snackbar
+import com.google.gson.GsonBuilder
+import kotlinx.coroutines.launch
 
 class UpdateCatalogFragment : Fragment() {
     private lateinit var binding: FragmentUpdateCatalogBinding
     private val TAG = this.javaClass.simpleName
     private lateinit var updateHomeItemListAdapter: UpdateHomeItemListAdapter
-    private val viewModel: UpdateCatalogViewModel by activityViewModels()
+    private val viewModel: UpdateCatalogViewModel by viewModels()
     private lateinit var swipeHelper: ItemTouchHelper
     private val catalogViewModel: CatalogViewModel by activityViewModels {
         CatalogViewModel.CatalogViewModelFactory((activity?.application as BaseApplication).database.getCatalogDao())
@@ -55,10 +59,9 @@ class UpdateCatalogFragment : Fragment() {
                         remainingText
                     )
                 },
-                removeItemView = { prevPosition, remainingText ->
-                    setToPreviousItemViewTextField(prevPosition, remainingText)
-                })
-        updateHomeItemListAdapter.submitList(viewModel.getCatalog().catalogListItems)
+                removeItemView = this::removeCurrentListItem
+            )
+        updateHomeItemListAdapter.submitList(viewModel.catalog?.catalogListItems)
         return binding.root
     }
 
@@ -68,27 +71,72 @@ class UpdateCatalogFragment : Fragment() {
         applyDeleteOnSwipe()
     }
 
-    private fun setToPreviousItemViewTextField(prevPosition: Int, remainingText: String) {
-        val cursorPos = viewModel.getCatalog().catalogListItems.getOrNull(prevPosition)?.itemName?.length
-        viewModel.removeHomeItem(prevPosition + 1)
-        viewModel.moveToPrevTextField(prevPosition, remainingText)
-        updateHomeItemListAdapter.submitList(viewModel.getCatalog().catalogListItems) {
-            binding.homeItemsRecyclerView.post {
-                Log.d(TAG, "prevPos $prevPosition")
+    private fun removeCurrentListItem(currentPosition: Int) {
+        Log.d(TAG, "removeCurrentListItem called")
+        Log.d(
+            TAG,
+            "List before changes\n" +
+                    GsonBuilder().setPrettyPrinting().create()
+                        .toJson(viewModel.catalog?.catalogListItems)
+        )
+        val newCursorPos =
+            viewModel.catalog?.deleteWithTransferAndReturnCursorIndex(index = currentPosition)
+        val newList = viewModel.catalog?.catalogListItems
+        Log.d(
+            TAG,
+            "List after changes\n" +
+                    GsonBuilder().setPrettyPrinting().create()
+                        .toJson(newList)
+        )
+        updateHomeItemListAdapter.submitList(
+            newList
+        )
+//        {
+//            binding.homeItemsRecyclerView.post {
+//                val indexToFocus = if (currentPosition == 0) {
+//                    if (newList.isNullOrEmpty()) null else 0
+//                } else {
+//                    currentPosition - 1
+//                }
+//                Log.d(TAG, "prevPos $currentPosition")
+//                indexToFocus?.let { itf ->
+//                    val currentEditText =
+//                        binding.homeItemsRecyclerView
+//                            .findViewHolderForAdapterPosition(itf)
+//                            ?.itemView
+//                            ?.findViewById<EditText>(R.id.item_name)
+//                    //set focus
+//                    currentEditText?.requestFocus()
+//                    newCursorPos?.let { currentEditText?.setSelection(it) }
+//                }
+//            }
+//        }
+        binding.homeItemsRecyclerView.adapter = updateHomeItemListAdapter
+        lifecycleScope.launch {
+//            delay(timeMillis = 100)
+            val indexToFocus = if (currentPosition == 0) {
+                if (newList.isNullOrEmpty()) null else 0
+            } else {
+                currentPosition - 1
+            }
+            Log.d(TAG, "prevPos $currentPosition")
+            indexToFocus?.let { itf ->
                 val currentEditText =
-                    binding.homeItemsRecyclerView.findViewHolderForAdapterPosition(prevPosition)?.itemView?.findViewById<EditText>(
-                        R.id.item_name
-                    )
+                    binding.homeItemsRecyclerView
+                        .findViewHolderForAdapterPosition(itf)
+                        ?.itemView
+                        ?.findViewById<EditText>(R.id.item_name)
                 //set focus
-                currentEditText!!.requestFocus()
-                cursorPos?.let { currentEditText.setSelection(it) }
+                currentEditText?.requestFocus()
+                newCursorPos?.let { currentEditText?.setSelection(it) }
             }
         }
+
     }
 
     private fun setNewHomeItemViewTextField(position: Int, remainingText: String) {
         viewModel.addHomeItemView(position, remainingText)
-        updateHomeItemListAdapter.submitList(viewModel.getCatalog().catalogListItems) {
+        updateHomeItemListAdapter.submitList(viewModel.catalog?.catalogListItems) {
             binding.homeItemsRecyclerView.post {
                 val currentEditText =
                     binding.homeItemsRecyclerView.findViewHolderForAdapterPosition(position)?.itemView?.findViewById<EditText>(
@@ -118,8 +166,8 @@ class UpdateCatalogFragment : Fragment() {
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 val position = viewHolder.adapterPosition
                 val homeItem = updateHomeItemListAdapter.currentList[position]
-                viewModel.removeHomeItem(viewHolder.adapterPosition)
-                updateHomeItemListAdapter.submitList(viewModel.getCatalog().catalogListItems)
+                viewModel.catalog?.catalogListItems?.removeAt(index = viewHolder.adapterPosition)
+                updateHomeItemListAdapter.submitList(viewModel.catalog?.catalogListItems)
                 Snackbar.make(
                     binding.homeItemsRecyclerView,
                     "${homeItem.itemName} deleted",
@@ -127,7 +175,7 @@ class UpdateCatalogFragment : Fragment() {
                 )
                     .setAction("Undo") {
                         viewModel.reAddHomeItem(position, homeItem)
-                        updateHomeItemListAdapter.submitList(viewModel.getCatalog().catalogListItems)
+                        updateHomeItemListAdapter.submitList(viewModel.catalog?.catalogListItems)
                     }.show()
             }
         })
@@ -136,32 +184,32 @@ class UpdateCatalogFragment : Fragment() {
 
     private fun applyBinding() {
         binding.apply {
-            categoryText.setText(viewModel.getCatalog().category)
+            categoryText.setText(viewModel.catalog?.category)
             homeItemsRecyclerView.adapter = updateHomeItemListAdapter
             saveButton.setOnClickListener {
                 val categoryText = binding.categoryText.text.toString().trim()
-                if (categoryText.isBlank()) binding.categoryText.error = "Category required!"
-                else {
-                    val catalog = Catalog(
-                        catalogId = viewModel.getCatalog().catalogId,
-                        category = categoryText,
-                        catalogListItems = viewModel.removeEmptyHomeItem().toMutableList()
-                    )
-                    catalogViewModel.addCatalog(catalog = catalog,
-                        onSuccess = { navigateToBackFragment() },
-                        onFailure = {
-                            Toast.makeText(requireContext(), it, Toast.LENGTH_LONG).show()
-                        })
+                if (categoryText.isEmpty()) {
+                    binding.categoryText.error = "Category required!"
+                } else {
+                    viewModel.catalog?.let { c ->
+                        catalogViewModel.addCatalog(
+                            catalog = c,
+                            onSuccess = { navigateToBackFragment() },
+                            onFailure = {
+                                Toast.makeText(requireContext(), it, Toast.LENGTH_LONG).show()
+                            }
+                        )
+                    }
                 }
             }
             addHomeItemTextButton.setOnClickListener {
                 setNewHomeItemViewTextField(0, "")
             }
             backButton.setOnClickListener { navigateToBackFragment() }
-            categoryText.apply {
-                requestFocus()
-                setSelection(this.length())
-            }
+//            categoryText.apply {
+//                requestFocus()
+//                setSelection(this.length())
+//            }
         }
     }
 

@@ -10,7 +10,6 @@ data class Catalog(
     var category: String,
     var catalogListItems: MutableList<CatalogListItem>
 ) {
-    // TODO: test 
     fun deleteWithTransferAndReturnCursorIndex(index: Int): Int? {
         try {
             val cursorIndex: Int?

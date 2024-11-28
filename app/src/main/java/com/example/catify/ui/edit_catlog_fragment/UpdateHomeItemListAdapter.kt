@@ -15,7 +15,7 @@ import com.example.catify.entity.CatalogListItem
 
 class UpdateHomeItemListAdapter(
     private val addItemView: (Int, String) -> (Unit),
-    private val removeItemView: (Int, String) -> (Unit)
+    private val removeItemView: (currentIndex: Int) -> Unit
 ) :
     ListAdapter<CatalogListItem, UpdateHomeItemListAdapter.HomeItemViewHolder>(DiffCallBack) {
     companion object {
@@ -44,7 +44,7 @@ class UpdateHomeItemListAdapter(
         fun bind(
             catalogListItem: CatalogListItem,
             addItemView: (Int, String) -> Unit,
-            removeItemView: (Int, String) -> Unit
+            removeItemView: (currentIndex: Int) -> Unit
         ) {
             Log.d(TAG, "ViewHolder called -----")
             binding.itemName.setText(catalogListItem.itemName)
@@ -62,9 +62,7 @@ class UpdateHomeItemListAdapter(
                     true
                 } else if (keyEvent.action == KeyEvent.ACTION_DOWN && i == KeyEvent.KEYCODE_DEL) {
                     if (binding.itemName.selectionStart == 0 && adapterPosition > 0) {
-                        val remainingText = binding.itemName.text.toString()
-                        val prevPos = adapterPosition - 1
-                        removeItemView(prevPos, remainingText)
+                        removeItemView(adapterPosition)
                     }
                     true
                 } else false

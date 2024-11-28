@@ -19,10 +19,6 @@ class UpdateCatalogViewModel : ViewModel() {
         }
     }
 
-    fun getCatalog(): Catalog {
-        return this._catalog!!
-    }
-
     fun reAddHomeItem(pos: Int, catalogListItem: CatalogListItem): Catalog {
         val updatedHomeItemsList =
             this._catalog?.catalogListItems?.toMutableList()?.apply { add(pos, catalogListItem) }
@@ -33,43 +29,12 @@ class UpdateCatalogViewModel : ViewModel() {
         )
     }
 
-    fun removeHomeItem(pos: Int): Catalog {
-        val updatedHomeItemsList =
-            this._catalog?.catalogListItems?.toMutableList()?.apply { removeAt(pos) }
-        _catalog = updatedHomeItemsList?.let { _catalog?.copy(catalogListItems = it) }
-        return _catalog ?: Catalog(
-            category = "Untitled",
-            catalogListItems = mutableListOf(CatalogListItem("Untitled", 0))
-        )
-    }
-
-    fun removeEmptyHomeItem(): List<CatalogListItem> {
-        val updatedHomeItemsList = this._catalog?.catalogListItems?.toMutableList()
-        updatedHomeItemsList?.removeAll { item -> item.itemName.trim().isBlank() }
-        _catalog = updatedHomeItemsList?.let { _catalog?.copy(catalogListItems = it) }
-        return _catalog?.catalogListItems ?: mutableListOf(CatalogListItem("Untitled", 0))
-    }
-
     fun addHomeItemView(position: Int, remainingText: String): Catalog {
         val updatedHomeItems = this._catalog?.catalogListItems?.toMutableList()
         if (updatedHomeItems?.contains(CatalogListItem("", 0)) == false) {
             updatedHomeItems.add(index = position, element = CatalogListItem(remainingText, 0))
         }
         _catalog = updatedHomeItems?.let { _catalog?.copy(catalogListItems = it) }
-        return _catalog ?: Catalog(
-            category = "",
-            catalogListItems = mutableListOf(CatalogListItem("", 0))
-        )
-    }
-
-    fun moveToPrevTextField(prevPosition: Int, remainingText: String): Catalog {
-        val updatedHomeItemsList = this._catalog?.catalogListItems?.toMutableList()
-        val oldHomeItem = updatedHomeItemsList?.get(prevPosition)
-        updatedHomeItemsList!![prevPosition] = CatalogListItem(
-            oldHomeItem!!.itemName + remainingText,
-            oldHomeItem.availableStock
-        )
-        _catalog = updatedHomeItemsList.let { _catalog?.copy(catalogListItems = it) }
         return _catalog ?: Catalog(
             category = "",
             catalogListItems = mutableListOf(CatalogListItem("", 0))
