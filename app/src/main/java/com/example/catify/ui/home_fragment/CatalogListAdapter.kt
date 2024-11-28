@@ -35,7 +35,7 @@ class CatalogListAdapter(
             navigateToEdit: (catalog: Catalog) -> Unit
         ) {
             val viewHomeItemListAdapter = ViewHomeItemListAdapter(maxItemsDisplayed)
-            viewHomeItemListAdapter.submitList(catalog.homeItems)
+            viewHomeItemListAdapter.submitList(catalog.catalogListItems)
             binding.apply {
                 catlogCard.setOnClickListener { navigateToEdit(catalog) }
                 categoryTextView.text = catalog.category
@@ -48,8 +48,8 @@ class CatalogListAdapter(
                         false
                     }
                 }
-                if (catalog.homeItems.size > maxItemsDisplayed) {
-                    val displayText = "+ ${catalog.homeItems.size - maxItemsDisplayed} items..."
+                if (catalog.catalogListItems.size > maxItemsDisplayed) {
+                    val displayText = "+ ${catalog.catalogListItems.size - maxItemsDisplayed} items..."
                     extraItemsTextView.text = displayText
                     extraItemsTextView.visibility = View.VISIBLE
                 } else extraItemsTextView.visibility = View.GONE

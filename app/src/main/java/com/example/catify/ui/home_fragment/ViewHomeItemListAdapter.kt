@@ -6,17 +6,17 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.catify.databinding.CardViewHomeItemBinding
-import com.example.catify.entity.HomeItem
+import com.example.catify.entity.CatalogListItem
 
 class ViewHomeItemListAdapter(private val maxItems: Int) :
-    ListAdapter<HomeItem, ViewHomeItemListAdapter.HomeItemViewHolder>(DiffCallBack) {
+    ListAdapter<CatalogListItem, ViewHomeItemListAdapter.HomeItemViewHolder>(DiffCallBack) {
     companion object {
-        private val DiffCallBack = object : DiffUtil.ItemCallback<HomeItem>() {
-            override fun areItemsTheSame(oldItem: HomeItem, newItem: HomeItem): Boolean {
+        private val DiffCallBack = object : DiffUtil.ItemCallback<CatalogListItem>() {
+            override fun areItemsTheSame(oldItem: CatalogListItem, newItem: CatalogListItem): Boolean {
                 return oldItem.itemName == newItem.itemName
             }
 
-            override fun areContentsTheSame(oldItem: HomeItem, newItem: HomeItem): Boolean {
+            override fun areContentsTheSame(oldItem: CatalogListItem, newItem: CatalogListItem): Boolean {
                 return oldItem == newItem
             }
         }
@@ -25,10 +25,10 @@ class ViewHomeItemListAdapter(private val maxItems: Int) :
 
     class HomeItemViewHolder(private val binding: CardViewHomeItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(homeItem: HomeItem) {
+        fun bind(catalogListItem: CatalogListItem) {
             binding.apply {
-                itemName.text = homeItem.itemName
-                quantity.text = homeItem.availableStock.toString()
+                itemName.text = catalogListItem.itemName
+                quantity.text = catalogListItem.availableStock.toString()
             }
         }
 

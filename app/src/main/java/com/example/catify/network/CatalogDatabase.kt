@@ -9,7 +9,7 @@ import com.example.catify.entity.Catalog
 import com.example.catify.helper.Converters
 import kotlin.concurrent.Volatile
 
-@Database(entities = [Catalog::class], version = 2, exportSchema = false)
+@Database(entities = [Catalog::class], version = 3, exportSchema = false)
 @TypeConverters(Converters::class)
 abstract class CatalogDatabase : RoomDatabase() {
 

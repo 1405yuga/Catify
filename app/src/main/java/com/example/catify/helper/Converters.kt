@@ -2,16 +2,16 @@ package com.example.catify.helper
 
 import androidx.room.TypeConverter
 import com.example.catify.entity.Catalog
-import com.example.catify.entity.HomeItem
+import com.example.catify.entity.CatalogListItem
 import com.google.gson.Gson
 
 class Converters {
     @TypeConverter
-    fun listToJson(homeItems: List<HomeItem>): String = Gson().toJson(homeItems)
+    fun listToJson(catalogListItems: List<CatalogListItem>): String = Gson().toJson(catalogListItems)
 
     @TypeConverter
-    fun jsonToList(value: String): List<HomeItem> =
-        Gson().fromJson(value, Array<HomeItem>::class.java).toList()
+    fun jsonToList(value: String): List<CatalogListItem> =
+        Gson().fromJson(value, Array<CatalogListItem>::class.java).toList()
 
     fun catalogToJson(catalog: Catalog): String = Gson().toJson(catalog)
 

@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.catify.databinding.CardUpdateHomeItemBinding
-import com.example.catify.entity.HomeItem
+import com.example.catify.entity.CatalogListItem
 
 class UpdateHomeItemListAdapter(
     private val increaseQty: (String) -> (Int),
@@ -19,14 +19,14 @@ class UpdateHomeItemListAdapter(
     private val addItemView: (Int, String) -> (Unit),
     private val removeItemView: (Int, String) -> (Unit)
 ) :
-    ListAdapter<HomeItem, UpdateHomeItemListAdapter.HomeItemViewHolder>(DiffCallBack) {
+    ListAdapter<CatalogListItem, UpdateHomeItemListAdapter.HomeItemViewHolder>(DiffCallBack) {
     companion object {
-        private val DiffCallBack = object : DiffUtil.ItemCallback<HomeItem>() {
-            override fun areItemsTheSame(oldItem: HomeItem, newItem: HomeItem): Boolean {
+        private val DiffCallBack = object : DiffUtil.ItemCallback<CatalogListItem>() {
+            override fun areItemsTheSame(oldItem: CatalogListItem, newItem: CatalogListItem): Boolean {
                 return oldItem.itemName == newItem.itemName
             }
 
-            override fun areContentsTheSame(oldItem: HomeItem, newItem: HomeItem): Boolean {
+            override fun areContentsTheSame(oldItem: CatalogListItem, newItem: CatalogListItem): Boolean {
                 return oldItem == newItem
             }
         }
@@ -35,7 +35,7 @@ class UpdateHomeItemListAdapter(
     class HomeItemViewHolder(private val binding: CardUpdateHomeItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(
-            homeItem: HomeItem,
+            catalogListItem: CatalogListItem,
             increaseQty: (String) -> Int,
             decreaseQty: (String) -> Int,
             addItemView: (Int, String) -> Unit,
@@ -46,16 +46,16 @@ class UpdateHomeItemListAdapter(
 
             binding.apply {
                 itemName.apply {
-                    setText(homeItem.itemName)
+                    setText(catalogListItem.itemName)
 
                     itemName.setOnKeyListener { view, i, keyEvent ->
                         //on enter press - add new textview with remaining text
                         if (keyEvent.action == KeyEvent.ACTION_DOWN && i == KeyEvent.KEYCODE_ENTER) {
                             val nextPos = adapterPosition + 1
                             val cursorPos = itemName.selectionStart
-                            val mainText = homeItem.itemName.slice(0 until cursorPos)
+                            val mainText = catalogListItem.itemName.slice(0 until cursorPos)
                             val remainingText =
-                                homeItem.itemName.slice(cursorPos until homeItem.itemName.length)
+                                catalogListItem.itemName.slice(cursorPos until catalogListItem.itemName.length)
                             Log.d(TAG, remainingText)
                             addItemView(nextPos, remainingText)
                             setText(mainText)
@@ -89,7 +89,7 @@ class UpdateHomeItemListAdapter(
                         }
 
                         override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                            if (p0!!.trim().isNotEmpty()) homeItem.itemName = p0.toString()
+                            if (p0!!.trim().isNotEmpty()) catalogListItem.itemName = p0.toString()
                             Log.d(TAG, "onTextChanged $p0")
                         }
 
@@ -97,12 +97,12 @@ class UpdateHomeItemListAdapter(
 
                     })
                 }
-                quantity.text = homeItem.availableStock.toString()
+                quantity.text = catalogListItem.availableStock.toString()
                 addQuantity.setOnClickListener {
-                    quantity.text = increaseQty(homeItem.itemName).toString()
+                    quantity.text = increaseQty(catalogListItem.itemName).toString()
                 }
                 subQuantity.setOnClickListener {
-                    quantity.text = decreaseQty(homeItem.itemName).toString()
+                    quantity.text = decreaseQty(catalogListItem.itemName).toString()
                 }
             }
         }
