@@ -48,8 +48,7 @@ class UpdateCatalogFragment : Fragment() {
     ): View {
         binding = FragmentUpdateCatalogBinding.inflate(layoutInflater, container, false)
         updateHomeItemListAdapter =
-            UpdateHomeItemListAdapter(increaseQty = { viewModel.increaseQuantity(it) },
-                decreaseQty = { viewModel.decreaseQuantity(it) },
+            UpdateHomeItemListAdapter(
                 addItemView = { position, remainingText ->
                     setNewHomeItemViewTextField(
                         position,
@@ -146,7 +145,7 @@ class UpdateCatalogFragment : Fragment() {
                     val catalog = Catalog(
                         catalogId = viewModel.getCatalog().catalogId,
                         category = categoryText,
-                        catalogListItems = viewModel.removeEmptyHomeItem()
+                        catalogListItems = viewModel.removeEmptyHomeItem().toMutableList()
                     )
                     catalogViewModel.addCatalog(catalog = catalog,
                         onSuccess = { navigateToBackFragment() },

@@ -14,19 +14,23 @@ import com.example.catify.databinding.CardUpdateHomeItemBinding
 import com.example.catify.entity.CatalogListItem
 
 class UpdateHomeItemListAdapter(
-    private val increaseQty: (String) -> (Int),
-    private val decreaseQty: (String) -> (Int),
     private val addItemView: (Int, String) -> (Unit),
     private val removeItemView: (Int, String) -> (Unit)
 ) :
     ListAdapter<CatalogListItem, UpdateHomeItemListAdapter.HomeItemViewHolder>(DiffCallBack) {
     companion object {
         private val DiffCallBack = object : DiffUtil.ItemCallback<CatalogListItem>() {
-            override fun areItemsTheSame(oldItem: CatalogListItem, newItem: CatalogListItem): Boolean {
+            override fun areItemsTheSame(
+                oldItem: CatalogListItem,
+                newItem: CatalogListItem
+            ): Boolean {
                 return oldItem.itemName == newItem.itemName
             }
 
-            override fun areContentsTheSame(oldItem: CatalogListItem, newItem: CatalogListItem): Boolean {
+            override fun areContentsTheSame(
+                oldItem: CatalogListItem,
+                newItem: CatalogListItem
+            ): Boolean {
                 return oldItem == newItem
             }
         }
@@ -36,8 +40,6 @@ class UpdateHomeItemListAdapter(
         RecyclerView.ViewHolder(binding.root) {
         fun bind(
             catalogListItem: CatalogListItem,
-            increaseQty: (String) -> Int,
-            decreaseQty: (String) -> Int,
             addItemView: (Int, String) -> Unit,
             removeItemView: (Int, String) -> Unit
         ) {
@@ -97,13 +99,18 @@ class UpdateHomeItemListAdapter(
 
                     })
                 }
-                quantity.text = catalogListItem.availableStock.toString()
+                fun refreshCount() {
+                    quantity.text = catalogListItem.availableStock.toString()
+                }
                 addQuantity.setOnClickListener {
-                    quantity.text = increaseQty(catalogListItem.itemName).toString()
+                    catalogListItem.availableStock++
+                    refreshCount()
                 }
                 subQuantity.setOnClickListener {
-                    quantity.text = decreaseQty(catalogListItem.itemName).toString()
+                    catalogListItem.decreaseQty()
+                    refreshCount()
                 }
+                refreshCount()
             }
         }
 
@@ -120,6 +127,10 @@ class UpdateHomeItemListAdapter(
     }
 
     override fun onBindViewHolder(holder: HomeItemViewHolder, position: Int) {
-        holder.bind(getItem(position), increaseQty, decreaseQty, addItemView,removeItemView)
+        holder.bind(
+            catalogListItem = getItem(position),
+            addItemView = addItemView,
+            removeItemView = removeItemView
+        )
     }
 }
