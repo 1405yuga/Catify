@@ -13,6 +13,10 @@ class UpdateCatalogViewModel : ViewModel() {
         this.catalog = catalog
     }
 
+    fun getCatalog(): Catalog {
+        return this.catalog!!
+    }
+
     fun increaseQuantity(itemName: String): Int {
         Log.d(TAG, "Catalog in view model $catalog")
         val item = this.catalog?.homeItems?.find { homeItem -> homeItem.itemName == itemName }

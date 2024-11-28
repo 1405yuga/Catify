@@ -26,7 +26,6 @@ import com.google.android.material.snackbar.Snackbar
 class UpdateCatalogFragment : Fragment() {
     private lateinit var binding: FragmentUpdateCatalogBinding
     private val TAG = this.javaClass.simpleName
-    private lateinit var catalog: Catalog
     private lateinit var updateHomeItemListAdapter: UpdateHomeItemListAdapter
     private val viewModel: UpdateCatalogViewModel by activityViewModels()
     private lateinit var swipeHelper: ItemTouchHelper
@@ -37,7 +36,7 @@ class UpdateCatalogFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val catalogJson = arguments?.getString("CATALOG")
-        catalog = if (catalogJson != null) Converters().jsonToCatalog(catalogJson)
+        val catalog = if (catalogJson != null) Converters().jsonToCatalog(catalogJson)
         else Catalog(category = "", homeItems = mutableListOf(HomeItem("", 0)))
         Log.d(TAG, "Catalog : $catalog")
         viewModel.initialise(catalog = catalog)
@@ -60,7 +59,7 @@ class UpdateCatalogFragment : Fragment() {
                 removeItemView = { prevPosition, remainingText ->
                     setToPreviousItemViewTextField(prevPosition, remainingText)
                 })
-        updateHomeItemListAdapter.submitList(catalog.homeItems)
+        updateHomeItemListAdapter.submitList(viewModel.getCatalog().homeItems)
         return binding.root
     }
 
@@ -71,9 +70,9 @@ class UpdateCatalogFragment : Fragment() {
     }
 
     private fun setToPreviousItemViewTextField(prevPosition: Int, remainingText: String) {
-        val cursorPos = catalog.homeItems[prevPosition].itemName.length
-        catalog = viewModel.moveToPrevTextField(prevPosition, remainingText)
-        catalog = viewModel.removeHomeItem(prevPosition + 1)
+        val cursorPos = viewModel.getCatalog().homeItems[prevPosition].itemName.length
+        viewModel.removeHomeItem(prevPosition + 1)
+        viewModel.moveToPrevTextField(prevPosition, remainingText)
         updateHomeItemListAdapter.submitList(viewModel.getCatalog().homeItems) {
             binding.homeItemsRecyclerView.post {
                 val currentEditText =
@@ -88,8 +87,8 @@ class UpdateCatalogFragment : Fragment() {
     }
 
     private fun setNewHomeItemViewTextField(position: Int, remainingText: String) {
-        catalog = viewModel.addHomeItemView(position, remainingText)
-        updateHomeItemListAdapter.submitList(catalog.homeItems) {
+        viewModel.addHomeItemView(position, remainingText)
+        updateHomeItemListAdapter.submitList(viewModel.getCatalog().homeItems) {
             binding.homeItemsRecyclerView.post {
                 val currentEditText =
                     binding.homeItemsRecyclerView.findViewHolderForAdapterPosition(position)?.itemView?.findViewById<EditText>(
@@ -119,16 +118,16 @@ class UpdateCatalogFragment : Fragment() {
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 val position = viewHolder.adapterPosition
                 val homeItem = updateHomeItemListAdapter.currentList[position]
-                catalog = viewModel.removeHomeItem(viewHolder.adapterPosition)
-                updateHomeItemListAdapter.submitList(catalog.homeItems)
+                viewModel.removeHomeItem(viewHolder.adapterPosition)
+                updateHomeItemListAdapter.submitList(viewModel.getCatalog().homeItems)
                 Snackbar.make(
                     binding.homeItemsRecyclerView,
                     "${homeItem.itemName} deleted",
                     Snackbar.LENGTH_LONG
                 )
                     .setAction("Undo") {
-                        catalog = viewModel.reAddHomeItem(position, homeItem)
-                        updateHomeItemListAdapter.submitList(catalog.homeItems)
+                        viewModel.reAddHomeItem(position, homeItem)
+                        updateHomeItemListAdapter.submitList(viewModel.getCatalog().homeItems)
                     }.show()
             }
         })
@@ -137,14 +136,17 @@ class UpdateCatalogFragment : Fragment() {
 
     private fun applyBinding() {
         binding.apply {
-            categoryText.setText(catalog.category)
+            categoryText.setText(viewModel.getCatalog().category)
             homeItemsRecyclerView.adapter = updateHomeItemListAdapter
             saveButton.setOnClickListener {
                 val categoryText = binding.categoryText.text.toString().trim()
                 if (categoryText.isBlank()) binding.categoryText.error = "Category required!"
                 else {
-                    catalog.category = categoryText
-                    catalog.homeItems = viewModel.removeEmptyHomeItem()
+                    val catalog = Catalog(
+                        catalogId = viewModel.getCatalog().catalogId,
+                        category = categoryText,
+                        homeItems = viewModel.removeEmptyHomeItem()
+                    )
                     catalogViewModel.addCatalog(catalog = catalog,
                         onSuccess = { navigateToBackFragment() },
                         onFailure = {
