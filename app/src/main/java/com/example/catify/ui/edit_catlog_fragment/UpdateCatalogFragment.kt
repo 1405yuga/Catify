@@ -53,10 +53,9 @@ class UpdateCatalogFragment : Fragment() {
         binding = FragmentUpdateCatalogBinding.inflate(layoutInflater, container, false)
         updateHomeItemListAdapter =
             UpdateHomeItemListAdapter(
-                addItemView = { position, remainingText ->
-                    setNewHomeItemViewTextField(
-                        position,
-                        remainingText
+                addNewItemView = { currentIndex, enterPressedPos ->
+                    addNewTextField(
+                        currentIndex, enterPressedPos
                     )
                 },
                 removeItemView = this::removeCurrentListItem
@@ -134,12 +133,28 @@ class UpdateCatalogFragment : Fragment() {
 
     }
 
-    private fun setNewHomeItemViewTextField(position: Int, remainingText: String) {
-        viewModel.addHomeItemView(position, remainingText)
+    private fun addNewTextField(currentIndex: Int, enterPressedPos: Int) {
+//        viewModel.addHomeItemView(currentIndex, remainingText)
+        Log.d(
+            TAG,
+            "List before changes\n" +
+                    GsonBuilder().setPrettyPrinting().create()
+                        .toJson(viewModel.catalog?.catalogListItems)
+        )
+        viewModel.catalog?.addWithTransferAndReturn(
+            index = currentIndex,
+            enterPressedPos = enterPressedPos
+        )
+        Log.d(
+            TAG,
+            "List after changes\n" +
+                    GsonBuilder().setPrettyPrinting().create()
+                        .toJson(viewModel.catalog?.catalogListItems)
+        )
         updateHomeItemListAdapter.submitList(viewModel.catalog?.catalogListItems) {
             binding.homeItemsRecyclerView.post {
                 val currentEditText =
-                    binding.homeItemsRecyclerView.findViewHolderForAdapterPosition(position)?.itemView?.findViewById<EditText>(
+                    binding.homeItemsRecyclerView.findViewHolderForAdapterPosition(currentIndex + 1)?.itemView?.findViewById<EditText>(
                         R.id.item_name
                     )
                 //set focus
@@ -150,6 +165,7 @@ class UpdateCatalogFragment : Fragment() {
                 imm.showSoftInput(currentEditText, 0)
             }
         }
+        binding.homeItemsRecyclerView.adapter = updateHomeItemListAdapter
     }
 
     private fun applyDeleteOnSwipe() {
@@ -204,7 +220,8 @@ class UpdateCatalogFragment : Fragment() {
                 }
             }
             addHomeItemTextButton.setOnClickListener {
-                setNewHomeItemViewTextField(0, "")
+                viewModel.catalog?.catalogListItems
+                    ?.add(index = 0, element = CatalogListItem("", 0))
             }
             backButton.setOnClickListener { navigateToBackFragment() }
 //            categoryText.apply {

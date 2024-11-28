@@ -14,7 +14,7 @@ import com.example.catify.databinding.CardUpdateHomeItemBinding
 import com.example.catify.entity.CatalogListItem
 
 class UpdateHomeItemListAdapter(
-    private val addItemView: (Int, String) -> (Unit),
+    private val addNewItemView: (currentIndex: Int, enterPressedIndex: Int) -> (Unit),
     private val removeItemView: (currentIndex: Int) -> Unit
 ) :
     ListAdapter<CatalogListItem, UpdateHomeItemListAdapter.HomeItemViewHolder>(DiffCallBack) {
@@ -43,7 +43,7 @@ class UpdateHomeItemListAdapter(
 
         fun bind(
             catalogListItem: CatalogListItem,
-            addItemView: (Int, String) -> Unit,
+            addNewItemView: (currentIndex: Int, enterPressedIndex: Int) -> Unit,
             removeItemView: (currentIndex: Int) -> Unit
         ) {
             Log.d(TAG, "ViewHolder called -----")
@@ -51,14 +51,15 @@ class UpdateHomeItemListAdapter(
             binding.itemName.setOnKeyListener { view, i, keyEvent ->
                 //on enter press - add new textview with remaining text
                 if (keyEvent.action == KeyEvent.ACTION_DOWN && i == KeyEvent.KEYCODE_ENTER) {
-                    val nextPos = adapterPosition + 1
-                    val cursorPos = binding.itemName.selectionStart
-                    val mainText = catalogListItem.itemName.slice(0 until cursorPos)
-                    val remainingText =
-                        catalogListItem.itemName.slice(cursorPos until catalogListItem.itemName.length)
-                    Log.d(TAG, remainingText)
-                    addItemView(nextPos, remainingText)
-                    binding.itemName.setText(mainText)
+//                    val nextPos = adapterPosition + 1
+//                    val enterPressedPos = binding.itemName.selectionStart
+//                    val mainText = catalogListItem.itemName.slice(0 until enterPressedPos)
+//                    val remainingText =
+//                        catalogListItem.itemName.slice(enterPressedPos until catalogListItem.itemName.length)
+//                    Log.d(TAG, remainingText)
+//                    addNewItemView(nextPos, remainingText)
+//                    binding.itemName.setText(mainText)
+                    addNewItemView(adapterPosition, binding.itemName.selectionStart)
                     true
                 } else if (keyEvent.action == KeyEvent.ACTION_DOWN && i == KeyEvent.KEYCODE_DEL) {
                     if (binding.itemName.selectionStart == 0 && adapterPosition > 0) {
@@ -123,7 +124,7 @@ class UpdateHomeItemListAdapter(
     override fun onBindViewHolder(holder: HomeItemViewHolder, position: Int) {
         holder.bind(
             catalogListItem = getItem(position),
-            addItemView = addItemView,
+            addNewItemView = addNewItemView,
             removeItemView = removeItemView
         )
     }

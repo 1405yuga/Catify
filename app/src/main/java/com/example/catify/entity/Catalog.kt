@@ -32,4 +32,23 @@ data class Catalog(
             return null
         }
     }
+
+    fun addWithTransferAndReturn(index: Int, enterPressedPos: Int) {
+        val current = this.catalogListItems.getOrNull(index)
+        val firstPart = current?.itemName
+            ?.slice(0 until enterPressedPos)
+        val secondPart = current?.itemName
+            ?.slice(enterPressedPos until current.itemName.length)
+        if (firstPart != null) {
+            current.itemName = firstPart
+        }
+        this.catalogListItems.add(
+            index = index + 1,
+            element = CatalogListItem(
+                itemName = secondPart
+                    ?: "",
+                availableStock = 0
+            )
+        )
+    }
 }
