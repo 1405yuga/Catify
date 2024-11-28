@@ -17,26 +17,6 @@ class UpdateCatalogViewModel : ViewModel() {
         return this.catalog!!
     }
 
-    fun increaseQuantity(itemName: String): Int {
-        Log.d(TAG, "Catalog in view model $catalog")
-        val item = this.catalog?.catalogListItems?.find { homeItem -> homeItem.itemName == itemName }
-        return if (item == null) 0
-        else {
-            if (item.availableStock < Int.MAX_VALUE) item.availableStock += 1
-            item.availableStock
-        }
-    }
-
-    fun decreaseQuantity(itemName: String): Int {
-        Log.d(TAG, "Catalog in view model $catalog")
-        val item = this.catalog?.catalogListItems?.find { homeItem -> homeItem.itemName == itemName }
-        return if (item == null || item.availableStock == 0) 0
-        else {
-            item.availableStock -= 1
-            item.availableStock
-        }
-    }
-
     fun reAddHomeItem(pos: Int, catalogListItem: CatalogListItem): Catalog {
         val updatedHomeItemsList =
             this.catalog?.catalogListItems?.toMutableList()?.apply { add(pos, catalogListItem) }
