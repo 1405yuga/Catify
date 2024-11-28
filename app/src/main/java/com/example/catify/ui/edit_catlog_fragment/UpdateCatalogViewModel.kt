@@ -1,17 +1,22 @@
 package com.example.catify.ui.edit_catlog_fragment
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import com.example.catify.entity.Catalog
 import com.example.catify.entity.CatalogListItem
 
 class UpdateCatalogViewModel : ViewModel() {
     private var _catalog: Catalog? = null
+    val catalog: Catalog? get() = _catalog
 
-    //    private var catalog: Catalog? = null
     private val TAG = this.javaClass.simpleName
 
     fun initialise(catalog: Catalog) {
-        this._catalog = catalog
+        if (this._catalog == null) {
+            this._catalog = catalog
+        } else {
+            Log.d(TAG, "Already assigned")
+        }
     }
 
     fun getCatalog(): Catalog {
