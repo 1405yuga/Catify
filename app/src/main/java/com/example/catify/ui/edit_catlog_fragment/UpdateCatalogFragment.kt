@@ -220,8 +220,25 @@ class UpdateCatalogFragment : Fragment() {
                 }
             }
             addHomeItemTextButton.setOnClickListener {
-                viewModel.catalog?.catalogListItems
-                    ?.add(index = 0, element = CatalogListItem("", 0))
+                viewModel.catalog?.addBlankAtFirst()
+                updateHomeItemListAdapter.submitList(viewModel.catalog?.catalogListItems) {
+                    binding.homeItemsRecyclerView.post {
+                        val currentEditText =
+                            binding.homeItemsRecyclerView.findViewHolderForAdapterPosition(
+                                0
+                            )?.itemView?.findViewById<EditText>(
+                                R.id.item_name
+                            )
+                        //set focus
+                        currentEditText?.requestFocus()
+                        //open- keyboard
+                        val imm: InputMethodManager =
+                            requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                        imm.showSoftInput(currentEditText, 0)
+                    }
+                }
+
+                binding.homeItemsRecyclerView.adapter = updateHomeItemListAdapter
             }
             backButton.setOnClickListener { navigateToBackFragment() }
 //            categoryText.apply {
