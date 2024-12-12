@@ -183,7 +183,9 @@ class UpdateCatalogFragment : Fragment() {
                 val position = viewHolder.adapterPosition
                 val homeItem = updateHomeItemListAdapter.currentList[position]
                 viewModel.catalog?.catalogListItems?.removeAt(index = viewHolder.adapterPosition)
+                Log.d(TAG, "List after deleting item : ${viewModel.catalog?.catalogListItems}")
                 updateHomeItemListAdapter.submitList(viewModel.catalog?.catalogListItems)
+                binding.homeItemsRecyclerView.adapter = updateHomeItemListAdapter
                 Snackbar.make(
                     binding.homeItemsRecyclerView,
                     "${homeItem.itemName} deleted",
