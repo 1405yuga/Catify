@@ -51,11 +51,4 @@ data class Catalog(
             )
         )
     }
-
-    fun addBlankAtFirst() {
-        this.catalogListItems.add(
-            index = 0,
-            element = CatalogListItem(itemName = "", availableStock = 0)
-        )
-    }
 }

@@ -222,7 +222,10 @@ class UpdateCatalogFragment : Fragment() {
                 }
             }
             addHomeItemTextButton.setOnClickListener {
-                viewModel.catalog?.addBlankAtFirst()
+                viewModel.catalog?.catalogListItems?.add(
+                    index = 0,
+                    element = CatalogListItem(itemName = "", availableStock = 0)
+                )
                 updateHomeItemListAdapter.submitList(viewModel.catalog?.catalogListItems) {
                     binding.homeItemsRecyclerView.post {
                         val currentEditText =
