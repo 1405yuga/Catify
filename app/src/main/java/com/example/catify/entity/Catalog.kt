@@ -35,20 +35,32 @@ data class Catalog(
 
     fun addWithTransferAndReturn(index: Int, enterPressedPos: Int) {
         val current = this.catalogListItems.getOrNull(index)
-        val firstPart = current?.itemName
-            ?.slice(0 until enterPressedPos)
-        val secondPart = current?.itemName
-            ?.slice(enterPressedPos until current.itemName.length)
-        if (firstPart != null) {
-            current.itemName = firstPart
+
+        current?.itemName.let {
+            val catalogListItem = if (it.isNullOrEmpty()) {
+                CatalogListItem(itemName = "", availableStock = 0)
+            } else {
+                val firstPart = try {
+                    it.slice(0 until enterPressedPos)
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                    null
+                }
+                val secondPart = try {
+                    it.slice(enterPressedPos until it.length)
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                    null
+                }
+                if (firstPart != null) {
+                    current?.itemName = firstPart
+                }
+                CatalogListItem(
+                    itemName = secondPart ?: "",
+                    availableStock = 0
+                )
+            }
+            this.catalogListItems.add(index = index + 1, element = catalogListItem)
         }
-        this.catalogListItems.add(
-            index = index + 1,
-            element = CatalogListItem(
-                itemName = secondPart
-                    ?: "",
-                availableStock = 0
-            )
-        )
     }
 }
