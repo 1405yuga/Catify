@@ -47,22 +47,14 @@ class UpdateHomeItemListAdapter(
             removeItemView: (currentIndex: Int) -> Unit
         ) {
             Log.d(TAG, "ViewHolder called -----")
-            binding.itemName.setText(catalogListItem.itemName)
-            binding.itemName.setOnKeyListener { view, i, keyEvent ->
+            binding.itemNameEditText.setText(catalogListItem.itemName)
+            binding.itemNameEditText.setOnKeyListener { view, i, keyEvent ->
                 //on enter press - add new textview with remaining text
                 if (keyEvent.action == KeyEvent.ACTION_DOWN && i == KeyEvent.KEYCODE_ENTER) {
-//                    val nextPos = adapterPosition + 1
-//                    val enterPressedPos = binding.itemName.selectionStart
-//                    val mainText = catalogListItem.itemName.slice(0 until enterPressedPos)
-//                    val remainingText =
-//                        catalogListItem.itemName.slice(enterPressedPos until catalogListItem.itemName.length)
-//                    Log.d(TAG, remainingText)
-//                    addNewItemView(nextPos, remainingText)
-//                    binding.itemName.setText(mainText)
-                    addNewItemView(adapterPosition, binding.itemName.selectionStart)
+                    addNewItemView(adapterPosition, binding.itemNameEditText.selectionStart)
                     true
                 } else if (keyEvent.action == KeyEvent.ACTION_DOWN && i == KeyEvent.KEYCODE_DEL) {
-                    if (binding.itemName.selectionStart == 0 && adapterPosition > 0) {
+                    if (binding.itemNameEditText.selectionStart == 0 && adapterPosition > 0) {
                         removeItemView(adapterPosition)
                     }
                     true
@@ -70,7 +62,7 @@ class UpdateHomeItemListAdapter(
             }
 
             //set focus to last character
-            binding.itemName.setOnFocusChangeListener { view, hasFocus ->
+            binding.itemNameEditText.setOnFocusChangeListener { view, hasFocus ->
                 if (hasFocus) {
                     val editText = view as EditText
                     editText.setSelection(editText.length())
@@ -78,7 +70,7 @@ class UpdateHomeItemListAdapter(
             }
 
             //set entered value
-            binding.itemName.addTextChangedListener(object : TextWatcher {
+            binding.itemNameEditText.addTextChangedListener(object : TextWatcher {
                 override fun beforeTextChanged(
                     p0: CharSequence?,
                     p1: Int,

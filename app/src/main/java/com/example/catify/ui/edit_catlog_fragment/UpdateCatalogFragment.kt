@@ -25,6 +25,7 @@ import com.example.catify.network.BaseApplication
 import com.example.catify.ui.CatalogViewModel
 import com.google.android.material.snackbar.Snackbar
 import com.google.gson.GsonBuilder
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class UpdateCatalogFragment : Fragment() {
@@ -54,9 +55,7 @@ class UpdateCatalogFragment : Fragment() {
         updateHomeItemListAdapter =
             UpdateHomeItemListAdapter(
                 addNewItemView = { currentIndex, enterPressedPos ->
-                    addNewTextField(
-                        currentIndex, enterPressedPos
-                    )
+                    addNewTextField(currentIndex, enterPressedPos)
                 },
                 removeItemView = this::removeCurrentListItem
             )
@@ -134,7 +133,6 @@ class UpdateCatalogFragment : Fragment() {
     }
 
     private fun addNewTextField(currentIndex: Int, enterPressedPos: Int) {
-//        viewModel.addHomeItemView(currentIndex, remainingText)
         Log.d(
             TAG,
             "List before changes\n" +
@@ -151,19 +149,22 @@ class UpdateCatalogFragment : Fragment() {
                     GsonBuilder().setPrettyPrinting().create()
                         .toJson(viewModel.catalog?.catalogListItems)
         )
-        updateHomeItemListAdapter.submitList(viewModel.catalog?.catalogListItems) {
-            binding.homeItemsRecyclerView.post {
-                val currentEditText =
-                    binding.homeItemsRecyclerView.findViewHolderForAdapterPosition(currentIndex + 1)?.itemView?.findViewById<EditText>(
-                        R.id.item_name
-                    )
-                //set focus
-                currentEditText?.requestFocus()
-                //open- keyboard
-                val imm: InputMethodManager =
-                    requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-                imm.showSoftInput(currentEditText, 0)
-            }
+        updateHomeItemListAdapter.submitList(viewModel.catalog?.catalogListItems)
+        lifecycleScope.launch {
+            delay(100)
+            Log.d(TAG, "New Index ${currentIndex + 1}")
+            val currentEditText = binding.homeItemsRecyclerView
+                .findViewHolderForAdapterPosition(currentIndex + 1)
+                .apply { Log.d(TAG, "is null = ${this == null}") }
+                ?.itemView
+                .apply { Log.d(TAG, "is null = ${this == null}") }
+                ?.findViewById<EditText>(R.id.item_name_edit_text)
+            //set focus
+            currentEditText!!.requestFocus()
+            //open- keyboard
+//                val imm: InputMethodManager =
+//                    requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+//                imm.showSoftInput(currentEditText, 0)
         }
         binding.homeItemsRecyclerView.adapter = updateHomeItemListAdapter
     }
