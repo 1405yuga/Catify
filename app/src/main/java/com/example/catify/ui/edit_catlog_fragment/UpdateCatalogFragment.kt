@@ -25,7 +25,6 @@ import com.example.catify.network.BaseApplication
 import com.example.catify.ui.CatalogViewModel
 import com.google.android.material.snackbar.Snackbar
 import com.google.gson.GsonBuilder
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class UpdateCatalogFragment : Fragment() {
@@ -150,23 +149,22 @@ class UpdateCatalogFragment : Fragment() {
                         .toJson(viewModel.catalog?.catalogListItems)
         )
         updateHomeItemListAdapter.submitList(viewModel.catalog?.catalogListItems)
-        lifecycleScope.launch {
-            delay(100)
-            Log.d(TAG, "New Index ${currentIndex + 1}")
-            val currentEditText = binding.homeItemsRecyclerView
+        updateHomeItemListAdapter.notifyItemInserted(currentIndex + 1)
+        binding.homeItemsRecyclerView.post {
+            binding.homeItemsRecyclerView
                 .findViewHolderForAdapterPosition(currentIndex + 1)
-                .apply { Log.d(TAG, "is null = ${this == null}") }
-                ?.itemView
-                .apply { Log.d(TAG, "is null = ${this == null}") }
-                ?.findViewById<EditText>(R.id.item_name_edit_text)
-            //set focus
-            currentEditText!!.requestFocus()
-            //open- keyboard
-//                val imm: InputMethodManager =
-//                    requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-//                imm.showSoftInput(currentEditText, 0)
+                .let { vh ->
+                    if (vh == null) {
+                        Log.d(TAG, "new item null")
+                    } else {
+                        try {
+                            vh.itemView.findViewById<EditText>(R.id.item_name_edit_text).requestFocus()
+                        } catch (e: Exception) {
+                            e.printStackTrace()
+                        }
+                    }
+                }
         }
-        binding.homeItemsRecyclerView.adapter = updateHomeItemListAdapter
     }
 
     private fun applyDeleteOnSwipe() {
