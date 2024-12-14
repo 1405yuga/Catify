@@ -222,21 +222,19 @@ class UpdateCatalogFragment : Fragment() {
                     index = 0,
                     element = CatalogListItem(itemName = "", availableStock = 0)
                 )
-                updateHomeItemListAdapter.submitList(viewModel.catalog?.catalogListItems) {
-                    binding.homeItemsRecyclerView.post {
-                        val currentEditText =
-                            binding.homeItemsRecyclerView.findViewHolderForAdapterPosition(
-                                0
-                            )?.itemView?.findViewById<EditText>(
-                                R.id.item_name
-                            )
-                        //set focus
-                        currentEditText?.requestFocus()
-                        //open- keyboard
-                        val imm: InputMethodManager =
-                            requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-                        imm.showSoftInput(currentEditText, 0)
-                    }
+                updateHomeItemListAdapter.submitList(viewModel.catalog?.catalogListItems)
+                updateHomeItemListAdapter.notifyItemInserted(0)
+                binding.homeItemsRecyclerView.post {
+                    val currentEditText =
+                        binding.homeItemsRecyclerView
+                            .findViewHolderForAdapterPosition(0)
+                            ?.itemView?.findViewById<EditText>(R.id.item_name_edit_text)
+                    //set focus
+                    currentEditText?.requestFocus()
+                    //open- keyboard
+                    val imm: InputMethodManager =
+                        requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                    imm.showSoftInput(currentEditText, 0)
                 }
 
                 binding.homeItemsRecyclerView.adapter = updateHomeItemListAdapter
