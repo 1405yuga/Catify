@@ -12,7 +12,6 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
@@ -25,7 +24,6 @@ import com.example.catify.network.BaseApplication
 import com.example.catify.ui.CatalogViewModel
 import com.google.android.material.snackbar.Snackbar
 import com.google.gson.GsonBuilder
-import kotlinx.coroutines.launch
 
 class UpdateCatalogFragment : Fragment() {
     private lateinit var binding: FragmentUpdateCatalogBinding
@@ -108,25 +106,23 @@ class UpdateCatalogFragment : Fragment() {
 //                }
 //            }
 //        }
-        binding.homeItemsRecyclerView.adapter = updateHomeItemListAdapter
-        lifecycleScope.launch {
-//            delay(timeMillis = 100)
-            val indexToFocus = if (currentPosition == 0) {
-                if (newList.isNullOrEmpty()) null else 0
-            } else {
-                currentPosition - 1
-            }
-            Log.d(TAG, "prevPos $currentPosition")
-            indexToFocus?.let { itf ->
-                val currentEditText =
-                    binding.homeItemsRecyclerView
-                        .findViewHolderForAdapterPosition(itf)
-                        ?.itemView
-                        ?.findViewById<EditText>(R.id.item_name)
-                //set focus
-                currentEditText?.requestFocus()
-                newCursorPos?.let { currentEditText?.setSelection(it) }
-            }
+        updateHomeItemListAdapter.notifyItemRemoved(currentPosition)
+
+        val indexToFocus = if (currentPosition == 0) {
+            if (newList.isNullOrEmpty()) null else 0
+        } else {
+            currentPosition - 1
+        }
+        Log.d(TAG, "prevPos $currentPosition")
+        indexToFocus?.let { itf ->
+            val currentEditText =
+                binding.homeItemsRecyclerView
+                    .findViewHolderForAdapterPosition(itf)
+                    ?.itemView
+                    ?.findViewById<EditText>(R.id.item_name)
+            //set focus
+            currentEditText?.requestFocus()
+            newCursorPos?.let { currentEditText?.setSelection(it) }
         }
 
     }
@@ -158,7 +154,8 @@ class UpdateCatalogFragment : Fragment() {
                         Log.d(TAG, "new item null")
                     } else {
                         try {
-                            vh.itemView.findViewById<EditText>(R.id.item_name_edit_text).requestFocus()
+                            vh.itemView.findViewById<EditText>(R.id.item_name_edit_text)
+                                .requestFocus()
                         } catch (e: Exception) {
                             e.printStackTrace()
                         }
