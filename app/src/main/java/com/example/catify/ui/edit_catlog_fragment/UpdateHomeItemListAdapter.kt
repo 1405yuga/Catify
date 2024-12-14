@@ -50,6 +50,7 @@ class UpdateHomeItemListAdapter(
             binding.itemNameEditText.setText(catalogListItem.itemName)
             binding.itemNameEditText.setOnKeyListener { view, i, keyEvent ->
                 //on enter press - add new textview with remaining text
+                Log.d(TAG,"MyEnter keycode $i, Enter keycode ${KeyEvent.KEYCODE_ENTER}")
                 if (keyEvent.action == KeyEvent.ACTION_DOWN && i == KeyEvent.KEYCODE_ENTER) {
                     addNewItemView(adapterPosition, binding.itemNameEditText.selectionStart)
                     true
@@ -60,7 +61,6 @@ class UpdateHomeItemListAdapter(
                     true
                 } else false
             }
-
             //set focus to last character
             binding.itemNameEditText.setOnFocusChangeListener { view, hasFocus ->
                 if (hasFocus) {
