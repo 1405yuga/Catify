@@ -179,6 +179,7 @@ class CatalogListFragment : Fragment() {
                 }
             }
             navDrawer.apply {
+                shoppingCart.setOnClickListener { navigateToFragment(R.id.shoppingCartFragment) }
                 documentation.setOnClickListener {
                     openUrl(
                         "https://github.com/1405yuga/HomeCatalogs/blob/main/README.md",
