@@ -34,6 +34,23 @@
             android:textColor="@color/md_theme_primary" />
 
         <TextView
+            android:id="@+id/shopping_cart"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:drawablePadding="12dp"
+            android:foreground="?selectableItemBackground"
+            android:gravity="center_vertical"
+            android:minWidth="@dimen/min_clickable_size"
+            android:minHeight="@dimen/min_clickable_size"
+            android:paddingHorizontal="@dimen/nav_drawer_horizontal_padding"
+            android:paddingVertical="@dimen/nav_drawer_vertical_padding"
+            android:text="Shopping Cart"
+            android:textAppearance="?attr/textAppearanceLabelLarge"
+            android:textColor="?attr/colorOnSecondaryContainer"
+            app:drawableLeftCompat="@drawable/baseline_add_shopping_cart_24" />
+
+        <TextView
             android:id="@+id/documentation"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -66,7 +83,5 @@
             android:textAppearance="?attr/textAppearanceLabelLarge"
             android:textColor="?attr/colorOnSecondaryContainer"
             app:drawableLeftCompat="@drawable/baseline_about_outline_24" />
-
-
     </LinearLayout>
 </ScrollView>

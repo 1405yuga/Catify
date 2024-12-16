@@ -15,4 +15,9 @@
         android:name="com.example.catify.ui.edit_catlog_fragment.UpdateCatalogFragment"
         android:label="fragment_update_catalog"
         tools:layout="@layout/fragment_update_catalog" />
+    <fragment
+        android:id="@+id/shoppingCartFragment"
+        android:name="com.example.catify.ui.shopping_cart_fragment.ShoppingCartFragment"
+        android:label="fragment_shopping_cart"
+        tools:layout="@layout/fragment_shopping_cart" />
 </navigation>
