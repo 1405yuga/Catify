@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.content.ContextCompat
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.asLiveData
@@ -179,14 +180,28 @@ class CatalogListFragment : Fragment() {
                 }
             }
             navDrawer.apply {
-                shoppingCart.setOnClickListener { navigateToFragment(R.id.shoppingCartFragment) }
+                shoppingCart.setOnClickListener {
+                    drawerLayout.close()
+                    drawerLayout.addDrawerListener(object : DrawerLayout.DrawerListener {
+                        override fun onDrawerSlide(drawerView: View, slideOffset: Float) {}
+                        override fun onDrawerOpened(drawerView: View) {}
+                        override fun onDrawerClosed(drawerView: View) {
+                            navigateToFragment(R.id.shoppingCartFragment)
+                            drawerLayout.removeDrawerListener(this)
+                        }
+
+                        override fun onDrawerStateChanged(newState: Int) {}
+                    })
+                }
                 documentation.setOnClickListener {
                     openUrl(
                         "https://github.com/1405yuga/HomeCatalogs/blob/main/README.md",
                         binding
                     )
                 }
-                about.setOnClickListener { openUrl("https://github.com/1405yuga/", binding) }
+                about.setOnClickListener {
+                    openUrl("https://github.com/1405yuga/", binding)
+                }
             }
         }
     }
