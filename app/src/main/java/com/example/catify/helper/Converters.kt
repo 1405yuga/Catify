@@ -1,8 +1,8 @@
 package com.example.catify.helper
 
 import androidx.room.TypeConverter
-import com.example.catify.entity.Catalog
-import com.example.catify.entity.CatalogListItem
+import com.example.catify.entity.catalog.Catalog
+import com.example.catify.entity.catalog.CatalogListItem
 import com.google.gson.Gson
 
 class Converters {

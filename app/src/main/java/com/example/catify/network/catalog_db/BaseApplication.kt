@@ -1,4 +1,4 @@
-package com.example.catify.network
+package com.example.catify.network.catalog_db
 
 import android.app.Application
 

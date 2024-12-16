@@ -17,10 +17,10 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.example.catify.R
 import com.example.catify.databinding.FragmentUpdateCatalogBinding
-import com.example.catify.entity.Catalog
-import com.example.catify.entity.CatalogListItem
+import com.example.catify.entity.catalog.Catalog
+import com.example.catify.entity.catalog.CatalogListItem
 import com.example.catify.helper.Converters
-import com.example.catify.network.BaseApplication
+import com.example.catify.network.catalog_db.BaseApplication
 import com.example.catify.ui.CatalogViewModel
 import com.google.android.material.snackbar.Snackbar
 import com.google.gson.GsonBuilder

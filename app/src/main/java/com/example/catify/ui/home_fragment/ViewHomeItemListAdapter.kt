@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.catify.databinding.CardViewHomeItemBinding
-import com.example.catify.entity.CatalogListItem
+import com.example.catify.entity.catalog.CatalogListItem
 
 class ViewHomeItemListAdapter(private val maxItems: Int) :
     ListAdapter<CatalogListItem, ViewHomeItemListAdapter.HomeItemViewHolder>(DiffCallBack) {

@@ -1,4 +1,4 @@
-package com.example.catify.entity
+package com.example.catify.entity.catalog
 
 data class CatalogListItem(var itemName: String, var availableStock: Int) {
     fun decreaseQty() {

@@ -22,7 +22,7 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.catify.R
 import com.example.catify.databinding.FragmentCatalogListBinding
 import com.example.catify.helper.Converters
-import com.example.catify.network.BaseApplication
+import com.example.catify.network.catalog_db.BaseApplication
 import com.example.catify.ui.CatalogViewModel
 import com.example.catify.ui.layout_store.LayoutPreference
 import com.google.android.material.snackbar.Snackbar

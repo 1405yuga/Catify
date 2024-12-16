@@ -6,8 +6,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
-import com.example.catify.entity.Catalog
-import com.example.catify.network.CategoryDao
+import com.example.catify.entity.catalog.Catalog
+import com.example.catify.network.catalog_db.CategoryDao
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext

@@ -1,11 +1,11 @@
-package com.example.catify.network
+package com.example.catify.network.catalog_db
 
 import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
-import com.example.catify.entity.Catalog
+import com.example.catify.entity.catalog.Catalog
 import com.example.catify.helper.Converters
 import kotlin.concurrent.Volatile
 

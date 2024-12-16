@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.catify.databinding.CardCatalogItemBinding
-import com.example.catify.entity.Catalog
+import com.example.catify.entity.catalog.Catalog
 
 class CatalogListAdapter(
     private val maxItemsDisplayed: Int,

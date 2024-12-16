@@ -2,8 +2,8 @@ package com.example.catify.ui.edit_catlog_fragment
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
-import com.example.catify.entity.Catalog
-import com.example.catify.entity.CatalogListItem
+import com.example.catify.entity.catalog.Catalog
+import com.example.catify.entity.catalog.CatalogListItem
 
 class UpdateCatalogViewModel : ViewModel() {
     private var _catalog: Catalog? = null

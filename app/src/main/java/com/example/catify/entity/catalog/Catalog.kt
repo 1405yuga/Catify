@@ -1,4 +1,4 @@
-package com.example.catify.entity
+package com.example.catify.entity.catalog
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

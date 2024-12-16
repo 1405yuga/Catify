@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.catify.databinding.CardUpdateHomeItemBinding
-import com.example.catify.entity.CatalogListItem
+import com.example.catify.entity.catalog.CatalogListItem
 
 class UpdateHomeItemListAdapter(
     private val addNewItemView: (currentIndex: Int, enterPressedIndex: Int) -> (Unit),
@@ -50,7 +50,7 @@ class UpdateHomeItemListAdapter(
             binding.itemNameEditText.setText(catalogListItem.itemName)
             binding.itemNameEditText.setOnKeyListener { view, i, keyEvent ->
                 //on enter press - add new textview with remaining text
-                Log.d(TAG,"MyEnter keycode $i, Enter keycode ${KeyEvent.KEYCODE_ENTER}")
+                Log.d(TAG, "MyEnter keycode $i, Enter keycode ${KeyEvent.KEYCODE_ENTER}")
                 if (keyEvent.action == KeyEvent.ACTION_DOWN && i == KeyEvent.KEYCODE_ENTER) {
                     addNewItemView(adapterPosition, binding.itemNameEditText.selectionStart)
                     true
