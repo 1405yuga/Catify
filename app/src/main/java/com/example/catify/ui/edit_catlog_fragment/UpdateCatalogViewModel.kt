@@ -28,16 +28,4 @@ class UpdateCatalogViewModel : ViewModel() {
             catalogListItems = mutableListOf(CatalogListItem("Untitled", 0))
         )
     }
-
-    fun addHomeItemView(position: Int, remainingText: String): Catalog {
-        val updatedHomeItems = this._catalog?.catalogListItems?.toMutableList()
-        if (updatedHomeItems?.contains(CatalogListItem("", 0)) == false) {
-            updatedHomeItems.add(index = position, element = CatalogListItem(remainingText, 0))
-        }
-        _catalog = updatedHomeItems?.let { _catalog?.copy(catalogListItems = it) }
-        return _catalog ?: Catalog(
-            category = "",
-            catalogListItems = mutableListOf(CatalogListItem("", 0))
-        )
-    }
 }
