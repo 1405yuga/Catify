@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.jetbrains.kotlin.android)
     alias(libs.plugins.kapt)
     kotlin("plugin.serialization") version "2.1.0"
+    id("com.google.protobuf")
 }
 
 android {
@@ -38,6 +39,21 @@ android {
     buildFeatures {
         viewBinding = true
     }
+
+}
+protobuf {
+    protoc {
+        artifact = "com.google.protobuf:protoc:3.21.12"
+    }
+    generateProtoTasks {
+        all().forEach { task ->
+            task.builtins {
+                create("java") {
+                    option("lite")
+                }
+            }
+        }
+    }
 }
 
 dependencies {
@@ -60,4 +76,5 @@ dependencies {
     kapt(libs.androidx.room.compiler)
     implementation(libs.androidx.datastore.preferences)
     implementation(libs.kotlinx.serialization.json)
+    implementation (libs.protobuf.javalite)
 }
