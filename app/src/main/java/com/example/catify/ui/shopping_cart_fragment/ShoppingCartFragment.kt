@@ -11,6 +11,8 @@ import androidx.datastore.dataStore
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.catify.ShoppingCartProto
 import com.example.catify.ShoppingCartProto.ShoppingCart
 import com.example.catify.databinding.FragmentShoppingCartBinding
 import com.example.catify.network.cart_data.ShoppingCartRepository
@@ -23,10 +25,11 @@ private val Context.shoppingCartDataStore: DataStore<ShoppingCart> by dataStore(
 )
 
 class ShoppingCartFragment : Fragment() {
-    private final val TAG = this.javaClass.simpleName
+    private val TAG = this.javaClass.simpleName
     private lateinit var binding: FragmentShoppingCartBinding
     private lateinit var shoppingCartRepository: ShoppingCartRepository
     private lateinit var shoppingCartViewModel: ShoppingCartViewModel
+    private lateinit var shoppingCartListAdapter: ShoppingCartListAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -34,6 +37,7 @@ class ShoppingCartFragment : Fragment() {
     ): View {
         binding = FragmentShoppingCartBinding.inflate(layoutInflater, container, false)
         shoppingCartRepository = ShoppingCartRepository(requireContext().shoppingCartDataStore)
+        shoppingCartListAdapter = ShoppingCartListAdapter()
         return binding.root
     }
 
@@ -43,18 +47,24 @@ class ShoppingCartFragment : Fragment() {
             this,
             ShoppingCartViewModel.provideFactory((shoppingCartRepository))
         )[ShoppingCartViewModel::class.java]
-
         applyBindings()
         applyObservers()
+        shoppingCartListAdapter.submitList(shoppingCartViewModel.tempCartItems)
     }
 
     private fun applyObservers() {
         shoppingCartViewModel.shoppingCart.observe(viewLifecycleOwner) {
-            Log.d(TAG, "Shopping Cart: $it")
+            Log.d(TAG, "Shopping Cart: ${it.cartItemListList.size}")
+            shoppingCartViewModel.tempCartItems = it.cartItemListList
+            shoppingCartListAdapter.submitList(it.cartItemListList)
         }
     }
 
     private fun applyBindings() {
+        binding.shoppingListRecyclerView.layoutManager =
+            LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+        binding.shoppingListRecyclerView.adapter = shoppingCartListAdapter
+
         binding.backButton.setOnClickListener { findNavController().popBackStack() }
     }
 }

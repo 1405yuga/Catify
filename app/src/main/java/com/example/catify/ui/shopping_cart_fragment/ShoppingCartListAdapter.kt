@@ -5,18 +5,26 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
+import com.example.catify.ShoppingCartProto
 import com.example.catify.databinding.CardShoppingItemBinding
-import com.example.catify.entity.cart.CartItem
 
 class ShoppingCartListAdapter :
-    ListAdapter<CartItem, ShoppingCartListAdapter.ShoppingCartViewHolder>(DiffCallBack) {
+    ListAdapter<ShoppingCartProto.CartItem, ShoppingCartListAdapter.ShoppingCartViewHolder>(
+        DiffCallBack
+    ) {
     companion object {
-        private val DiffCallBack = object : DiffUtil.ItemCallback<CartItem>() {
-            override fun areItemsTheSame(oldItem: CartItem, newItem: CartItem): Boolean {
+        private val DiffCallBack = object : DiffUtil.ItemCallback<ShoppingCartProto.CartItem>() {
+            override fun areItemsTheSame(
+                oldItem: ShoppingCartProto.CartItem,
+                newItem: ShoppingCartProto.CartItem
+            ): Boolean {
                 return oldItem.itemId == newItem.itemId
             }
 
-            override fun areContentsTheSame(oldItem: CartItem, newItem: CartItem): Boolean {
+            override fun areContentsTheSame(
+                oldItem: ShoppingCartProto.CartItem,
+                newItem: ShoppingCartProto.CartItem
+            ): Boolean {
                 return oldItem.itemName == newItem.itemName
             }
         }
@@ -24,7 +32,7 @@ class ShoppingCartListAdapter :
 
     class ShoppingCartViewHolder(private val binding: CardShoppingItemBinding) :
         ViewHolder(binding.root) {
-        fun bind(cartItem: CartItem) {
+        fun bind(cartItem: ShoppingCartProto.CartItem) {
             binding.itemNameEditText.setText(cartItem.itemName)
             binding.stock.text = cartItem.stock.toString()
             binding.itemCheckBox.isChecked = cartItem.isPurchased

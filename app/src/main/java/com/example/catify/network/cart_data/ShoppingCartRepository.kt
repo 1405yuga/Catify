@@ -36,5 +36,14 @@ class ShoppingCartRepository(private val cartDataStore: DataStore<ShoppingCart>)
         }
     }
 
+    suspend fun addAllItems(cartItemsList: MutableList<CartItem>) {
+        cartDataStore.updateData { currentCart ->
+            currentCart
+                .toBuilder()
+                .addAllCartItemList(cartItemsList)
+                .build()
+        }
+    }
+
 
 }

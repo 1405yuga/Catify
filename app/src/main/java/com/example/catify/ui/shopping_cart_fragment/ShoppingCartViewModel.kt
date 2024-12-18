@@ -11,9 +11,11 @@ import com.example.catify.network.cart_data.ShoppingCartRepository
 import kotlinx.coroutines.launch
 
 class ShoppingCartViewModel(private val cartRepository: ShoppingCartRepository) : ViewModel() {
-    private final val TAG = this.javaClass.simpleName
+    private val TAG = this.javaClass.simpleName
 
     val shoppingCart: LiveData<ShoppingCart> = cartRepository.shoppingCartFlow.asLiveData()
+
+    var tempCartItems: MutableList<CartItem> = mutableListOf()
 
     fun addCartItem(item: CartItem) {
         viewModelScope.launch { cartRepository.addItem(cartItem = item) }
