@@ -52,7 +52,12 @@ class ShoppingCartFragment : Fragment() {
             this,
             ShoppingCartViewModel.provideFactory((shoppingCartRepository))
         )[ShoppingCartViewModel::class.java]
-        shoppingCartListAdapter = ShoppingCartListAdapter()
+        shoppingCartListAdapter = ShoppingCartListAdapter(updateStock = { position, stock ->
+            val updatedItem = shoppingCartViewModel.tempCartItemsList?.get(position)?.toBuilder()
+                ?.setStock(stock)
+                ?.build()
+            updatedItem?.let { shoppingCartViewModel.tempCartItemsList?.set(position, it) }
+        })
         applyBindings()
         applyDeleteOnSwipe()
     }
@@ -112,6 +117,7 @@ class ShoppingCartFragment : Fragment() {
         binding.saveButton.setOnClickListener {
             Log.d(TAG, "List-Items to be saved : ${shoppingCartViewModel.tempCartItemsList?.size}")
             shoppingCartViewModel.saveShoppingCart()
+            findNavController().popBackStack()
         }
         binding.backButton.setOnClickListener { findNavController().popBackStack() }
 
