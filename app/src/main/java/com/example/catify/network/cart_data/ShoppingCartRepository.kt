@@ -11,13 +11,6 @@ import kotlinx.coroutines.flow.catch
 class ShoppingCartRepository(private val cartDataStore: DataStore<ShoppingCart>) {
     private val TAG = this.javaClass.simpleName
 
-//
-//    private suspend fun updateShoppingCart(update: (currentCart: ShoppingCart) -> ShoppingCart) {
-//        cartDataStore.updateData { currentCart ->
-//            update(currentCart)
-//        }
-//    }
-
     val shoppingCartFlow: Flow<ShoppingCart> = cartDataStore.data
         .catch { exception ->
             if (exception is IOException) {

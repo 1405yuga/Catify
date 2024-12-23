@@ -10,6 +10,7 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.dataStore
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -20,6 +21,7 @@ import com.example.catify.databinding.FragmentShoppingCartBinding
 import com.example.catify.network.cart_data.ShoppingCartRepository
 import com.example.catify.network.cart_data.ShoppingCartSerializer
 import com.google.android.material.snackbar.Snackbar
+import kotlinx.coroutines.launch
 
 
 private val Context.shoppingCartDataStore: DataStore<ShoppingCart> by dataStore(
@@ -50,12 +52,9 @@ class ShoppingCartFragment : Fragment() {
             this,
             ShoppingCartViewModel.provideFactory((shoppingCartRepository))
         )[ShoppingCartViewModel::class.java]
-        shoppingCartListAdapter = ShoppingCartListAdapter(
-            increaseQty = { shoppingCartViewModel.increaseQuantity(it) }
-        )
+        shoppingCartListAdapter = ShoppingCartListAdapter()
         applyBindings()
         applyDeleteOnSwipe()
-        applyObservers()
     }
 
     private fun applyDeleteOnSwipe() {
@@ -100,13 +99,17 @@ class ShoppingCartFragment : Fragment() {
             LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
         binding.shoppingListRecyclerView.adapter = shoppingCartListAdapter
         binding.addItemTextButton.setOnClickListener {
-            shoppingCartViewModel.tempCartItemsList.add(
-                index = 0,
-                element = CartItem.getDefaultInstance()
-            )
+            lifecycleScope.launch {
+
+                shoppingCartViewModel.tempCartItemsList.add(
+                    index = 0,
+                    element = CartItem.getDefaultInstance()
+                )
+            }
             Log.d(TAG, "List : ${shoppingCartViewModel.tempCartItemsList}")
             shoppingCartListAdapter.submitList(shoppingCartViewModel.tempCartItemsList.toList())
         }
+        binding.saveButton.setOnClickListener { shoppingCartViewModel.saveShoppingCart() }
         binding.backButton.setOnClickListener { findNavController().popBackStack() }
     }
 }
