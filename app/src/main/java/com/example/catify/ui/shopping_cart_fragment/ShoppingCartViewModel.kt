@@ -21,6 +21,10 @@ class ShoppingCartViewModel(private val cartRepository: ShoppingCartRepository) 
         viewModelScope.launch { cartRepository.addItem(cartItem = item) }
     }
 
+    fun increaseQuantity(position: Int) {
+        viewModelScope.launch { cartRepository.increaseQty(position = position) }
+    }
+
     companion object {
         fun provideFactory(cartRepository: ShoppingCartRepository): Factory {
             return Factory(cartRepository)

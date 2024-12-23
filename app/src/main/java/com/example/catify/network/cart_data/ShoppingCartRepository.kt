@@ -11,11 +11,12 @@ import kotlinx.coroutines.flow.catch
 class ShoppingCartRepository(private val cartDataStore: DataStore<ShoppingCart>) {
     private val TAG = this.javaClass.simpleName
 
-    private suspend fun updateShoppingCart(update: (currentCart: ShoppingCart) -> ShoppingCart) {
-        cartDataStore.updateData { currentCart ->
-            update(currentCart)
-        }
-    }
+//
+//    private suspend fun updateShoppingCart(update: (currentCart: ShoppingCart) -> ShoppingCart) {
+//        cartDataStore.updateData { currentCart ->
+//            update(currentCart)
+//        }
+//    }
 
     val shoppingCartFlow: Flow<ShoppingCart> = cartDataStore.data
         .catch { exception ->
@@ -30,9 +31,19 @@ class ShoppingCartRepository(private val cartDataStore: DataStore<ShoppingCart>)
 
 
     suspend fun addItem(cartItem: CartItem) {
-        updateShoppingCart { currentCart ->
+        cartDataStore.updateData { currentCart ->
             currentCart.toBuilder()
                 .addCartItemList(cartItem).build()
+        }
+    }
+
+    suspend fun increaseQty(position: Int) {
+        cartDataStore.updateData { currentCart ->
+            val cartItem = currentCart.getCartItemList(position)
+            currentCart.toBuilder().setCartItemList(
+                position,
+                cartItem.toBuilder().setStock(cartItem.stock + 1).build()
+            ).build()
         }
     }
 

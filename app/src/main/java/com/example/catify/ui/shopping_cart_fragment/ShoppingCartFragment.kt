@@ -12,7 +12,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.catify.ShoppingCartProto
 import com.example.catify.ShoppingCartProto.CartItem
 import com.example.catify.ShoppingCartProto.ShoppingCart
 import com.example.catify.databinding.FragmentShoppingCartBinding
@@ -38,7 +37,6 @@ class ShoppingCartFragment : Fragment() {
     ): View {
         binding = FragmentShoppingCartBinding.inflate(layoutInflater, container, false)
         shoppingCartRepository = ShoppingCartRepository(requireContext().shoppingCartDataStore)
-        shoppingCartListAdapter = ShoppingCartListAdapter()
         return binding.root
     }
 
@@ -48,16 +46,19 @@ class ShoppingCartFragment : Fragment() {
             this,
             ShoppingCartViewModel.provideFactory((shoppingCartRepository))
         )[ShoppingCartViewModel::class.java]
+        shoppingCartListAdapter = ShoppingCartListAdapter(
+            increaseQty = { shoppingCartViewModel.increaseQuantity(it) }
+        )
         applyBindings()
         applyObservers()
-        shoppingCartListAdapter.submitList(shoppingCartViewModel.tempCartItems)
+//        shoppingCartListAdapter.submitList(shoppingCartViewModel.tempCartItems)
     }
 
     private fun applyObservers() {
         shoppingCartViewModel.shoppingCart.observe(viewLifecycleOwner) {
-            Log.d(TAG, "Shopping Cart: ${it.cartItemListList.size}")
+            Log.d(TAG, "Shopping Cart: ${it.cartItemListList}")
             shoppingCartViewModel.tempCartItems = it.cartItemListList
-            shoppingCartListAdapter.submitList(it.cartItemListList)
+            shoppingCartListAdapter.submitList(it.cartItemListList.toList())
         }
     }
 
@@ -68,7 +69,8 @@ class ShoppingCartFragment : Fragment() {
         binding.addItemTextButton.setOnClickListener {
             shoppingCartViewModel.addCartItem(
                 item = CartItem.getDefaultInstance()
-            ) }
+            )
+        }
         binding.backButton.setOnClickListener { findNavController().popBackStack() }
     }
 }
