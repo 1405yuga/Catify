@@ -30,29 +30,29 @@ class ShoppingCartRepository(private val cartDataStore: DataStore<ShoppingCart>)
         }
 
 
-    suspend fun addItem(position: Int, cartItem: CartItem) {
-        cartDataStore.updateData { currentCart ->
-            currentCart.toBuilder()
-                .addCartItemList(position, cartItem).build()
-        }
-    }
-
-    suspend fun removeAt(position: Int) {
-        cartDataStore.updateData { currentCart ->
-            currentCart.toBuilder()
-                .removeCartItemList(position).build()
-        }
-    }
-
-    suspend fun increaseQty(position: Int) {
-        cartDataStore.updateData { currentCart ->
-            val cartItem = currentCart.getCartItemList(position)
-            currentCart.toBuilder().setCartItemList(
-                position,
-                cartItem.toBuilder().setStock(cartItem.stock + 1).build()
-            ).build()
-        }
-    }
+//    suspend fun addItem(position: Int, cartItem: CartItem) {
+//        cartDataStore.updateData { currentCart ->
+//            currentCart.toBuilder()
+//                .addCartItemList(position, cartItem).build()
+//        }
+//    }
+//
+//    suspend fun removeAt(position: Int) {
+//        cartDataStore.updateData { currentCart ->
+//            currentCart.toBuilder()
+//                .removeCartItemList(position).build()
+//        }
+//    }
+//
+//    suspend fun increaseQty(position: Int) {
+//        cartDataStore.updateData { currentCart ->
+//            val cartItem = currentCart.getCartItemList(position)
+//            currentCart.toBuilder().setCartItemList(
+//                position,
+//                cartItem.toBuilder().setStock(cartItem.stock + 1).build()
+//            ).build()
+//        }
+//    }
 
     suspend fun addAllItems(cartItemsList: MutableList<CartItem>) {
         cartDataStore.updateData { currentCart ->

@@ -72,28 +72,27 @@ class ShoppingCartFragment : Fragment() {
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 val position = viewHolder.adapterPosition
                 val cartItem = shoppingCartListAdapter.currentList[position]
-                shoppingCartViewModel.deleteItemAt(position = position)
-                Log.d(TAG, "DELETED at : $position")
+
+                shoppingCartViewModel.tempCartItemsList.removeAt(index = position)
+                Log.d(TAG, "List after deletion : ${shoppingCartViewModel.tempCartItemsList}")
+                shoppingCartListAdapter.submitList(shoppingCartViewModel.tempCartItemsList.toList())
+                binding.shoppingListRecyclerView.adapter = shoppingCartListAdapter
+
                 Snackbar.make(
                     binding.shoppingListRecyclerView,
                     "${cartItem.itemName} removed",
                     Snackbar.LENGTH_LONG
                 ).setAction("Undo") {
-                    shoppingCartViewModel.addCartItemAt(position = position, item = cartItem)
-                }
-                    .show()
+                    shoppingCartViewModel.tempCartItemsList.add(
+                        index = position,
+                        element = cartItem
+                    )
+                    shoppingCartListAdapter.submitList(shoppingCartViewModel.tempCartItemsList.toList())
+                }.show()
             }
 
         })
         swipeHelper.attachToRecyclerView(binding.shoppingListRecyclerView)
-    }
-
-    private fun applyObservers() {
-        shoppingCartViewModel.shoppingCart.observe(viewLifecycleOwner) {
-            Log.d(TAG, "Shopping Cart: ${it.cartItemListList}")
-            // TODO: changes not reflected on ui
-            shoppingCartListAdapter.submitList(it.cartItemListList.toList())
-        }
     }
 
     private fun applyBindings() {
@@ -101,10 +100,12 @@ class ShoppingCartFragment : Fragment() {
             LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
         binding.shoppingListRecyclerView.adapter = shoppingCartListAdapter
         binding.addItemTextButton.setOnClickListener {
-            shoppingCartViewModel.addCartItemAt(
-                position = 0,
-                item = CartItem.getDefaultInstance()
+            shoppingCartViewModel.tempCartItemsList.add(
+                index = 0,
+                element = CartItem.getDefaultInstance()
             )
+            Log.d(TAG, "List : ${shoppingCartViewModel.tempCartItemsList}")
+            shoppingCartListAdapter.submitList(shoppingCartViewModel.tempCartItemsList.toList())
         }
         binding.backButton.setOnClickListener { findNavController().popBackStack() }
     }

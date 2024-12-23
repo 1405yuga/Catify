@@ -14,6 +14,12 @@ class ShoppingCartViewModel(private val cartRepository: ShoppingCartRepository) 
     private val TAG = this.javaClass.simpleName
 
     val shoppingCart: LiveData<ShoppingCart> = cartRepository.shoppingCartFlow.asLiveData()
+    var tempCartItemsList: MutableList<CartItem> = mutableListOf()
+
+    private fun fetchInitialData() {
+        viewModelScope.launch {
+            cartRepository.shoppingCartFlow.collect { cart ->
+                tempCartItemsList = cart.cartItemListList.toMutableList()
 
     fun addCartItemAt(position: Int, item: CartItem) {
         viewModelScope.launch { cartRepository.addItem(position = position, cartItem = item) }

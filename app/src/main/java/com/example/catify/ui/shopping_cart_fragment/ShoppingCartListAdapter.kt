@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.example.catify.ShoppingCartProto
 import com.example.catify.databinding.CardShoppingItemBinding
 
-class ShoppingCartListAdapter(private val increaseQty: (Int) -> (Unit)) :
+class ShoppingCartListAdapter() :
     ListAdapter<ShoppingCartProto.CartItem, ShoppingCartListAdapter.ShoppingCartViewHolder>(
         DiffCallBack
     ) {
@@ -25,7 +25,7 @@ class ShoppingCartListAdapter(private val increaseQty: (Int) -> (Unit)) :
                 oldItem: ShoppingCartProto.CartItem,
                 newItem: ShoppingCartProto.CartItem
             ): Boolean {
-                return oldItem.itemName == newItem.itemName
+                return oldItem == newItem
             }
         }
     }
@@ -33,16 +33,13 @@ class ShoppingCartListAdapter(private val increaseQty: (Int) -> (Unit)) :
     class ShoppingCartViewHolder(private val binding: CardShoppingItemBinding) :
         ViewHolder(binding.root) {
         fun bind(
-            position: Int,
-            cartItem: ShoppingCartProto.CartItem,
-            increaseQty: (Int) -> (Unit)
+            cartItem: ShoppingCartProto.CartItem
         ) {
             binding.itemNameEditText.setText(cartItem.itemName)
             binding.stock.text = cartItem.stock.toString()
             binding.itemCheckBox.isChecked = cartItem.isPurchased
             binding.addQuantity.setOnClickListener {
                 // TODO: increase stock by 1
-                increaseQty(position)
             }
             binding.subQuantity.setOnClickListener {
                 // TODO: decrease stock by 1
@@ -61,6 +58,6 @@ class ShoppingCartListAdapter(private val increaseQty: (Int) -> (Unit)) :
     }
 
     override fun onBindViewHolder(holder: ShoppingCartViewHolder, position: Int) {
-        holder.bind(position, getItem(position), increaseQty = increaseQty)
+        holder.bind(getItem(position))
     }
 }
