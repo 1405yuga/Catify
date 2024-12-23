@@ -73,7 +73,7 @@ class ShoppingCartFragment : Fragment() {
                 val cartItem = shoppingCartListAdapter.currentList[position]
 
                 shoppingCartViewModel.tempCartItemsList?.removeAt(index = position)
-                Log.d(TAG, "List after deletion : ${shoppingCartViewModel.tempCartItemsList}")
+                Log.d(TAG, "List after deletion : ${shoppingCartViewModel.tempCartItemsList?.size}")
                 shoppingCartListAdapter.submitList(shoppingCartViewModel.tempCartItemsList?.toList())
                 binding.shoppingListRecyclerView.adapter = shoppingCartListAdapter
 
@@ -109,7 +109,10 @@ class ShoppingCartFragment : Fragment() {
             Log.d(TAG, "List : ${shoppingCartViewModel.tempCartItemsList}")
             shoppingCartListAdapter.submitList(shoppingCartViewModel.tempCartItemsList?.toList())
         }
-        binding.saveButton.setOnClickListener { shoppingCartViewModel.saveShoppingCart() }
+        binding.saveButton.setOnClickListener {
+            Log.d(TAG, "List-Items to be saved : ${shoppingCartViewModel.tempCartItemsList?.size}")
+            shoppingCartViewModel.saveShoppingCart()
+        }
         binding.backButton.setOnClickListener { findNavController().popBackStack() }
 
         shoppingCartViewModel.onDataLoaded = { cartItems ->

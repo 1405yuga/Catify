@@ -18,7 +18,7 @@ class ShoppingCartViewModel(private val cartRepository: ShoppingCartRepository) 
         viewModelScope.launch {
             try {
                 tempCartItemsList = cartRepository.getInitialCart().cartItemListList.toMutableList()
-                Log.d(TAG, "Data populated : $tempCartItemsList")
+                Log.d(TAG, "Data populated : ${tempCartItemsList!!.size}")
                 onDataLoaded?.invoke(tempCartItemsList!!)
             } catch (e: Exception) {
                 e.printStackTrace()
@@ -27,7 +27,12 @@ class ShoppingCartViewModel(private val cartRepository: ShoppingCartRepository) 
     }
 
     fun saveShoppingCart() {
-        viewModelScope.launch { tempCartItemsList?.let { cartRepository.addAllItems(cartItemsList = it) } }
+        viewModelScope.launch {
+            tempCartItemsList?.let {
+                Log.d(TAG, "List - items before saving ${it.size}")
+                cartRepository.addAllItems(cartItemsList = it)
+            }
+        }
     }
 
     companion object {

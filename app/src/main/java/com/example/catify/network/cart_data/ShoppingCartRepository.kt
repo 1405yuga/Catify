@@ -24,6 +24,7 @@ class ShoppingCartRepository(private val cartDataStore: DataStore<ShoppingCart>)
         cartDataStore.updateData { currentCart ->
             currentCart
                 .toBuilder()
+                .clearCartItemList()
                 .addAllCartItemList(cartItemsList)
                 .build()
         }
