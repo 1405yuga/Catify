@@ -13,6 +13,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.catify.ShoppingCartProto
+import com.example.catify.ShoppingCartProto.CartItem
 import com.example.catify.ShoppingCartProto.ShoppingCart
 import com.example.catify.databinding.FragmentShoppingCartBinding
 import com.example.catify.network.cart_data.ShoppingCartRepository
@@ -64,7 +65,10 @@ class ShoppingCartFragment : Fragment() {
         binding.shoppingListRecyclerView.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
         binding.shoppingListRecyclerView.adapter = shoppingCartListAdapter
-
+        binding.addItemTextButton.setOnClickListener {
+            shoppingCartViewModel.addCartItem(
+                item = CartItem.getDefaultInstance()
+            ) }
         binding.backButton.setOnClickListener { findNavController().popBackStack() }
     }
 }
