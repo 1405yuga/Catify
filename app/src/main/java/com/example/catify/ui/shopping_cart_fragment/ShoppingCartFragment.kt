@@ -72,9 +72,9 @@ class ShoppingCartFragment : Fragment() {
                 val position = viewHolder.adapterPosition
                 val cartItem = shoppingCartListAdapter.currentList[position]
 
-                shoppingCartViewModel.tempCartItemsList.removeAt(index = position)
+                shoppingCartViewModel.tempCartItemsList?.removeAt(index = position)
                 Log.d(TAG, "List after deletion : ${shoppingCartViewModel.tempCartItemsList}")
-                shoppingCartListAdapter.submitList(shoppingCartViewModel.tempCartItemsList.toList())
+                shoppingCartListAdapter.submitList(shoppingCartViewModel.tempCartItemsList?.toList())
                 binding.shoppingListRecyclerView.adapter = shoppingCartListAdapter
 
                 Snackbar.make(
@@ -82,11 +82,11 @@ class ShoppingCartFragment : Fragment() {
                     "${cartItem.itemName} removed",
                     Snackbar.LENGTH_LONG
                 ).setAction("Undo") {
-                    shoppingCartViewModel.tempCartItemsList.add(
+                    shoppingCartViewModel.tempCartItemsList?.add(
                         index = position,
                         element = cartItem
                     )
-                    shoppingCartListAdapter.submitList(shoppingCartViewModel.tempCartItemsList.toList())
+                    shoppingCartListAdapter.submitList(shoppingCartViewModel.tempCartItemsList?.toList())
                 }.show()
             }
 
@@ -101,15 +101,20 @@ class ShoppingCartFragment : Fragment() {
         binding.addItemTextButton.setOnClickListener {
             lifecycleScope.launch {
 
-                shoppingCartViewModel.tempCartItemsList.add(
+                shoppingCartViewModel.tempCartItemsList?.add(
                     index = 0,
                     element = CartItem.getDefaultInstance()
                 )
             }
             Log.d(TAG, "List : ${shoppingCartViewModel.tempCartItemsList}")
-            shoppingCartListAdapter.submitList(shoppingCartViewModel.tempCartItemsList.toList())
+            shoppingCartListAdapter.submitList(shoppingCartViewModel.tempCartItemsList?.toList())
         }
         binding.saveButton.setOnClickListener { shoppingCartViewModel.saveShoppingCart() }
         binding.backButton.setOnClickListener { findNavController().popBackStack() }
+
+        shoppingCartViewModel.onDataLoaded = { cartItems ->
+            Log.d(TAG, "Initial List : ${cartItems}")
+            shoppingCartListAdapter.submitList(cartItems.toList())
+        }
     }
 }

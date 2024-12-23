@@ -1,5 +1,6 @@
 package com.example.catify.ui.shopping_cart_fragment
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
@@ -9,29 +10,24 @@ import kotlinx.coroutines.launch
 
 class ShoppingCartViewModel(private val cartRepository: ShoppingCartRepository) : ViewModel() {
     private val TAG = this.javaClass.simpleName
-    var tempCartItemsList: MutableList<CartItem> = mutableListOf()
+    var tempCartItemsList: MutableList<CartItem>? = null
 
-    private fun fetchInitialData() {
+    var onDataLoaded: ((MutableList<CartItem>) -> (Unit))? = null
+
+    init {
         viewModelScope.launch {
-            cartRepository.shoppingCartFlow.collect { cart ->
-                tempCartItemsList = cart.cartItemListList.toMutableList()
-
-    fun addCartItemAt(position: Int, item: CartItem) {
-        viewModelScope.launch { cartRepository.addItem(position = position, cartItem = item) }
-    }
-
-    fun increaseQuantity(position: Int) {
-        viewModelScope.launch { cartRepository.increaseQty(position = position) }
-    }
-
-    fun deleteItemAt(position: Int) {
-        viewModelScope.launch {
-            cartRepository.removeAt(position)
+            try {
+                tempCartItemsList = cartRepository.getInitialCart().cartItemListList.toMutableList()
+                Log.d(TAG, "Data populated : $tempCartItemsList")
+                onDataLoaded?.invoke(tempCartItemsList!!)
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
         }
     }
 
     fun saveShoppingCart() {
-        viewModelScope.launch { cartRepository.addAllItems(cartItemsList = tempCartItemsList) }
+        viewModelScope.launch { tempCartItemsList?.let { cartRepository.addAllItems(cartItemsList = it) } }
     }
 
     companion object {
