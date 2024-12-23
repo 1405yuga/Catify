@@ -15,8 +15,6 @@ class ShoppingCartViewModel(private val cartRepository: ShoppingCartRepository) 
 
     val shoppingCart: LiveData<ShoppingCart> = cartRepository.shoppingCartFlow.asLiveData()
 
-    var tempCartItems: MutableList<CartItem> = mutableListOf()
-
     fun addCartItem(item: CartItem) {
         viewModelScope.launch { cartRepository.addItem(cartItem = item) }
     }

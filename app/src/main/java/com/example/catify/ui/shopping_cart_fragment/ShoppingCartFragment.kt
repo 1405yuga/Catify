@@ -51,13 +51,11 @@ class ShoppingCartFragment : Fragment() {
         )
         applyBindings()
         applyObservers()
-//        shoppingCartListAdapter.submitList(shoppingCartViewModel.tempCartItems)
     }
 
     private fun applyObservers() {
         shoppingCartViewModel.shoppingCart.observe(viewLifecycleOwner) {
             Log.d(TAG, "Shopping Cart: ${it.cartItemListList}")
-            shoppingCartViewModel.tempCartItems = it.cartItemListList
             shoppingCartListAdapter.submitList(it.cartItemListList.toList())
         }
     }
