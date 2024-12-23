@@ -15,12 +15,18 @@ class ShoppingCartViewModel(private val cartRepository: ShoppingCartRepository) 
 
     val shoppingCart: LiveData<ShoppingCart> = cartRepository.shoppingCartFlow.asLiveData()
 
-    fun addCartItem(item: CartItem) {
-        viewModelScope.launch { cartRepository.addItem(cartItem = item) }
+    fun addCartItemAt(position: Int, item: CartItem) {
+        viewModelScope.launch { cartRepository.addItem(position = position, cartItem = item) }
     }
 
     fun increaseQuantity(position: Int) {
         viewModelScope.launch { cartRepository.increaseQty(position = position) }
+    }
+
+    fun deleteItemAt(position: Int) {
+        viewModelScope.launch {
+            cartRepository.removeAt(position)
+        }
     }
 
     companion object {

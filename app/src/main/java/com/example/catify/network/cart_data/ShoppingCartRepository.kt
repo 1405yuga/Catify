@@ -30,10 +30,17 @@ class ShoppingCartRepository(private val cartDataStore: DataStore<ShoppingCart>)
         }
 
 
-    suspend fun addItem(cartItem: CartItem) {
+    suspend fun addItem(position: Int, cartItem: CartItem) {
         cartDataStore.updateData { currentCart ->
             currentCart.toBuilder()
-                .addCartItemList(cartItem).build()
+                .addCartItemList(position, cartItem).build()
+        }
+    }
+
+    suspend fun removeAt(position: Int) {
+        cartDataStore.updateData { currentCart ->
+            currentCart.toBuilder()
+                .removeCartItemList(position).build()
         }
     }
 
