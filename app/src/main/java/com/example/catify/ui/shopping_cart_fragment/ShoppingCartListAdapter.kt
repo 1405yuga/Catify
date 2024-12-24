@@ -17,6 +17,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class ShoppingCartListAdapter(
+    private val updateIsPurchased: (Int, Boolean) -> Unit,
     private val updateItemName: (Int, String) -> (Unit),
     private val updateStock: (Int, Int) -> Unit
 ) :
@@ -46,12 +47,19 @@ class ShoppingCartListAdapter(
         val TAG = this.javaClass.simpleName
         fun bind(
             cartItem: ShoppingCartProto.CartItem,
+            updateIsPurchased: (Int, Boolean) -> (Unit),
             updateItemName: (Int, String) -> (Unit),
             updateStock: (Int, Int) -> (Unit)
         ) {
             binding.itemNameEditText.setText(cartItem.itemName)
             binding.stock.text = cartItem.stock.toString()
             binding.itemCheckBox.isChecked = cartItem.isPurchased
+            binding.itemCheckBox.setOnCheckedChangeListener { _, isChecked ->
+                if (cartItem.isPurchased != isChecked) {
+                    updateIsPurchased(adapterPosition, isChecked)
+                    Log.d(TAG,"isPurchased value : $isChecked")
+                }
+            }
             var stock = cartItem.stock
             binding.addQuantity.setOnClickListener {
                 stock++
@@ -94,6 +102,9 @@ class ShoppingCartListAdapter(
     }
 
     override fun onBindViewHolder(holder: ShoppingCartViewHolder, position: Int) {
-        holder.bind(getItem(position), updateItemName = updateItemName, updateStock = updateStock)
+        holder.bind(
+            getItem(position), updateItemName = updateItemName, updateStock = updateStock,
+            updateIsPurchased = updateIsPurchased
+        )
     }
 }

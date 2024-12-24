@@ -53,6 +53,14 @@ class ShoppingCartFragment : Fragment() {
             ShoppingCartViewModel.provideFactory((shoppingCartRepository))
         )[ShoppingCartViewModel::class.java]
         shoppingCartListAdapter = ShoppingCartListAdapter(
+            updateIsPurchased = { position, isPurchased ->
+                Log.d(TAG, "Update is purchased : $isPurchased")
+                val updatedItem =
+                    shoppingCartViewModel.tempCartItemsList?.get(position)?.toBuilder()
+                        ?.setIsPurchased(isPurchased)
+                        ?.build()
+                updatedItem?.let { shoppingCartViewModel.tempCartItemsList?.set(position, it) }
+            },
             updateItemName = { position, itemName ->
                 val updatedItem =
                     shoppingCartViewModel.tempCartItemsList?.get(position)?.toBuilder()
