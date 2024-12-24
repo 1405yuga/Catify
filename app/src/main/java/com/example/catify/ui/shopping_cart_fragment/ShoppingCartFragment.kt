@@ -52,12 +52,21 @@ class ShoppingCartFragment : Fragment() {
             this,
             ShoppingCartViewModel.provideFactory((shoppingCartRepository))
         )[ShoppingCartViewModel::class.java]
-        shoppingCartListAdapter = ShoppingCartListAdapter(updateStock = { position, stock ->
-            val updatedItem = shoppingCartViewModel.tempCartItemsList?.get(position)?.toBuilder()
-                ?.setStock(stock)
-                ?.build()
-            updatedItem?.let { shoppingCartViewModel.tempCartItemsList?.set(position, it) }
-        })
+        shoppingCartListAdapter = ShoppingCartListAdapter(
+            updateItemName = { position, itemName ->
+                val updatedItem =
+                    shoppingCartViewModel.tempCartItemsList?.get(position)?.toBuilder()
+                        ?.setItemName(itemName)
+                        ?.build()
+                updatedItem?.let { shoppingCartViewModel.tempCartItemsList?.set(position, it) }
+            },
+            updateStock = { position, stock ->
+                val updatedItem =
+                    shoppingCartViewModel.tempCartItemsList?.get(position)?.toBuilder()
+                        ?.setStock(stock)
+                        ?.build()
+                updatedItem?.let { shoppingCartViewModel.tempCartItemsList?.set(position, it) }
+            })
         applyBindings()
         applyDeleteOnSwipe()
     }

@@ -1,5 +1,6 @@
 package com.example.catify.network.cart_data
 
+import android.util.Log
 import androidx.datastore.core.DataStore
 import androidx.datastore.core.IOException
 import com.example.catify.ShoppingCartProto.CartItem
@@ -21,12 +22,17 @@ class ShoppingCartRepository(private val cartDataStore: DataStore<ShoppingCart>)
     }
 
     suspend fun addAllItems(cartItemsList: MutableList<CartItem>) {
-        cartDataStore.updateData { currentCart ->
-            currentCart
-                .toBuilder()
-                .clearCartItemList()
-                .addAllCartItemList(cartItemsList)
-                .build()
+        try {
+            cartDataStore.updateData { currentCart ->
+                Log.d(TAG, "List received in repo : ${cartItemsList.size}")
+                currentCart
+                    .toBuilder()
+                    .clearCartItemList()
+                    .addAllCartItemList(cartItemsList)
+                    .build()
+            }
+        } catch (e: Exception) {
+            Log.e(TAG, "Error updating data: ${e.message}")
         }
     }
 
