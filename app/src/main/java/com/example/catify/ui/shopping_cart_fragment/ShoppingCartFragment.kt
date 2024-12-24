@@ -133,8 +133,9 @@ class ShoppingCartFragment : Fragment() {
         }
         binding.saveButton.setOnClickListener {
             Log.d(TAG, "List-Items to be saved : ${shoppingCartViewModel.tempCartItemsList?.size}")
-            shoppingCartViewModel.saveShoppingCart()
-            findNavController().popBackStack()
+            shoppingCartViewModel.saveShoppingCart(onSuccess = {
+                findNavController().popBackStack()
+            })
         }
         binding.backButton.setOnClickListener { findNavController().popBackStack() }
 

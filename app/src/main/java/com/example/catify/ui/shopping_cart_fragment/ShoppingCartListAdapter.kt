@@ -57,7 +57,7 @@ class ShoppingCartListAdapter(
             binding.itemCheckBox.setOnCheckedChangeListener { _, isChecked ->
                 if (cartItem.isPurchased != isChecked) {
                     updateIsPurchased(adapterPosition, isChecked)
-                    Log.d(TAG,"isPurchased value : $isChecked")
+                    Log.d(TAG, "isPurchased value : $isChecked")
                 }
             }
             var stock = cartItem.stock

@@ -22,9 +22,10 @@ class ShoppingCartRepository(private val cartDataStore: DataStore<ShoppingCart>)
     }
 
     suspend fun addAllItems(cartItemsList: MutableList<CartItem>) {
+        Log.d(TAG, "suspend add all called-----------")
         try {
             cartDataStore.updateData { currentCart ->
-                Log.d(TAG, "List received in repo : ${cartItemsList.size}")
+                Log.d(TAG, "List received in repo : ${cartItemsList}")
                 currentCart
                     .toBuilder()
                     .clearCartItemList()

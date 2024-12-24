@@ -26,11 +26,12 @@ class ShoppingCartViewModel(private val cartRepository: ShoppingCartRepository) 
         }
     }
 
-    fun saveShoppingCart() {
+    fun saveShoppingCart(onSuccess: () -> (Unit)) {
         viewModelScope.launch {
             tempCartItemsList?.let {
                 Log.d(TAG, "List - items before saving ${it.size}")
                 cartRepository.addAllItems(cartItemsList = it)
+                onSuccess()
             }
         }
     }
