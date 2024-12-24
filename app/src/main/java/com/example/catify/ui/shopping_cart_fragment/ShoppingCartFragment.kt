@@ -119,7 +119,6 @@ class ShoppingCartFragment : Fragment() {
     private fun applyBindings() {
         binding.shoppingListRecyclerView.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
-        binding.shoppingListRecyclerView.adapter = shoppingCartListAdapter
         binding.addItemTextButton.setOnClickListener {
             lifecycleScope.launch {
 
@@ -138,7 +137,8 @@ class ShoppingCartFragment : Fragment() {
             })
         }
         binding.backButton.setOnClickListener { findNavController().popBackStack() }
-
+        binding.shoppingListRecyclerView.adapter = shoppingCartListAdapter
+        shoppingCartListAdapter.submitList(shoppingCartViewModel.tempCartItemsList?.toList())
         shoppingCartViewModel.onDataLoaded = { cartItems ->
             Log.d(TAG, "Initial List : ${cartItems}")
             shoppingCartListAdapter.submitList(cartItems.toList())
